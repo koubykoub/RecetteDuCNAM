@@ -14,8 +14,8 @@
 			{
 				$donnees['login'] = $_REQUEST['login'];
 				$donnees['mdp'] = $_REQUEST['mdp'];
-				if (is_null($donnees['login']) || is_string($donnees['login']) || empty($donnees['login']) ||
-					is_null($donnees['mdp']) || is_string($donnees['mdp']) || empty($donnees['mdp']))
+				if (is_null($donnees['login']) || !is_string($donnees['login']) || empty($donnees['login']) ||
+					is_null($donnees['mdp']) || !is_string($donnees['mdp']) || empty($donnees['mdp']))
 					throw new LoginIncorrectExcep();
 				$donnees['identifie'] = TRUE;
 			}

@@ -151,6 +151,30 @@ ALTER TABLE Commentaire ADD CONSTRAINT fk_commentaire_id_utilisateur FOREIGN KEY
 ALTER TABLE Commentaire ADD CONSTRAINT fk_commentaire_id_recette FOREIGN KEY (id_recette) REFERENCES Recette (id);
 
 
+-- Creation des contraintes de validation
+ALTER TABLE Utilisateur ADD CONSTRAINT ck_utilisateur_login CHECK (LENGTH(login) BETWEEN 6 AND 30)
+ALTER TABLE Utilisateur ADD CONSTRAINT ck_utilisateur_mdp CHECK (LENGTH(mdp) BETWEEN 6 AND 30)
+ALTER TABLE Utilisateur ADD CONSTRAINT ck_utilisateur_nom CHECK (LENGTH(nom) <= 50)
+ALTER TABLE Utilisateur ADD CONSTRAINT ck_utilisateur_prenom CHECK (LENGTH(prenom) <= 50)
+ALTER TABLE Utilisateur ADD CONSTRAINT ck_utilisateur_email CHECK (LENGTH(email) <= 100)
+/*ALTER TABLE Recette ADD CONSTRAINT ck_recette_titre CHECK (LENGTH(titre) BETWEEN 6 AND 50)
+ALTER TABLE Recette ADD CONSTRAINT ck_recette_commentaire CHECK (LENGTH(commentaire) <= 500)
+ALTER TABLE Recette ADD CONSTRAINT ck_recette_conseil CHECK (LENGTH(conseil) <= 500)
+ALTER TABLE Recette ADD CONSTRAINT ck_recette_nb_personne CHECK (nb_personne >= 1)
+ALTER TABLE Recette ADD CONSTRAINT ck_recette_temps_cuisson CHECK (temps_cuisson >= 0)
+ALTER TABLE Recette ADD CONSTRAINT ck_recette_temps_preparation CHECK (temps_preparation >= 0)
+ALTER TABLE Categorie ADD CONSTRAINT ck_categorie_intitule CHECK (LENGTH(intitule) <= 50)
+ALTER TABLE Sous_categorie ADD CONSTRAINT ck_sous_categorie_intitule CHECK (LENGTH(intitule) <= 50)
+ALTER TABLE Categorie_difficulte ADD CONSTRAINT ck_categorie_difficulte_intitule CHECK (LENGTH(intitule) <= 50)
+ALTER TABLE Categorie_prix ADD CONSTRAINT ck_categorie_prix_intitule CHECK (LENGTH(intitule) <= 50)
+ALTER TABLE Ingredient ADD CONSTRAINT ck_ingredient_texte_ingredient CHECK (LENGTH(texte_ingredient) <= 100)
+ALTER TABLE Ingredient ADD CONSTRAINT ck_ingredient_id CHECK (id < 30)
+ALTER TABLE Etape_preparation ADD CONSTRAINT ck_etape_preparation_texte_etape CHECK (LENGTH(texte_etape) <= 300)
+ALTER TABLE Etape_preparation ADD CONSTRAINT ck_etape_preparation_id CHECK (id < 50)
+ALTER TABLE Commentaire ADD CONSTRAINT ck_commentaire_texte_commentaire CHECK (LENGTH(texte_commentaire) <= 500)
+ALTER TABLE Commentaire ADD CONSTRAINT ck_commentaire_valeur_note CHECK (valeur_note BETWEEN 0 AND 5)*/
+
+
 -- Creation des index
 CREATE INDEX idx_utilisateur_nom ON Utilisateur (nom);
 CREATE INDEX idx_utilisateur_prenom ON Utilisateur (prenom);
@@ -200,6 +224,6 @@ CREATE VIEW v_etape_preparation AS
 	FROM Etape_preparation;
 
 CREATE VIEW v_commentaire AS
-	SELECT id_utilisateur, id_recette, texte_commentaire, date_commentaire
+	SELECT id_utilisateur, id_recette, texte_commentaire, valeur_note, date_commentaire
 	FROM Commentaire;
 
