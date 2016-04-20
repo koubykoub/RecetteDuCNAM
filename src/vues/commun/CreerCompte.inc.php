@@ -1,4 +1,4 @@
-<form method="post" action="" name="modifier_compte">
+<form method="post" action="" name="modifier_compte" enctype="multipart/form-data">
 	<input type="hidden" name="page" id="page" value="<?php echo ($dVueCreerCompte['mise_a_jour'] ? 'afficher_compte' : 'creer_recette'); ?>" />
 	<fieldset>
 	<legend>Compte</legend>
@@ -22,6 +22,13 @@
 		
 		<!-- email -->
 		<li><label for="email_left">Email &nbsp;</label><input type="text" name="email_left" id="email_left" <?php if ($dVueCreerCompte['remplissage']){ echo 'value="'.$dVueCreerCompte['utilisateur']['email_left'].'"';} ?> /> @ <input type="text" name="email_right" id="email_right" <?php if ($dVueCreerCompte['remplissage']){ echo 'value="'.$dVueCreerCompte['utilisateur']['email_right'].'"';} ?> />
+		
+		<!-- photo -->
+		<li>
+			<input type="hidden" name="MAX_FILE_SIZE" value="50000" />
+			<label for="photo">Image &nbsp;</label><input type="file" name="photo" id="photo" accept="image/*">
+		</li>
+		
 	</ul>
 	</fieldset>
 	
@@ -30,4 +37,15 @@
 	<?php } else { ?>
 	<a href="javascript:document.modifier_compte.submit()">Créer le compte</a>
 	<?php } ?>
+</form>
+
+<!-- annuler mise a jour -->
+<form method="post" action="" name="annuler_mise_a_jour">
+<?php if ($dVueCreerCompte['mise_a_jour']) { ?>
+	<input type="hidden" name="page" id="page" value="afficher_compte" />
+	<a href="javascript:document.annuler_mise_a_jour.submit()">Annuler la mise à jour</a>
+<?php } else { ?>
+	<input type="hidden" name="page" id="page" value="accueil" />
+	<a href="javascript:document.annuler_mise_a_jour.submit()">Retour à l'accueil</a>
+<?php } ?>
 </form>

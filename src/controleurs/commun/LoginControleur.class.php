@@ -60,6 +60,8 @@
 				else throw new RequeteDonneeManquanteExcep('email_left');
 				if (!is_null($_REQUEST['email_right'])) $donnees['email_right'] = $_REQUEST['email_right'];
 				else throw new RequeteDonneeManquanteExcep('email_right');
+				// photo
+				if (isset($_FILES['photo']) && !is_null($_FILES['photo'])) $donnees['photo'] = $_FILES['photo'];
 					
 				$donnees['creation_compte'] = TRUE;
 			}

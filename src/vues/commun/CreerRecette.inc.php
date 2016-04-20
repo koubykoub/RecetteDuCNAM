@@ -125,10 +125,14 @@
 	<?php } ?>
 </form>
 
-<!-- anuler la mise a jour -->
-<?php if ($dVueCreerRecette['mise_a_jour']) { ?>
+<!-- annuler la mise a jour -->
+
 <form method="post" action="" name="annuler_mise_a_jour">
+<?php if ($dVueCreerRecette['mise_a_jour']) { ?>
 	<input type="hidden" name="page" id="page" value="afficher_recette" />
 	<a href="javascript:document.annuler_mise_a_jour.submit()">Annuler la mise à jour</a>
-</form>
+<?php } else { ?>
+	<input type="hidden" name="page" id="page" value="accueil" />
+	<a href="javascript:document.annuler_mise_a_jour.submit()">Revenir à l'accueil</a>
 <?php } ?>
+</form>

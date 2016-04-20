@@ -55,7 +55,7 @@
 			self::ValidationRecette($rec, FALSE);
 			
 			// creation de la recette
-			$recette = self::CreationRecetteBase($rec);
+			$recette = self::CreationRecetteBase($rec, FALSE);
 			$daoRecette = new DAORecette(parent::GetConnexion());
 			$id = $daoRecette->Create($recette);
 			return self::Recette($id);
@@ -67,7 +67,7 @@
 			self::ValidationRecette($rec, TRUE);
 			
 			// modification de la recette
-			$recette = self::CreationRecetteBase($rec);
+			$recette = self::CreationRecetteBase($rec, TRUE);
 			$recette['id'] = $id;
 			$daoRecette = new DAORecette(parent::GetConnexion());
 			$newId = $daoRecette->Update($recette);
@@ -219,7 +219,7 @@
 		
 		
 		// fonctions privees
-		private static function CreationRecetteBase($rec)
+		private static function CreationRecetteBase($rec, $maj)
 		{
 			parent::StartSession();
 			
@@ -237,7 +237,13 @@
 			if (isset($_SESSION['id_utilisateur'])) $recette['id_utilisateur'] = $_SESSION['id_utilisateur'];
 			else throw new SessionExpireeExcep();
 			$dt = new DateTime();
-			$recette['date_maj'] = $dt->format('Y-m-d H:i:s');
+			if ($maj)
+				$recette['date_maj'] = $dt->format('Y-m-d H:i:s');
+			else
+			{
+				$recette['date_creation'] = $dt->format('Y-m-d H:i:s');
+				$recette['date_maj'] = $dt->format('Y-m-d H:i:s');
+			}
 			
 			// ingredients
 			$recette['ingredients'] = array();

@@ -62,7 +62,7 @@
 		
 			// creation de l'utilisateur
 			$daoUt = new DAOUtilisateur(parent::GetConnexion());
-			$ut = self::CreationUtilisateurBase($compte);
+			$ut = self::CreationUtilisateurBase($compte, FALSE);
 			$id = $daoUt->Create($ut);
 			$_SESSION['id_utilisateur'] = $id;
 			return $daoUt->RetrieveById($id);
@@ -75,7 +75,7 @@
 		
 			// creation du nouvel utilisateur
 			$daoUt = new DAOUtilisateur(parent::GetConnexion());
-			$ut = self::CreationUtilisateurBase($compte);
+			$ut = self::CreationUtilisateurBase($compte, TRUE);
 			$ut['id'] = $utilisateur['id'];
 			$id = $daoUt->Update($ut);
 			return $daoUt->RetrieveById($id);
@@ -105,15 +105,18 @@
 		
 		
 		// prive
-		private static function CreationUtilisateurBase($compte)
+		private static function CreationUtilisateurBase($compte, $maj)
 		{
 			$ut['login'] = $compte['login'];
 			$ut['mdp'] = $compte['mdp'];
 			$ut['nom'] = $compte['nom'];
 			$ut['prenom'] = $compte['prenom'];
 			if (isset($compte['email'])) $ut['email'] = $compte['email'];
-			$dt = new DateTime();
-			$ut['date_inscription'] = $dt->format('Y-m-d H:i:s');
+			if (!$maj)
+			{
+				$dt = new DateTime();
+				$ut['date_inscription'] = $dt->format('Y-m-d H:i:s');
+			}
 			return $ut;
 		}
 		

@@ -1,6 +1,6 @@
 
 /**************************************************************/
-/* MENU CRITERE						  */
+/* MENU CRITERE						  						  */
 /**************************************************************/
 function MenuCritere_Toutes()
 {
@@ -24,7 +24,7 @@ function MenuCritere_SousCategorie(idSCat, idCat)
 												   .attr('name', 'critere_id_sous_categorie')
 												   .attr('id', 'critere_id_sous_categorie')
 												   .attr('value', idSCat));
-	FormMenuCritereCategorie(idCat);
+	MenuCritere_Categorie(idCat);
 }
 
 

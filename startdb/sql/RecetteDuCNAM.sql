@@ -34,8 +34,9 @@ CREATE TABLE Utilisateur
 	nom	VARCHAR(50)	NOT NULL,
 	prenom	VARCHAR(50)	NOT NULL,
 	email	VARCHAR(100),
-	photo	BLOB,
+	photo	VARCHAR(100),
 	date_inscription DATETIME NOT NULL,
+	admin	SMALLINT	NOT NULL DEFAULT 0,
 
 	-- cle primaire
 	CONSTRAINT pk_utilisateur PRIMARY KEY (id)
@@ -48,7 +49,8 @@ CREATE TABLE Recette
 	commentaire	VARCHAR(500),
 	conseil		VARCHAR(500),
 	nb_personne	SMALLINT	NOT NULL,
-	photo		BLOB,
+	photo		VARCHAR(100),
+	date_creation	DATETIME	NOT NULL,
 	date_maj	DATETIME	NOT NULL,
 	temps_cuisson	INT,
 	temps_preparation INT,
@@ -157,6 +159,7 @@ ALTER TABLE Utilisateur ADD CONSTRAINT ck_utilisateur_mdp CHECK (LENGTH(mdp) BET
 ALTER TABLE Utilisateur ADD CONSTRAINT ck_utilisateur_nom CHECK (LENGTH(nom) <= 50);
 ALTER TABLE Utilisateur ADD CONSTRAINT ck_utilisateur_prenom CHECK (LENGTH(prenom) <= 50);
 ALTER TABLE Utilisateur ADD CONSTRAINT ck_utilisateur_email CHECK (LENGTH(email) <= 100);
+ALTER TABLE Utilisateur ADD CONSTRAINT ck_utilisateur_admin CHECK (admin BETWEEN 0 AND 1);
 ALTER TABLE Recette ADD CONSTRAINT ck_recette_titre CHECK (LENGTH(titre) BETWEEN 6 AND 50);
 ALTER TABLE Recette ADD CONSTRAINT ck_recette_commentaire CHECK (LENGTH(commentaire) <= 500);
 ALTER TABLE Recette ADD CONSTRAINT ck_recette_conseil CHECK (LENGTH(conseil) <= 500);
@@ -192,11 +195,11 @@ CREATE INDEX idx_commentaire_id_recette ON Commentaire (id_recette);
 
 -- Creation des vues
 CREATE VIEW v_utilisateur AS
-	SELECT id, login, mdp, nom, prenom, email, photo, date_inscription
+	SELECT id, login, mdp, nom, prenom, email, photo, date_inscription, admin
 	FROM Utilisateur;
 
 CREATE VIEW v_recette AS
-	SELECT id, titre, commentaire, conseil, nb_personne, photo, date_maj, temps_cuisson, temps_preparation, id_sous_categorie, id_categorie, id_utilisateur, id_categorie_prix, id_categorie_difficulte
+	SELECT id, titre, commentaire, conseil, nb_personne, photo, date_creation, date_maj, temps_cuisson, temps_preparation, id_sous_categorie, id_categorie, id_utilisateur, id_categorie_prix, id_categorie_difficulte
 	FROM Recette;
 
 CREATE VIEW v_categorie AS

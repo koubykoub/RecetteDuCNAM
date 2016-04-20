@@ -15,7 +15,7 @@
 		{
 			$sql =
 <<<SQL
-			SELECT id, login, mdp, nom, prenom, email, photo, date_inscription
+			SELECT id, login, mdp, nom, prenom, email, photo, date_inscription, admin
 			FROM v_utilisateur
 SQL;
 			return $this->RetrieveAllGen($sql);
@@ -25,7 +25,7 @@ SQL;
 		{
 			$sql =
 <<<SQL
-			SELECT id, login, mdp, nom, prenom, email, photo, date_inscription
+			SELECT id, login, mdp, nom, prenom, email, photo, date_inscription, admin
 			FROM v_utilisateur
 			WHERE id = :id
 SQL;
@@ -40,7 +40,7 @@ SQL;
 			// execute la requette
 			$sql =
 <<<SQL
-			SELECT id, login, mdp, nom, prenom, email, photo, date_inscription
+			SELECT id, login, mdp, nom, prenom, email, photo, date_inscription, admin
 			FROM v_utilisateur
 			WHERE login = :login
 SQL;
@@ -75,7 +75,7 @@ SQL;
 			VALUES (:login, :mdp, :nom, :prenom, :email, :photo, :date_inscription)
 SQL;
 			$resultat = $this->Prepare($sql);
-			self::BindUtilisateurBase($resultat, $ut);
+			self::BindUtilisateurBase($resultat, $ut, FALSE);
 			$resultat->execute();
 			return $this->connexion->GetDB()->lastInsertId();
 		}
@@ -87,11 +87,11 @@ SQL;
 			$sql =
 <<<SQL
 			UPDATE v_utilisateur SET login = :login, mdp = :mdp, nom = :nom, prenom = :prenom,
-								 	 email = :email, photo = :photo, date_inscription = :date_inscription
+								 	 email = :email, photo = :photo
 			WHERE v_utilisateur.id = :id
 SQL;
 			$resultat = $this->Prepare($sql);
-			self::BindUtilisateurBase($resultat, $ut);
+			self::BindUtilisateurBase($resultat, $ut, TRUE);
 			$resultat->bindParam('id', $ut['id'], PDO::PARAM_INT);
 			$resultat->execute();
 			return $ut['id'];
@@ -99,15 +99,16 @@ SQL;
 		
 		
 		// fonctions privees
-		private static function BindUtilisateurBase(&$resultat, $ut)
+		private static function BindUtilisateurBase(&$resultat, $ut, $maj)
 		{
 			$resultat->bindParam('login', $ut['login'], PDO::PARAM_STR);
 			$resultat->bindParam('mdp', $ut['mdp'], PDO::PARAM_STR);
 			$resultat->bindParam('nom', $ut['nom'], PDO::PARAM_STR);
 			$resultat->bindParam('prenom', $ut['prenom'], PDO::PARAM_STR);
 			$resultat->bindParam('email', $ut['email'], isset($ut['email']) ? PDO::PARAM_STR : PDO::PARAM_NULL);
-			$resultat->bindParam('photo', $ut['photo'], isset($ut['photo']) ? PDO::PARAM_LOB : PDO::PARAM_NULL);
-			$resultat->bindParam('date_inscription', $ut['date_inscription'], PDO::PARAM_STR);
+			$resultat->bindParam('photo', $ut['photo'], isset($ut['photo']) ? PDO::PARAM_STR : PDO::PARAM_NULL);
+			if (!$maj)
+				$resultat->bindParam('date_inscription', $ut['date_inscription'], PDO::PARAM_STR);
 		}
 		
 	}

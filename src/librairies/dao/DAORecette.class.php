@@ -22,7 +22,7 @@
 		{
 			$sql =
 <<<SQL
-			SELECT id, titre, commentaire, conseil, nb_personne, photo, date_maj,
+			SELECT id, titre, commentaire, conseil, nb_personne, photo, date_creation, date_maj,
 				   temps_cuisson, temps_preparation, id_sous_categorie, id_categorie,
 				   id_utilisateur, id_categorie_prix, id_categorie_difficulte
 			FROM v_recette
@@ -34,7 +34,7 @@ SQL;
 		{
 			$sql =
 <<<SQL
-			SELECT id, titre, commentaire, conseil, nb_personne, photo, date_maj,
+			SELECT id, titre, commentaire, conseil, nb_personne, photo, date_creation, date_maj,
 				   temps_cuisson, temps_preparation, id_sous_categorie, id_categorie,
 				   id_utilisateur, id_categorie_prix, id_categorie_difficulte
 			FROM v_recette
@@ -50,7 +50,7 @@ SQL;
 		{
 			$sql =
 <<<SQL
-			SELECT id, titre, commentaire, conseil, nb_personne, photo, date_maj,
+			SELECT id, titre, commentaire, conseil, nb_personne, photo, date_creation, date_maj,
 				   temps_cuisson, temps_preparation, id_sous_categorie, id_categorie,
 				   id_utilisateur, id_categorie_prix, id_categorie_difficulte
 			FROM v_recette
@@ -64,7 +64,7 @@ SQL;
 		{
 			$sql =
 <<<SQL
-			SELECT id, titre, commentaire, conseil, nb_personne, photo, date_maj,
+			SELECT id, titre, commentaire, conseil, nb_personne, photo, date_creation, date_maj,
 				   temps_cuisson, temps_preparation, id_sous_categorie, id_categorie,
 				   id_utilisateur, id_categorie_prix, id_categorie_difficulte
 			FROM v_recette
@@ -108,7 +108,7 @@ SQL;
 				{
 					$sql =
 <<<SQL
-					SELECT id, titre, commentaire, conseil, nb_personne, photo, date_maj,
+					SELECT id, titre, commentaire, conseil, nb_personne, photo, date_creation, date_maj,
 						   temps_cuisson, temps_preparation, id_sous_categorie, id_categorie,
 						   id_utilisateur, id_categorie_prix, id_categorie_difficulte
 					FROM v_recette
@@ -194,15 +194,15 @@ SQL;
 			// creation de la recette
 			$sql =
 <<<SQL
-			INSERT INTO v_recette (titre, commentaire, conseil, nb_personne, photo,
+			INSERT INTO v_recette (titre, commentaire, conseil, nb_personne, photo, date_creation,
 								   date_maj, temps_cuisson, temps_preparation, id_sous_categorie,
 								   id_categorie, id_utilisateur, id_categorie_prix, id_categorie_difficulte)
-		    VALUES (:titre, :commentaire, :conseil, :nb_personne, :photo,
+		    VALUES (:titre, :commentaire, :conseil, :nb_personne, :photo, :date_creation,
 				    :date_maj, :temps_cuisson, :temps_preparation, :id_sous_categorie,
 				    :id_categorie, :id_utilisateur, :id_categorie_prix, :id_categorie_difficulte)
 SQL;
 			$resultat = $this->Prepare($sql);
-			self::BindRecetteBase($resultat, $rec);
+			self::BindRecetteBase($resultat, $rec, FALSE);
 			$resultat->execute();
 			
 			// creation des ingredients
@@ -239,7 +239,7 @@ SQL;
 			WHERE v_recette.id = :id
 SQL;
 			$resultat = $this->Prepare($sql);
-			self::BindRecetteBase($resultat, $rec);
+			self::BindRecetteBase($resultat, $rec, TRUE);
 			$resultat->bindParam('id', $rec['id'], PDO::PARAM_INT);
 			$resultat->execute();
 			
@@ -269,13 +269,15 @@ SQL;
 		
 		
 		// private functions
-		private static function BindRecetteBase(&$resultat, $rec)
+		private static function BindRecetteBase(&$resultat, $rec, $maj)
 		{
 			$resultat->bindParam('titre', $rec['titre'], PDO::PARAM_STR);
 			$resultat->bindParam('commentaire', $rec['commentaire'], isset($rec['commentaire']) ? PDO::PARAM_STR : PDO::PARAM_NULL);
 			$resultat->bindParam('conseil', $rec['conseil'], isset($rec['conseil']) ? PDO::PARAM_STR : PDO::PARAM_NULL);
 			$resultat->bindParam('nb_personne', $rec['nb_personne'], PDO::PARAM_INT);
-			$resultat->bindParam('photo', $rec['photo'], isset($rec['photo']) ? PDO::PARAM_LOB : PDO::PARAM_NULL);
+			$resultat->bindParam('photo', $rec['photo'], isset($rec['photo']) ? PDO::PARAM_STR : PDO::PARAM_NULL);
+			if (!$maj)
+				$resultat->bindParam('date_creation', $rec['date_creation'], PDO::PARAM_STR);
 			$resultat->bindParam('date_maj', $rec['date_maj'], PDO::PARAM_STR);
 			$resultat->bindParam('temps_cuisson', $rec['temps_cuisson'], isset($rec['temps_cuisson']) ? PDO::PARAM_INT : PDO::PARAM_NULL);
 			$resultat->bindParam('temps_preparation', $rec['temps_preparation'], isset($rec['temps_preparation']) ? PDO::PARAM_INT : PDO::PARAM_NULL);

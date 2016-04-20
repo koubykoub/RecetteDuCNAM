@@ -187,6 +187,7 @@
 			$recette['conseil'] = GetRandomText(rand(200, 400), $loremipsum);
 			$recette['nb_personne'] = rand(2, 10);
 			$dt = new DateTime();
+			$recette['date_creation'] = $dt->format('Y-m-d H:i:s');
 			$recette['date_maj'] = $dt->format('Y-m-d H:i:s');
 			$recette['temps_cuisson'] = 10 * rand(1, 12);
 			$recette['temps_preparation'] = 10 * rand(1, 6);

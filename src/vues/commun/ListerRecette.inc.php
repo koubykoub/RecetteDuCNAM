@@ -16,20 +16,29 @@
 	<?php } ?>
 </ul>
 
+<!-- liens suivant / precedent -->
 <?php if ($dVueListerRecette['liste_recettes_page'] > 0) { ?>
-	<form method="post" action="" name="lister_page_precedent">
-		<input type="hidden" name="page" id="page" value="<?php echo $dVueListerRecette['page']; ?>" />
-		<input type="hidden" name="lister_page_action" id="lister_page_action" value="precedent" />
-		<a href="javascript:document.lister_page_precedent.submit()">Précédentes</a>
-	</form>
+<form method="post" action="" name="lister_page_precedent">
+	<input type="hidden" name="page" id="page" value="<?php echo $dVueListerRecette['page']; ?>" />
+	<input type="hidden" name="lister_page_action" id="lister_page_action" value="precedent" />
+	<a href="javascript:document.lister_page_precedent.submit()">Précédentes</a>
+</form>
 <?php } ?>
 
 <?php if (!$dVueListerRecette['liste_recettes_last_page']) { ?>
-	<form method="post" action="" name="lister_page_suivant">
-		<input type="hidden" name="page" id="page" value="<?php echo $dVueListerRecette['page']; ?>" />
-		<input type="hidden" name="lister_page_action" id="lister_page_action" value="suivant" />
-		<a href="javascript:document.lister_page_suivant.submit()">Suivantes</a>
-	</form>
+<form method="post" action="" name="lister_page_suivant">
+	<input type="hidden" name="page" id="page" value="<?php echo $dVueListerRecette['page']; ?>" />
+	<input type="hidden" name="lister_page_action" id="lister_page_action" value="suivant" />
+	<a href="javascript:document.lister_page_suivant.submit()">Suivantes</a>
+</form>
 <?php } ?>
 	
+<?php } ?>
+
+<!-- revenir a la liste global -->
+<?php if ($dVueListerRecette['lister_recette_utilisateur']) { ?>
+<form method="post" action="" name="lister_recette_globale">
+	<input type="hidden" name="page" id="page" value="lister_recette" />
+	<a href="javascript:document.lister_recette_globale.submit()">Voir les recettes de tout le monde</a>
+</form>
 <?php } ?>
