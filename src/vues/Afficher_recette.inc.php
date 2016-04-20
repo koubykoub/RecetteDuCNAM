@@ -33,9 +33,10 @@
 	{
 		$dVueCommentaire['detruire_commentaire'] = $donneesModele['detruire_commentaire'];
 		$dVueCommentaire['utilisateur_recette'] = ($donneesModele['identification']['utilisateur']['id'] == $donneesModele['recette']['id_utilisateur']);
-		if (!$donneesModele['detruire_commentaire'])
+		if (!$donneesModele['detruire_commentaire'])	
 			$dVueCommentaire['commentaire_utilisateur'] = $donneesModele['commentaire_utilisateur'];
 	}
+	$dVueCommentaire['remplissage'] = $donneesModele['identification']['identifie'] && !$donneesModele['detruire_commentaire'] && $donneesModele['commentaire_utilisateur']['existe'];
 	
 	// html
 	HtmlStruct::DebutHtml('Afficher une recette', array('css/styles.css'), array('js/script.js'));

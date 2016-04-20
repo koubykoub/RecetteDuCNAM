@@ -10,18 +10,21 @@
 	<!-- note -->
 	<fieldset>
 		<legend>Note</legend>
-		<input type="radio" name="commentaire_note" id="commentaire_note" value="0" <?php if (!$dVueCommentaire['detruire_commentaire'] && $dVueCommentaire['commentaire_utilisateur']['existe'] && ($dVueCommentaire['commentaire_utilisateur']['commentaire']['valeur_note'] == 0)) echo 'checked="checked"'; ?> /> 
-		<input type="radio" name="commentaire_note" id="commentaire_note" value="1" <?php if (!$dVueCommentaire['detruire_commentaire'] && $dVueCommentaire['commentaire_utilisateur']['existe'] && ($dVueCommentaire['commentaire_utilisateur']['commentaire']['valeur_note'] == 1)) echo 'checked="checked"'; ?> />
-		<input type="radio" name="commentaire_note" id="commentaire_note" value="2" <?php if (!$dVueCommentaire['detruire_commentaire'] && $dVueCommentaire['commentaire_utilisateur']['existe'] && ($dVueCommentaire['commentaire_utilisateur']['commentaire']['valeur_note'] == 2)) echo 'checked="checked"'; ?> />
-		<input type="radio" name="commentaire_note" id="commentaire_note" value="3" <?php if (!$dVueCommentaire['detruire_commentaire'] && $dVueCommentaire['commentaire_utilisateur']['existe']) {if ($dVueCommentaire['commentaire_utilisateur']['commentaire']['valeur_note'] == 3) echo 'checked="checked"';} else echo 'checked="checked"'; ?> />
-		<input type="radio" name="commentaire_note" id="commentaire_note" value="4" <?php if (!$dVueCommentaire['detruire_commentaire'] && $dVueCommentaire['commentaire_utilisateur']['existe'] && ($dVueCommentaire['commentaire_utilisateur']['commentaire']['valeur_note'] == 4)) echo 'checked="checked"'; ?> />
-		<input type="radio" name="commentaire_note" id="commentaire_note" value="5" <?php if (!$dVueCommentaire['detruire_commentaire'] && $dVueCommentaire['commentaire_utilisateur']['existe'] && ($dVueCommentaire['commentaire_utilisateur']['commentaire']['valeur_note'] == 5)) echo 'checked="checked"'; ?> />
+		<?php if ($dVueCommentaire['remplissage']) { ?>
+			<?php for ($i = 0 ; $i <= COMM_NOTE_MAX ; ++$i) { ?>
+			<input type="radio" name="commentaire_note" id="commentaire_note" value="<?php echo $i; ?>"<?php if ($dVueCommentaire['commentaire_utilisateur']['commentaire']['valeur_note'] == $i) echo 'checked="checked"'; ?> />
+			<?php } ?>
+		<?php } else { ?>
+			<?php for ($i = 0 ; $i <= COMM_NOTE_MAX ; ++$i) { ?>
+			<input type="radio" name="commentaire_note" id="commentaire_note" value="<?php echo $i; ?>"<?php if ($i == 3) echo 'checked="checked"'; ?> />
+			<?php } ?>
+		<?php } ?>
 	</fieldset>
 	
 	<!-- commentaire -->
 	<fieldset>
 		<legend>Commentaire</legend>
-		<textarea rows="4" cols="80" name="commentaire_texte" id="commentaire_texte"><?php if (!$dVueCommentaire['detruire_commentaire'] && $dVueCommentaire['commentaire_utilisateur']['existe']) echo $dVueCommentaire['commentaire_utilisateur']['commentaire']['texte_commentaire']; ?></textarea>
+		<textarea rows="4" cols="80" name="commentaire_texte" id="commentaire_texte"><?php if ($dVueCommentaire['remplissage']) echo $dVueCommentaire['commentaire_utilisateur']['commentaire']['texte_commentaire']; ?></textarea>
 	</fieldset>
 	
 	<!-- creer commentaire -->

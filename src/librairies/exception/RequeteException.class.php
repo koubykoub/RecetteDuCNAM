@@ -1,26 +1,36 @@
 <?php
-	// include
+// include
 	include_once (dirname(__FILE__) . '/AppException.class.php');
 	
+	// exceptions de creation de compte
+	class RequeteExcepBase extends AppException
+	{
+		// constructeur
+		public function __construct($message)
+		{
+			$mess = parent::CreateMessage('accueil', 'Requête', $message, "Retour à l'accueil");
+			parent::__construct($mess);
+		}
+		
+	}
+	
 	// page inconnue
-	class PageInconnueExcep extends AppException
+	class PageInconnueExcep extends RequeteExcepBase
 	{
 		// constructeur
 		public function __construct($mess)
 		{
-			$message = parent::CreateMessage('accueil', 'retour_accueil', 'Page inconnue :<br /><span>' . $mess . '</span>.', "Retour à l'accueil");
-			parent::__construct($message);
+			parent::__construct('Page inconnue :<br /><span>' . $mess . '</span>.');
 		}
 	
 	}
 	
 	// exceptions de requetes
-	class RequeteDonneeManquanteExcep extends AppException
+	class RequeteDonneeManquanteExcep extends RequeteExcepBase
 	{
 		// constructeur
 		public function __construct($donnee)
 		{
-			$message = parent::CreateMessage('accueil', 'retour_accueil', 'Donnée de requete manquante :<br /><span>' . $donnee . '</span>.', "Retour à l'accueil");
-			parent::__construct($message);
+			parent::__construct('Donnée de requete manquante :<br /><span>' . $donnee . '</span>.');
 		}
 	}

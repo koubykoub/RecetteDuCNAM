@@ -9,9 +9,9 @@
 		public function __construct($message, $maj)
 		{
 			if ($maj)
-				$mess = parent::CreateMessage('modifier_recette', 'retour_modifier_recette', $message, "Retour à la modification de la recette");
+				$mess = parent::CreateMessage('modifier_recette', 'saisie de recette', $message, "Retour à la modification de la recette");
 			else
-				$mess = parent::CreateMessage('creer_recette', 'retour_creer_recette', $message, "Retour à la creation de la recette");
+				$mess = parent::CreateMessage('creer_recette', 'saisie de recette', $message, "Retour à la creation de la recette");
 			parent::__construct($mess);
 		}
 		

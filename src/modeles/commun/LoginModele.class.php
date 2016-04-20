@@ -14,10 +14,12 @@
 			parent::StartSession();
 			if ($ident['identifie'])
 			{
+				$login = trim($ident['login']);
+				$mdp = trim($ident['mdp']);
 				$donnees['identifie'] = TRUE;
 				$daoUt = new DAOUtilisateur(parent::GetConnexion());
-				$donnees['utilisateur'] = $daoUt->RetrieveByLogin($ident['login']);
-				if (is_null($donnees['utilisateur']) || (strcmp($ident['mdp'], $donnees['utilisateur']['mdp']) != 0))
+				$donnees['utilisateur'] = $daoUt->RetrieveByLogin($login);
+				if (is_null($donnees['utilisateur']) || (strcmp($mdp, $donnees['utilisateur']['mdp']) != 0))
 					throw new LoginIncorrectExcep();
 				$_SESSION['id_utilisateur'] = $donnees['utilisateur']['id'];
 				return $donnees;

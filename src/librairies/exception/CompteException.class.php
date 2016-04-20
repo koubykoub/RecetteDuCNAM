@@ -9,9 +9,9 @@
 		public function __construct($message, $maj)
 		{
 			if ($maj)
-				$mess = parent::CreateMessage('modifier_compte', 'retour_modifier_compte', $message, "Retour à la modification du compte");
+				$mess = parent::CreateMessage('modifier_compte', 'saisie de compte', $message, "Retour à la modification du compte");
 			else
-				$mess = parent::CreateMessage('creer_compte', 'retour_creer_compte', $message, "Retour à la creation du compte");
+				$mess = parent::CreateMessage('creer_compte', 'saisie de compte', $message, "Retour à la creation du compte");
 			parent::__construct($mess);
 		}
 		

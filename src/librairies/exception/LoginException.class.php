@@ -1,24 +1,34 @@
 <?php
 	// include
 	include_once (dirname(__FILE__) . '/AppException.class.php');
+	
+	// exceptions de creation de compte
+	class LoginExcepBase extends AppException
+	{
+		// constructeur
+		public function __construct($message)
+		{
+			$mess = parent::CreateMessage('accueil', 'Identification', $message, "Retour à l'accueil");
+			parent::__construct($mess);
+		}
+		
+	}
 
 	// exceptions d'identification
-	class LoginIncorrectExcep extends AppException
+	class LoginIncorrectExcep extends LoginExcepBase
 	{
 		// constructeur
 		public function __construct()
 		{
-			$message = parent::CreateMessage('accueil', 'retour_accueil', "L'identifiant ou le mot de passe est incorrect.", "Retour à l'accueil");
-			parent::__construct($message);
+			parent::__construct("L'identifiant ou le mot de passe est incorrect.");
 		}
 	}
 	
-	class LoginIdentificationExcep extends AppException
+	class LoginIdentificationExcep extends LoginExcepBase
 	{
 		// constructeur
 		public function __construct()
 		{
-			$message = parent::CreateMessage('accueil', 'retour_accueil', "Vous n'êtes pas identifié.", "Retour à l'accueil");
-			parent::__construct($message);
+			parent::__construct("Vous n'êtes pas identifié.");
 		}
 	}

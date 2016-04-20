@@ -48,7 +48,9 @@
 		else
 		{
 			if ($donneesControleur['commentaire']['creer_commentaire']) CommentaireModele::CreerCommentaire($donneesControleur['commentaire'], $donneesModele['identification']['utilisateur']['id'], $donneesModele['recette']['id']);
-			$donneesModele['commentaire_utilisateur'] = CommentaireModele::CommentaireUtilisateur($donneesModele['identification']['utilisateur']['id'], $donneesModele['recette']['id']);
+			$donneesModele['commentaire_utilisateur'] = CommentaireModele::SessionCommentaireCreation($donneesModele['identification']['utilisateur']['id'], $donneesModele['recette']['id']);
+			if (!$donneesModele['commentaire_utilisateur']['existe'])
+				$donneesModele['commentaire_utilisateur'] = CommentaireModele::CommentaireUtilisateur($donneesModele['identification']['utilisateur']['id'], $donneesModele['recette']['id']);
 		}
 	}
 	$donneesModele['commentaires'] = CommentaireModele::CommentaireRecette($donneesModele['recette']['id']);
