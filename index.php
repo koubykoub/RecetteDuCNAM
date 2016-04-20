@@ -5,7 +5,7 @@
 	include_once (dirname(__FILE__) . '/src/librairies/fb/fb.php');
 	
 
-	try
+	try { try
 	{
 		// php info
 		//phpinfo();
@@ -82,8 +82,8 @@
 	// exceptions
 	catch (PDOException $e)
 	{
-		//$exc = new P($e->getMessage());
-	}
+		throw new ErreurInterneExcep($e->getMessage());
+	}}
 	catch (AppException $e)
 	{
 		$excepMessage = $e->getMessage();
