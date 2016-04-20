@@ -1,0 +1,54 @@
+@CHARSET "UTF-8";
+
+/* titres */
+.section .liste_recette h2
+{
+	text-align: center;
+}
+
+.section .liste_recette h4
+{
+	margin: 0px;
+	padding-left: 10px;
+}
+
+
+/* div */
+.section .liste_recette ul
+{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.section .liste_recette > a
+{
+	display: block;
+	float: left;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.section .liste_recette > a.lien_droite
+{
+	float: right;
+}
+
+.section .liste_recette ul li
+{
+	display: block;
+	border: 1px solid black;
+	margin: 5px;
+	padding: 5px;
+}
+
+.section .liste_recette ul a
+{
+	text-decoration: none;
+	color: blue;
+}
+
+.section .liste_recette ul a:hover
+{
+	color: red;
+}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Recettes</title>
+	
+	<!-- style -->
+	<link type="text/css" rel="stylesheet" href="../css/base.css" />
+	<link type="text/css" rel="stylesheet" href="../css/menu_categorie.css" />
+	<link type="text/css" rel="stylesheet" href="../css/menu_login.css" />
+	<link type="text/css" rel="stylesheet" href="../css/random_recette.css" />
+	<link type="text/css" rel="stylesheet" href="../css/footer.css" />
+	<link type="text/css" rel="stylesheet" href="../css/liste_recette.css" />
+	
+	<!-- scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/script.js"></script>
+</head>
+
+<body>
+	<header>
+		<!-- logo -->
+		<div class="logo">
+			<h1>
+				<a href="Accueil.html">
+					Cuisine du CNAM<br />
+					<img alt="Cuisine du CNAM" src="../image/recette.png" width="200" height="105" />
+				</a>
+			</h1>
+		</div>
+		
+		<!-- en tete -->
+		<div class="en-tete">
+			<!-- titre -->
+			<h1>
+				LES RECETTES
+			</h1>
+			
+			<!-- selection des categorie / sous categories -->
+			<ul class="menu_categorie">
+			    <li>
+			        <a href="Recette.html">Entrées</a>
+			        <ul class="menu_sous_categorie">
+			            <li><a href="Recette.html">Salades</a></li>
+			            <li><a href="Recette.html">Potages</a></li>
+			            <li><a href="Recette.html">Fromages</a></li>
+			            <li><a href="Recette.html">Autres...</a></li>
+			        </ul>
+			    </li>
+			    
+			    <li>
+			        <a href="Recette.html">Plats</a>
+			        <ul class="menu_sous_categorie">
+			            <li><a href="Recette.html">Viandes</a></li>
+			            <li><a href="Recette.html">Poissons</a></li>
+			            <li><a href="Recette.html">Légumes</a></li>
+			            <li><a href="Recette.html">Autres...</a></li>
+			        </ul>
+			    </li>
+			    
+			    <li>
+			        <a href="Recette.html">Desserts</a>
+			        <ul class="menu_sous_categorie">
+			            <li><a href="Recette.html">Gateaux / Tartes</a></li>
+			            <li><a href="Recette.html">Crêmes / Flans</a></li>
+			            <li><a href="Recette.html">Glaces / Sorbets</a></li>
+			            <li><a href="Recette.html">Autres...</a></li>
+			        </ul>
+			    </li>
+			    
+			    <li>
+			        <a href="Recette.html">Autres...</a>
+			        <ul class="menu_sous_categorie">
+			        	<li><a href="Recette.html">Sauces</a></li>
+			            <li><a href="Recette.html">Autres...</a></li>
+			        </ul>
+			    </li>
+			</ul>
+				
+		</div>
+		<br clear="all" />
+	</header>
+	
+	<section>
+		<!-- login -->
+		<div class="login">
+			<!-- titre -->
+			<h3>Bienvenue<br /><span>Machin Truc</span></h3>
+		
+			<!-- menu de login -->
+			<form method="post" target="#">
+				<div>
+					<label for="login">Identifiant &nbsp;</label><input type="text" name="login" id="login" value="Machin"/><br />
+					<label for="mdp">Mot de passe &nbsp;</label><input type="password" name="mdp" id="mdp" value="truc" /><br /><br />
+				</div>
+				<input type="submit" value="Identifiez vous" /><br /><br />
+				<a href="Creer_compte.html">Créer un compte</a>
+			</form> 
+			
+			<!-- liens utilisateurs -->
+			<div>
+				<a href="#">Gérer mon compte</a><br />
+				<a href="Creer_recette.html">Créer une recette</a><br />
+				<a href="Recette.html">Lister mes recettes</a>
+			</div>
+		</div>
+		
+		<!-- section -->
+		<div class="section">
+			<!-- recette au hazard -->
+			<div class="random_recette">
+				<h2><a href="Affiche_recette.html">Recette au hazard<br /><span>(Afficher)</span></a></h2>
+				
+				<!-- ingredients -->
+				<h3>Ingédients</h3>
+				<ul>
+					<li>Ingedient 1</li>
+					<li>Ingedient 2</li>
+					<li>Ingedient 3</li>
+				</ul>
+				
+				<!-- preparation -->
+				<h3>Préparation</h3>
+				<ul>
+					<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+					<li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+					<li>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla...</li>
+				</ul>
+			</div>
+			
+			<!-- liste des recettes -->
+			<div class="liste_recette">
+				<h2>Liste des recettes</h2>
+				<h4>Catégorie : <span>Dessert</span></h4>
+				<h4>Sous catégorie : <span>Gateaux / Tartes</span></h4>
+				<ul>
+					<li><a href="Affiche_recette.html">Tarte tatin</a></li>
+					<li><a href="Affiche_recette.html">Fonfant au chocolat</a></li>
+					<li><a href="Affiche_recette.html">Profiterole</a></li>
+				</ul>
+				<a href="Recette.html">les 3 précédantes recettes</a>
+				<a href="Recette.html" class="lien_droite">les 3 recettes suivantes</a>
+				<br clear="all" />
+			</div>
+		</div>
+		<br clear="all" />
+	</section>
+	
+	<!-- pied de page -->
+	<footer  class="pied-de-page">
+		<!-- copyright -->
+		<div class="footer_copyright">
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+		</div>
+
+		<!-- liens -->		
+		<div class="footer_lien">
+			<a href="Recette.html">Une recette au hazard</a>
+		</div>
+		<br clear="all" />
+	</footer>
+</body>
+</html>

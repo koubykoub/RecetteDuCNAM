@@ -1,0 +1,45 @@
+@CHARSET "UTF-8";
+
+/* titre */
+.section .random_recette h2
+{
+	text-align: center;
+}
+
+.section .random_recette h2 a
+{
+	text-decoration: none;
+	color: blue;
+}
+
+.section .random_recette h2 a span
+{
+	visibility: hidden;
+}
+
+.section .random_recette h2 a:hover
+{
+	color: red;
+}
+
+.section .random_recette h2 a:hover span
+{
+	visibility: visible;
+}
+
+/* listes */ 
+.section .random_recette ul
+{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.section .random_recette ul li
+{
+	display: block;
+	border: 1px solid black;
+	margin: 5px;
+	padding: 5px;
+}
+

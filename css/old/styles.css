@@ -1,0 +1,523 @@
+@CHARSET "UTF-8";
+
+/**************************************************************/
+/* BASE														  */
+/**************************************************************/
+/* body */
+body
+{
+	width: 1024px;
+	margin: auto;
+	background-color:#DCC089;
+	font-size: 100%;
+	font-family: "Arial", arial, sans-serif;
+}
+
+
+/* border styles */
+.logo, .en-tete, .login, .section, footer, .section_compte, .section_creer_recette
+{
+	border: black solid 1px;
+	margin: 5px;
+	padding: 5px;
+}
+
+.section > div
+{
+	border: 1px solid black;
+	margin: 10px;
+	padding: 10px;
+}
+
+
+/* alignement horizontal */
+.logo, .en-tete, .login, .section, .select-title select
+{
+	float: left;
+}
+
+
+/* sizes */
+.en-tete, .logo
+{
+	height: 150px;
+}
+
+.en-tete, .section
+{
+	width: 700px;
+}
+
+.logo, .login
+{
+	width: 200px;
+}
+
+footer, .section_compte, .section_creer_recette
+{
+	width: 922px;
+}
+
+footer
+{
+	height: 100px;
+}
+
+
+/* titres */
+h1, h2, h3, h4, h5, h6
+{
+	font-family: "Times New Roman", Times, serif;
+}
+
+.logo h1
+{
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+	background-color: white;
+}
+
+.logo h1 a
+{
+	color: red;
+	font-size: 0.70em;
+	text-decoration: none;
+}
+
+.en-tete h1
+{
+	text-align: center;
+}
+
+
+/**************************************************************/
+/* CREER COMPTE												  */
+/**************************************************************/
+.section_compte ul
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+
+.section_compte
+{
+	text-align: center;
+}
+
+.section_compte ul li label
+{
+	display: inline-block;
+	width: 200px;
+	text-align: right;
+}
+
+.section_compte ul li input
+{
+	display: inline-block;
+	width: 230px;
+}
+
+.section_compte ul li input#email_left, .section_compte ul li input#email_right
+{
+	display: inline-block;
+	width: 100px;
+}
+
+
+/**************************************************************/
+/* CREER RECETTE											  */
+/**************************************************************/
+/* titres */
+.section_creer_recette .recette h2
+{
+	text-align: center;
+}
+
+.section_creer_recette .recette h3
+{
+	margin-left: 10px;
+}
+
+/* div */
+.section_creer_recette .recette div
+{
+	border: 1px solid black;
+	margin: 10px;
+	padding: 10px;
+}
+
+.section_creer_recette .recette .recette_comment
+{
+}
+
+.section_creer_recette .recette .recette_detail > ul
+{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.section_creer_recette .recette .recette_detail > ul ul
+{
+	list-style: none;
+	display: block;
+	float: left;
+	width: 300px;
+	margin: 0px;
+	padding: 0px;
+	font-style: italic;
+}
+
+.section_creer_recette .recette .recette_detail > ul ul span
+{
+	font-style: normal;
+	color: red;
+	font-size: 1.1em;
+}
+
+.section_creer_recette .recette .liste_recette ul
+{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.section_creer_recette .recette .liste_recette ul li
+{
+	display: block;
+	border: 1px solid black;
+	margin: 5px;
+	padding: 5px;
+}
+
+.section_creer_recette .recette .recette_detail input
+{
+	width: 50px;
+}
+
+
+/**************************************************************/
+/* FOOTER													  */
+/**************************************************************/
+footer .footer_copyright
+{
+	width: 650px;
+	padding: 10px;
+	float: left;
+}
+
+footer .footer_lien
+{
+	width: 200px;
+	padding: 10px;
+	float: right;
+	text-align: center;
+}
+
+
+/**************************************************************/
+/* LISTE RECETTE											  */
+/**************************************************************/
+/* titres */
+.section .liste_recette h2
+{
+	text-align: center;
+}
+
+.section .liste_recette h4
+{
+	margin: 0px;
+	padding-left: 10px;
+}
+
+
+/* div */
+.section .liste_recette ul
+{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.section .liste_recette > a
+{
+	display: block;
+	float: left;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.section .liste_recette > a.lien_droite
+{
+	float: right;
+}
+
+.section .liste_recette ul li
+{
+	display: block;
+	border: 1px solid black;
+	margin: 5px;
+	padding: 5px;
+}
+
+.section .liste_recette ul a
+{
+	text-decoration: none;
+	color: blue;
+}
+
+.section .liste_recette ul a:hover
+{
+	color: red;
+}
+
+
+/**************************************************************/
+/* MENU CATEGORIE											  */
+/**************************************************************/
+/* categories / sous categories */
+.en-tete ul.menu_categorie
+{
+	list-style: none;
+	font-size: 1.15em;
+	display: block;
+	top: 35px;
+	left: -15px;
+	position: relative;
+}
+
+.en-tete ul.menu_categorie li
+{
+	float: left;
+	position: relative;
+}
+
+.en-tete ul.menu_categorie li a
+{
+	text-decoration: none;
+	float: left;
+	color: black;
+	padding: 5px 15px;
+	border: 1px solid black;
+	text-align: center;
+	width: 130px;
+}
+
+.en-tete ul.menu_categorie li ul.menu_sous_categorie
+{
+	list-style: none;
+	position: absolute;
+	top: 31px;
+	left: 0px;
+	margin: 0;
+	padding: 0;
+	display: none;
+	border: 1px solid black;
+	font-size: 0.85em;
+}
+
+.en-tete ul.menu_categorie li ul.menu_sous_categorie li a
+{
+	display: block;
+	margin: 0;
+	padding: 5px;
+	width: 150px;
+}
+
+.en-tete ul.menu_categorie li a, ul.menu_categorie li ul.menu_sous_categorie li a
+{
+	border: 1px solid black;
+	background-color: white;
+}
+
+.en-tete ul.menu_categorie li a:hover, ul.menu_categorie li ul.menu_sous_categorie li a:hover
+{
+	border: 1px solid black;
+	background-color: red;
+}
+
+
+/**************************************************************/
+/* MENU LOGIN												  */
+/**************************************************************/
+.login h3
+{
+	text-align: center;
+	border: 1px solid black;
+	background-color: #B01500;
+	color: #9F9F9F;
+}
+
+.login h3 span
+{
+	color: white;
+}
+
+.login form
+{
+	text-align: center;
+	font-size: 0.78em;
+	border: 1px solid black;
+	padding: 3px;
+	margin-bottom: 10px;
+}
+
+.login form input
+{
+	font-size: 0.8em;
+}
+
+.login form div input
+{
+	width: 105px;
+}
+
+.login form div
+{
+	text-align: right;
+}
+
+.login form > input
+{
+	font-size: 1em;
+}
+
+.login > div
+{
+	text-align: center;
+	border: 1px solid black;
+	background-color: #B01500;
+	color: #9F9F9F;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	padding: 5px;
+}
+
+.login > div a
+{
+	text-decoration: none;
+	color: #EEEEEE;
+}
+
+.login > div a:hover
+{
+	color: black;
+}
+
+
+/**************************************************************/
+/* RANDOM RECETTE											  */
+/**************************************************************/
+/* titre */
+.section .random_recette h2
+{
+	text-align: center;
+}
+
+.section .random_recette h2 a
+{
+	text-decoration: none;
+	color: blue;
+}
+
+.section .random_recette h2 a span
+{
+	visibility: hidden;
+}
+
+.section .random_recette h2 a:hover
+{
+	color: red;
+}
+
+.section .random_recette h2 a:hover span
+{
+	visibility: visible;
+}
+
+/* listes */ 
+.section .random_recette ul
+{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.section .random_recette ul li
+{
+	display: block;
+	border: 1px solid black;
+	margin: 5px;
+	padding: 5px;
+}
+
+
+/**************************************************************/
+/* RECETTE													  */
+/**************************************************************/
+/* titres */
+.section .recette h2
+{
+	text-align: center;
+}
+
+.section .recette h3
+{
+	margin-left: 10px;
+}
+
+/* div */
+.section .recette div
+{
+	border: 1px solid black;
+	margin: 10px;
+	padding: 10px;
+}
+
+.section .recette .recette_comment
+{
+}
+
+.section .recette .recette_detail > ul
+{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.section .recette .recette_detail > ul ul
+{
+	list-style: none;
+	display: block;
+	float: left;
+	width: 300px;
+	margin: 0px;
+	padding: 0px;
+	/*text-decoration: underline;*/
+	font-style: italic;
+}
+
+.section .recette .recette_detail > ul ul span
+{
+	font-style: normal;
+	color: red;
+	font-size: 1.1em;
+}
+
+.section .recette .liste_recette ul
+{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.section .recette .liste_recette ul li
+{
+	display: block;
+	border: 1px solid black;
+	margin: 5px;
+	padding: 5px;
+}

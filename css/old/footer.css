@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+
+footer .footer_copyright
+{
+	width: 650px;
+	padding: 10px;
+	float: left;
+}
+
+footer .footer_lien
+{
+	width: 200px;
+	padding: 10px;
+	float: right;
+	text-align: center;
+}

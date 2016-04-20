@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+
+.section_compte ul
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+
+.section_compte
+{
+	text-align: center;
+}
+
+.section_compte ul li label
+{
+	display: inline-block;
+	width: 200px;
+	text-align: right;
+}
+
+.section_compte ul li input
+{
+	display: inline-block;
+	width: 230px;
+}
+
+.section_compte ul li input#email_left, .section_compte ul li input#email_right
+{
+	display: inline-block;
+	width: 100px;
+}

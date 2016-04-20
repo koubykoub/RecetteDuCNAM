@@ -1,0 +1,117 @@
+@CHARSET "UTF-8";
+
+/**************************************************************/
+/* BASES													  */
+/**************************************************************/
+/* body */
+body
+{
+	width: 1024px;
+	margin: auto;
+	background-color:#DCC089;
+	font-size: 100%;
+	font-family: "Arial", arial, sans-serif;
+}
+
+/* les differentes sections */
+.section_logo, .section_header, .section_login, .section_principale
+{
+	float: left;
+}
+
+.section_logo, .section_header
+{
+	height: 150px;
+}
+
+.section_header, .section_principale
+{
+	width: 700px;
+}
+
+.section_logo, .section_login
+{
+	width: 200px;
+}
+
+footer, .section_principale_large
+{
+	width: 922px;
+}
+
+footer
+{
+	height: 100px;
+}
+
+
+/**************************************************************/
+/* LOGO														  */
+/**************************************************************/
+.section_logo h1
+{
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+	background-color: white;
+}
+
+.section_logo h1 a
+{
+	color: red;
+	font-size: 0.70em;
+	text-decoration: none;
+}
+
+
+/**************************************************************/
+/* MENU CATEGORIE											  */
+/**************************************************************/
+.menu_critere ul
+{
+	list-style-type: none;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	padding-right: 5px;
+	margin-left: 10px;
+}
+
+.menu_critere form > ul
+{
+	list-style: none;
+	font-size: 0.75em;
+	display: block;
+	top: 0px;
+	left: -15px;
+	position: relative;
+}
+
+.menu_critere form > ul > li
+{
+	float: left;
+	position: relative;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**************************************************************/
+/* TEST														  */
+/**************************************************************/
+.section_logo, .section_header, .section_login, .section_principale, .section_principale_large, footer, .random_recette, .lister_recette, .critere_recherche, .afficher_compte, .section_message
+{
+	border: black solid 1px;
+	margin: 5px;
+	padding: 5px;
+}

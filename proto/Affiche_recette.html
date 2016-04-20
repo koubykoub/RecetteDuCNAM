@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Affichage d'une recette</title>
+	
+	<!-- style -->
+	<link type="text/css" rel="stylesheet" href="../css/base.css" />
+	<link type="text/css" rel="stylesheet" href="../css/menu_categorie.css" />
+	<link type="text/css" rel="stylesheet" href="../css/menu_login.css" />
+	<link type="text/css" rel="stylesheet" href="../css/recette.css" />
+	<link type="text/css" rel="stylesheet" href="../css/footer.css" />
+	
+	<!-- scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/script.js"></script>
+</head>
+
+<body>
+	<header>
+		<!-- logo -->
+		<div class="logo">
+			<h1>
+				<a href="Accueil.html">
+					Cuisine du CNAM<br />
+					<img alt="Cuisine du CNAM" src="../image/recette.png" width="200" height="105" />
+				</a>
+			</h1>
+		</div>
+		
+		<!-- en tete -->
+		<div class="en-tete">
+			<!-- titre -->
+			<h1>
+				UNE RECETTE
+			</h1>
+			
+			<!-- selection des categorie / sous categories -->
+			<ul class="menu_categorie">
+			    <li>
+			        <a href="Recette.html">Entrées</a>
+			        <ul class="menu_sous_categorie">
+			            <li><a href="Recette.html">Salades</a></li>
+			            <li><a href="Recette.html">Potages</a></li>
+			            <li><a href="Recette.html">Fromages</a></li>
+			            <li><a href="Recette.html">Autres...</a></li>
+			        </ul>
+			    </li>
+			    
+			    <li>
+			        <a href="Recette.html">Plats</a>
+			        <ul class="menu_sous_categorie">
+			            <li><a href="Recette.html">Viandes</a></li>
+			            <li><a href="Recette.html">Poissons</a></li>
+			            <li><a href="Recette.html">Légumes</a></li>
+			            <li><a href="Recette.html">Autres...</a></li>
+			        </ul>
+			    </li>
+			    
+			    <li>
+			        <a href="Recette.html">Desserts</a>
+			        <ul class="menu_sous_categorie">
+			            <li><a href="Recette.html">Gateaux / Tartes</a></li>
+			            <li><a href="Recette.html">Crêmes / Flans</a></li>
+			            <li><a href="Recette.html">Glaces / Sorbets</a></li>
+			            <li><a href="Recette.html">Autres...</a></li>
+			        </ul>
+			    </li>
+			    
+			    <li>
+			        <a href="Recette.html">Autres...</a>
+			        <ul class="menu_sous_categorie">
+			        	<li><a href="Recette.html">Sauces</a></li>
+			            <li><a href="Recette.html">Autres...</a></li>
+			        </ul>
+			    </li>
+			</ul>
+				
+		</div>
+		<br clear="all" />
+	</header>
+	
+	<section>
+		<!-- login -->
+		<div class="login">
+			<!-- titre -->
+			<h3>Bienvenue<br /><span>Machin Truc</span></h3>
+		
+			<!-- menu de login -->
+			<form method="post" target="#">
+				<div>
+					<label for="login">Identifiant &nbsp;</label><input type="text" name="login" id="login" value="Machin"/><br />
+					<label for="mdp">Mot de passe &nbsp;</label><input type="password" name="mdp" id="mdp" value="truc" /><br /><br />
+				</div>
+				<input type="submit" value="Identifiez vous" /><br /><br />
+				<a href="Creer_compte.html">Créer un compte</a>
+			</form> 
+			
+			<!-- liens utilisateurs -->
+			<div>
+				<a href="#">Gérer mon compte</a><br />
+				<a href="Creer_recette.html">Créer une recette</a><br />
+				<a href="Recette.html">Lister mes recettes</a>
+			</div>
+		</div>
+		
+		<!-- section -->
+		<div class="section">
+			<!-- recette -->
+			<div class="recette">
+				<h2>Recette choisie</h2>
+				
+				<!-- commentaire -->
+				<div class="recette_comment">
+					<h3>Commentaires</h3>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+				</div>
+				
+				<!-- details -->
+				<div class="recette_detail">
+					<H3>Détails</H3>
+					<ul>
+						<li>
+							<ul>
+								<li>Auteur : <span>Machin Truc</span></li>
+								<li>Nombre de personnes : <span>4</span></li>
+								<li>Temps de préparation : <span>10 mn</span></li>
+								<li>Temps de cuisson : <span>60 mn</span></li>
+							</ul>
+						</li>
+						
+						<li>
+							<ul>
+								<li>Catégorie : <span>Desserts</span></li>
+								<li>Sous catégorie : <span>Gateaux / Tartes</span></li>
+								<li>Difficulté : <span>Très facile</span></li>
+								<li>Prix : <span>Très bon marché</span></li>
+							</ul>
+							<br clear="all" />
+						</li>
+					</ul>
+				</div>
+				
+				<!-- ingredients -->
+				<div class="liste_recette">
+					<H3>Ingrédient</H3>
+					<ul>
+						<li>Ingrédient 1</li>
+						<li>Ingrédient 2</li>
+						<li>Ingrédient 3</li>
+					</ul>
+				</div>
+				
+				<!-- preparation -->
+				<div class="liste_recette">
+					<H3>Préparation</H3>
+					<ul>
+						<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+						<li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+						<li>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.</li>
+					</ul>
+				</div>
+				
+				<!-- conseils -->
+				<div class="recette_comment">
+					<H3>Conseils</H3>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+				</div>
+			</div>
+		</div>
+		<br clear="all" />
+	</section>
+	
+	<!-- pied de page -->
+	<footer  class="pied-de-page">
+		<!-- copyright -->
+		<div class="footer_copyright">
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+		</div>
+
+		<!-- liens -->		
+		<div class="footer_lien">
+			<a href="Recette.html">Retour aux listes de recettes</a>
+		</div>
+		<br clear="all" />
+	</footer>
+</body>
+</html>
