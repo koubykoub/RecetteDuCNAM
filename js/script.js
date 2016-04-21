@@ -45,9 +45,9 @@ function CreerRecette_PermuterRecette(elt, id1, id2)
 {
 	var li1 = CreerRecette_GetEniemeElement(elt, id1);
 	var li2 = CreerRecette_GetEniemeElement(elt, id2);
-	var tmp = li1.find('textarea').text();
-	li1.find('textarea').text(li2.find('textarea').text());
-	li2.find('textarea').text(tmp);
+	var tmp = li1.find('textarea').val();
+	li1.find('textarea').val(li2.find('textarea').val());
+	li2.find('textarea').val(tmp);
 }
 
 function CreerRecette_CalculerContenu(elt)
