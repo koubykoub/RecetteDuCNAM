@@ -13,6 +13,33 @@ body
 	font-family: "Arial", arial, sans-serif;
 }
 
+/* titre */
+h1
+{
+	text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+	font-family: "Times New Roman", Times, "Liberation Serif", FreeSerif, serif;
+}
+
+/* liens */
+a
+{
+	display: inline-block;
+	text-decoration: none;
+	background-color: white;
+	color: black;
+	//border: black solid 1px;
+	padding: 3px;
+}
+
+a:hover
+{
+	background-color: yellow;
+}
+
 /* les differentes sections */
 .section_logo, .section_header, .section_login, .section_principale
 {
@@ -59,40 +86,71 @@ footer
 .section_logo h1 a
 {
 	color: red;
-	font-size: 0.70em;
+	font-size: 0.8em;
 	text-decoration: none;
 }
 
 
 /**************************************************************/
-/* MENU CATEGORIE											  */
+/* MENU CRITERE												  */
 /**************************************************************/
-.menu_critere ul
+/* position du formulaire */
+.menu_critere form
+{
+	position: relative;
+	top: 50px;
+}
+
+/* annulation de tout les style des ul et li */
+.menu_critere ul, .menu_critere li
 {
 	list-style-type: none;
-	padding-top: 0px;
-	padding-bottom: 0px;
-	padding-left: 0px;
-	padding-right: 5px;
-	margin-left: 10px;
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
 }
 
+/* taiile d'un lien */
+.menu_critere a
+{
+	display: block;
+	width: 57px;
+}
+
+/* taille de la police */
 .menu_critere form > ul
 {
-	list-style: none;
-	font-size: 0.75em;
-	display: block;
-	top: 0px;
-	left: -15px;
-	position: relative;
+	font-size: 0.66em;
 }
 
+.menu_critere form > ul ul
+{
+	font-size: 0.9em;
+}
+
+.menu_critere form > ul li ul a
+{
+	display: inline-block;
+}
+
+/* alignement horizontal des cellules des categories */
 .menu_critere form > ul > li
 {
 	float: left;
 	position: relative;
 }
 
+/* on affiche pas les sous categories directement */
+/*.menu_critere form > ul > li li > a
+{
+	display: none;
+}*/
+
+.menu_critere form > ul > li ul
+{
+	display: none;
+}
 
 
 

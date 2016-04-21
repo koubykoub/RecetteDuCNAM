@@ -1,5 +1,5 @@
 <?php
-	include_once (dirname(__FILE__) . '/../db/db_efine.inc.php');
+	include_once (dirname(__FILE__) . '/../db/db_define.inc.php');
 	include_once (dirname(__FILE__) . '/../src/librairies/define/Define.inc.php');
 	include_once (dirname(__FILE__) . '/../src/librairies/dao/Connexion.class.php');
 	include_once (dirname(__FILE__) . '/../src/librairies/html/HtmlStruct.class.php');

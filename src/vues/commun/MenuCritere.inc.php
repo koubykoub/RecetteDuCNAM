@@ -13,8 +13,8 @@
 	<?php foreach ($dVueMenuCritere['categories'] as & $cat) { ?>
 	    <li>
 	        <a href="javascript:document.menu_critere.submit()" onClick="javascript:MenuCritere_Categorie(<?php echo $cat['id']; ?>)"><?php echo $cat['intitule']; ?></a>
-	        <ul>
 	        
+	        <ul>
 	        <!-- liens sous categories -->
 	        <?php foreach ($cat['sous_categories'] as & $scat) { ?>
 	        	<li><a href="javascript:document.menu_critere.submit()" onClick="javascript:MenuCritere_SousCategorie(<?php echo $scat['id']; ?>, <?php echo $cat['id']; ?>)"><?php echo $scat['intitule']; ?></a></li>

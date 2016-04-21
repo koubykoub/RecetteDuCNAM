@@ -42,7 +42,7 @@
 	$categorie['sous_categorie'][] = 'Gibier';
 	$categories[] = $categorie;
 	// poisson
-	$categorie['intitule'] = 'Poissons et crustacés';
+	$categorie['intitule'] = 'Poissons';
 	$categorie['sous_categorie'] = array();
 	$categorie['sous_categorie'][] = 'Cabillaud';
 	$categorie['sous_categorie'][] = 'Coquillages';
@@ -63,7 +63,7 @@
 	$categorie['sous_categorie'][] = 'Confitures et Gelées';
 	$categories[] = $categorie;
 	// sauce
-	$categorie['intitule'] = 'Sauces, beurres et condiments';
+	$categorie['intitule'] = 'Sauces';
 	$categorie['sous_categorie'] = array();
 	$categorie['sous_categorie'][] = 'Beurre composé';
 	$categorie['sous_categorie'][] = 'Comdiments';

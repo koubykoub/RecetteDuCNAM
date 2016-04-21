@@ -2,6 +2,33 @@
 /**************************************************************/
 /* MENU CRITERE						  						  */
 /**************************************************************/
+function MenuCritere_Init()
+{
+	$('.menu_critere form > ul > li > a').hover(
+			
+	function()
+	{
+		$(this).parent().find('ul').show();
+	},
+	
+	function()
+	{
+		$(this).parent().find('ul').hide();
+	});
+	
+	$('.menu_critere form > ul ul').hover(
+			
+	function()
+	{
+		$(this).show();
+	},
+	
+	function()
+	{
+		$(this).hide();
+	});
+}
+
 function MenuCritere_Toutes()
 {
 	$('.menu_critere form').append($('<input />').attr('type', 'hidden')
@@ -31,6 +58,15 @@ function MenuCritere_SousCategorie(idSCat, idCat)
 /**************************************************************/
 /* CREER RECETTE											  */
 /**************************************************************/
+function CreerRecette_Init()
+{
+	$('.section_principale_large form li#last_ingredient > input').click(CreerRecette_AjouterIngredient);
+	$('.section_principale_large form li#last_etape_preparation > input').click(CreerRecette_AjouterEtapePreparation);
+	$('.section_principale_large .recette_detail select#categorie').change(CreerRecette_ChangerCategorie);
+	CreerRecette_CalculerContenu('ingredient');
+	CreerRecette_CalculerContenu('etape_preparation');
+}
+
 function CreerRecette_GetNbElement(elt)
 {
 	return $('.section_principale_large form ul#' + elt + ' > li').length - 1;
@@ -156,10 +192,10 @@ function CreerRecette_ChangerCategorie()
 /**************************************************************/
 $(document).ready(function()
 {
+	// menu critere
+	CreerRecette_Init();
+	
 	// creation de recette
-	$('.section_principale_large form li#last_ingredient > input').click(CreerRecette_AjouterIngredient);
-	$('.section_principale_large form li#last_etape_preparation > input').click(CreerRecette_AjouterEtapePreparation);
-	$('.section_principale_large .recette_detail select#categorie').change(CreerRecette_ChangerCategorie);
-	CreerRecette_CalculerContenu('ingredient');
-	CreerRecette_CalculerContenu('etape_preparation');
+	MenuCritere_Init();
+	
 });
