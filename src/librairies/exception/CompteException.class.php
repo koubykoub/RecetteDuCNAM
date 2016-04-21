@@ -103,3 +103,12 @@
 		}
 	}
 	
+	class CompteImageExcep extends CompteExcepBase
+	{
+		// constructeur
+		public function __construct($imageInfo, $maj)
+		{
+			parent::__construct("Impossible de télécharger l'image <span>" . $imageInfo['name'] . "</span> :<br />" . parent::GetStrImageError($imageInfo), $maj);
+		}
+	}
+	

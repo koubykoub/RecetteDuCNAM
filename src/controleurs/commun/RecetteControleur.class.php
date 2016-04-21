@@ -52,6 +52,11 @@
 				// conseils
 				if (!is_null($_REQUEST['conseil'])) $donnees['conseil_recette'] = $_REQUEST['conseil'];
 				else throw new RequeteDonneeManquanteExcep('conseil');
+				// photo
+				if (isset($_FILES['photo']) && !is_null($_FILES['photo'])) $donnees['photo'] = $_FILES['photo'];
+				else throw new RequeteDonneeManquanteExcep('photo');
+				if (isset($_REQUEST['effacer_image']) && !is_null($_REQUEST['effacer_image'])) $donnees['effacer_image'] = TRUE;
+				else $donnees['effacer_image'] = FALSE;
 			
 				// ingredients
 				$i = 0;

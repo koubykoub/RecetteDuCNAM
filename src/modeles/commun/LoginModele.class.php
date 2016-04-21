@@ -4,6 +4,7 @@
 	include_once (dirname(__FILE__) . '/../../librairies/dao/DAOUtilisateur.class.php');
 	include_once (dirname(__FILE__) . '/../../librairies/exception/CompteException.class.php');
 	include_once (dirname(__FILE__) . '/../../librairies/exception/LoginException.class.php');
+	include_once (dirname(__FILE__) . '/ImageModele.class.php');
 	
 	// model du login
 	class LoginModele extends ModeleBase
@@ -65,7 +66,10 @@
 			$ut = self::CreationUtilisateurBase($compte, FALSE);
 			$id = $daoUt->Create($ut);
 			$_SESSION['id_utilisateur'] = $id;
-			return $daoUt->RetrieveById($id);
+			$tmpUt = $daoUt->RetrieveById($id);
+			
+			// creation de l'image
+			return ImageModele::ImageUtilisateur($compte['photo'], $tmpUt);
 		}
 		
 		public static function MofifierCompte($compte, $utilisateur)
@@ -78,7 +82,12 @@
 			$ut = self::CreationUtilisateurBase($compte, TRUE);
 			$ut['id'] = $utilisateur['id'];
 			$id = $daoUt->Update($ut);
-			return $daoUt->RetrieveById($id);
+			$tmpUt = $daoUt->RetrieveById($id);
+			
+			// creation de l'image
+			if (!$compte['effacer_image'] && ($compte['photo']['error'] == UPLOAD_ERR_NO_FILE))
+				return $tmpUt;
+			return ImageModele::ImageUtilisateur($compte['photo'], $tmpUt);
 		}
 		
 		public static function SessionCompteCreation()
@@ -165,9 +174,10 @@
 			if (!empty($compte['email_left']) && empty($compte['email_right'])) throw new CompteDonneeManquanteExcep('Email partie droite', $maj);
 			if (empty($compte['email_left']) && !empty($compte['email_right'])) throw new CompteDonneeManquanteExcep('Email partie gauche', $maj);
 			
+			// validite de la photo
+			if (($compte['photo']['error'] != UPLOAD_ERR_OK) && ($compte['photo']['error'] != UPLOAD_ERR_NO_FILE)) throw new CompteImageExcep($compte['photo'], $maj);
+				
 			// creation de l'email
-			$compte['email_left'] = trim($compte['email_left']);
-			$compte['email_right'] = trim($compte['email_right']);
 			if (!empty($compte['email_left']) && !empty($compte['email_right']))
 				$compte['email'] = $compte['email_left'] . '@' . $compte['email_right'];
 			

@@ -194,10 +194,10 @@ SQL;
 			// creation de la recette
 			$sql =
 <<<SQL
-			INSERT INTO v_recette (titre, commentaire, conseil, nb_personne, photo, date_creation,
+			INSERT INTO v_recette (titre, commentaire, conseil, nb_personne, date_creation,
 								   date_maj, temps_cuisson, temps_preparation, id_sous_categorie,
 								   id_categorie, id_utilisateur, id_categorie_prix, id_categorie_difficulte)
-		    VALUES (:titre, :commentaire, :conseil, :nb_personne, :photo, :date_creation,
+		    VALUES (:titre, :commentaire, :conseil, :nb_personne, :date_creation,
 				    :date_maj, :temps_cuisson, :temps_preparation, :id_sous_categorie,
 				    :id_categorie, :id_utilisateur, :id_categorie_prix, :id_categorie_difficulte)
 SQL;
@@ -233,7 +233,7 @@ SQL;
 			// modification d'une recette
 			$sql =
 <<<SQL
-			UPDATE v_recette SET titre = :titre, commentaire = :commentaire, conseil = :conseil, nb_personne = :nb_personne, photo = :photo,
+			UPDATE v_recette SET titre = :titre, commentaire = :commentaire, conseil = :conseil, nb_personne = :nb_personne,
 								 date_maj = :date_maj, temps_cuisson = :temps_cuisson, temps_preparation = :temps_preparation, id_sous_categorie = :id_sous_categorie,
 								 id_categorie = :id_categorie, id_utilisateur = :id_utilisateur, id_categorie_prix = :id_categorie_prix, id_categorie_difficulte = :id_categorie_difficulte
 			WHERE v_recette.id = :id
@@ -267,6 +267,37 @@ SQL;
 			return $lastid;
 		}
 		
+		// image
+		public function RetrievePhoto($rec)
+		{
+			// execute la requette
+			$sql =
+<<<SQL
+			SELECT photo
+			FROM v_recette
+			WHERE id = :id
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('id', $rec['id'], PDO::PARAM_INT);
+			$resultat->execute();
+			return $this->RetrieveGenEx($resultat);
+		}
+		
+		public function UpdatePhoto($rec, $photo)
+		{
+			// modification d'un utilisateur
+			$sql =
+<<<SQL
+			UPDATE v_recette SET photo = :photo
+			WHERE v_recette.id = :id
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('photo', $photo, PDO::PARAM_STR);
+			$resultat->bindParam('id', $rec['id'], PDO::PARAM_INT);
+			$resultat->execute();
+			return $rec['id'];
+		}
+		
 		
 		// private functions
 		private static function BindRecetteBase(&$resultat, $rec, $maj)
@@ -275,7 +306,6 @@ SQL;
 			$resultat->bindParam('commentaire', $rec['commentaire'], isset($rec['commentaire']) ? PDO::PARAM_STR : PDO::PARAM_NULL);
 			$resultat->bindParam('conseil', $rec['conseil'], isset($rec['conseil']) ? PDO::PARAM_STR : PDO::PARAM_NULL);
 			$resultat->bindParam('nb_personne', $rec['nb_personne'], PDO::PARAM_INT);
-			$resultat->bindParam('photo', $rec['photo'], isset($rec['photo']) ? PDO::PARAM_STR : PDO::PARAM_NULL);
 			if (!$maj)
 				$resultat->bindParam('date_creation', $rec['date_creation'], PDO::PARAM_STR);
 			$resultat->bindParam('date_maj', $rec['date_maj'], PDO::PARAM_STR);

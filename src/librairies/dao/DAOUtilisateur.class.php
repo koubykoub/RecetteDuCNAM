@@ -71,8 +71,8 @@ SQL;
 			// creation d'un utilisateur
 			$sql =
 <<<SQL
-			INSERT INTO v_utilisateur (login, mdp, nom, prenom, email, photo, date_inscription)
-			VALUES (:login, :mdp, :nom, :prenom, :email, :photo, :date_inscription)
+			INSERT INTO v_utilisateur (login, mdp, nom, prenom, email, date_inscription)
+			VALUES (:login, :mdp, :nom, :prenom, :email, :date_inscription)
 SQL;
 			$resultat = $this->Prepare($sql);
 			self::BindUtilisateurBase($resultat, $ut, FALSE);
@@ -86,12 +86,42 @@ SQL;
 			// modification d'un utilisateur
 			$sql =
 <<<SQL
-			UPDATE v_utilisateur SET login = :login, mdp = :mdp, nom = :nom, prenom = :prenom,
-								 	 email = :email, photo = :photo
+			UPDATE v_utilisateur SET login = :login, mdp = :mdp, nom = :nom, prenom = :prenom, email = :email
 			WHERE v_utilisateur.id = :id
 SQL;
 			$resultat = $this->Prepare($sql);
 			self::BindUtilisateurBase($resultat, $ut, TRUE);
+			$resultat->bindParam('id', $ut['id'], PDO::PARAM_INT);
+			$resultat->execute();
+			return $ut['id'];
+		}
+		
+		// image
+		public function RetrievePhoto($ut)
+		{
+			// execute la requette
+			$sql =
+<<<SQL
+			SELECT photo
+			FROM v_utilisateur
+			WHERE id = :id
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('id', $ut['id'], PDO::PARAM_INT);
+			$resultat->execute();
+			return $this->RetrieveGenEx($resultat);
+		}
+		
+		public function UpdatePhoto($ut, $photo)
+		{
+			// modification d'un utilisateur
+			$sql =
+<<<SQL
+			UPDATE v_utilisateur SET photo = :photo
+			WHERE v_utilisateur.id = :id
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('photo', $photo, PDO::PARAM_STR);
 			$resultat->bindParam('id', $ut['id'], PDO::PARAM_INT);
 			$resultat->execute();
 			return $ut['id'];
@@ -106,7 +136,6 @@ SQL;
 			$resultat->bindParam('nom', $ut['nom'], PDO::PARAM_STR);
 			$resultat->bindParam('prenom', $ut['prenom'], PDO::PARAM_STR);
 			$resultat->bindParam('email', $ut['email'], isset($ut['email']) ? PDO::PARAM_STR : PDO::PARAM_NULL);
-			$resultat->bindParam('photo', $ut['photo'], isset($ut['photo']) ? PDO::PARAM_STR : PDO::PARAM_NULL);
 			if (!$maj)
 				$resultat->bindParam('date_inscription', $ut['date_inscription'], PDO::PARAM_STR);
 		}

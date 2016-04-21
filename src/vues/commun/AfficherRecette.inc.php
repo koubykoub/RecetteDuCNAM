@@ -1,6 +1,14 @@
 <!-- titre de la recette -->
 <h2><?php echo $dVueAfficherRecette['recette']['titre']; ?></h2>
 
+<!-- photo -->
+<?php if (isset($dVueAfficherRecette['recette']['photo'])) { ?>
+<div>
+	<h3>Photo</h3>
+  	<img alt="" src="?page=image&image=<?php echo $dVueAfficherRecette['recette']['photo']; ?>" />
+</div>
+<?php } ?>
+
 <!-- commentaire -->
 <div class="recette_comment">
 	<?php if (isset($dVueAfficherRecette['recette']['commentaire'])) {?>

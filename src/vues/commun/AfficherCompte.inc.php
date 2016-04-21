@@ -11,6 +11,14 @@
   <?php } else { ?>
   <li>Email non renseigné</li>
   <?php } ?>
+  
+  <!-- photo -->
+  <?php if (isset($dVueAfficherCompte['photo'])) { ?>
+  <li>
+  		Photo :<br />
+  		<img alt="" src="?page=image&image=<?php echo $dVueAfficherCompte['photo']; ?>" />
+  </li>
+  <?php } ?>
 </ul>
 
 <!-- modifier le compte -->

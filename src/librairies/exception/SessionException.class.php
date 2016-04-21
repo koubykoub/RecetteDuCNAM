@@ -2,7 +2,7 @@
 	// include
 	include_once (dirname(__FILE__) . '/AppException.class.php');
 	
-	// exceptions de creation de compte
+	// exceptions de session
 	class SessionExcepBase extends AppException
 	{
 		// constructeur

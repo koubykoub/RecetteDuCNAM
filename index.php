@@ -15,7 +15,7 @@
 		//session_start();
 		//session_destroy();
 		
-		if (isset($_FILES['photo']))
+		/*if (isset($_FILES['photo']))
 		{
 			FB::log('image set');
 			if (!is_null($_FILES['photo']))
@@ -29,7 +29,7 @@
 			}
 		}
 		else
-			FB::log('image unset');
+			FB::log('image unset');*/
 		
 		
 		// choix de la page
@@ -42,6 +42,11 @@
 		
 		switch ($donneesControleur['page'])
 		{
+			// image
+			case 'image' :
+				include_once (dirname(__FILE__) .'/src/controleurs/Image.inc.php');
+				break;
+				
 			// accueil
 			case 'accueil' :
 				include_once (dirname(__FILE__) .'/src/controleurs/Accueil.inc.php');
@@ -106,5 +111,3 @@
 		include_once (dirname(__FILE__) .'/src/controleurs/Exception.inc.php');
 		die();
 	}
-	
-?>

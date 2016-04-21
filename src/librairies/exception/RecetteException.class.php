@@ -115,3 +115,12 @@
 	
 	}
 	
+	class RecetteImageExcep extends RecetteExcepBase
+	{
+		// constructeur
+		public function __construct($imageInfo, $maj)
+		{
+			parent::__construct("Impossible de télécharger l'image <span>" . $imageInfo['name'] . "</span> :<br />" . parent::GetStrImageError($imageInfo), $maj);
+		}
+	}
+	

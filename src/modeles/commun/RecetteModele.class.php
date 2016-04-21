@@ -5,6 +5,7 @@
 	include_once (dirname(__FILE__) . '/../../librairies/dao/DAOUtilisateur.class.php');
 	include_once (dirname(__FILE__) . '/../../librairies/exception/SessionException.class.php');
 	include_once (dirname(__FILE__) . '/../../librairies/exception/RecetteException.class.php');
+	include_once (dirname(__FILE__) . '/ImageModele.class.php');
 	
 	// model des recettes
 	class RecetteModele extends ModeleBase
@@ -39,14 +40,10 @@
 		// creation recette
 		public static function Recette($id)
 		{
-			parent::StartSession();
 			$daoRecette = new DAORecette(parent::GetConnexion());
-			$donnees = $daoRecette->RetrieveById($id);
-			$daoRecette->RetrieveContenu($donnees);
-			$daoRecette->RetrieveAllCategories($donnees);
-			$daoRecette->RetrieveUtilisateur($donnees);
-			$_SESSION['id_recette'] = $id;
-			return $donnees;
+			$rec = $daoRecette->RetrieveById($id);
+			self::RecetteContenu($rec);
+			return $rec;
 		}
 		
 		public static function CreationRecette($rec)
@@ -58,7 +55,12 @@
 			$recette = self::CreationRecetteBase($rec, FALSE);
 			$daoRecette = new DAORecette(parent::GetConnexion());
 			$id = $daoRecette->Create($recette);
-			return self::Recette($id);
+			$tmpRec = $daoRecette->RetrieveById($id);
+			
+			// creation de l'image
+			$tmpRec = ImageModele::ImageRecette($rec['photo'], $tmpRec);
+			self::RecetteContenu($tmpRec);
+			return $tmpRec;
 		}
 		
 		public static function ModificationRecette($rec, $id)
@@ -71,7 +73,13 @@
 			$recette['id'] = $id;
 			$daoRecette = new DAORecette(parent::GetConnexion());
 			$newId = $daoRecette->Update($recette);
-			return self::Recette($newId);
+			$tmpRec = $daoRecette->RetrieveById($newId);
+			
+			// creation de l'image
+			if ($rec['effacer_image'] || ($rec['photo']['error'] != UPLOAD_ERR_NO_FILE))
+				$tmpRec = ImageModele::ImageRecette($rec['photo'], $tmpRec);
+			self::RecetteContenu($tmpRec);
+			return $tmpRec;
 		}
 		
 		public static function RecetteSession()
@@ -219,6 +227,16 @@
 		
 		
 		// fonctions privees
+		private static function RecetteContenu(&$rec)
+		{
+			parent::StartSession();
+			$daoRecette = new DAORecette(parent::GetConnexion());
+			$daoRecette->RetrieveContenu($rec);
+			$daoRecette->RetrieveAllCategories($rec);
+			$daoRecette->RetrieveUtilisateur($rec);
+			$_SESSION['id_recette'] = $rec['id'];
+		}
+		
 		private static function CreationRecetteBase($rec, $maj)
 		{
 			parent::StartSession();
@@ -294,6 +312,8 @@
 			if (!is_numeric($rec['categorie_prix_recette'])) throw new RecetteIsNotNumberExcep('Prix', $maj);
 			if (!is_string($rec['conseil_recette'])) throw new RecetteIsNotStrExcep('Conseils', $maj);
 			$rec['conseil_recette'] = trim($rec['conseil_recette']);
+			// photo
+			if (($rec['photo']['error'] != UPLOAD_ERR_OK) && ($rec['photo']['error'] != UPLOAD_ERR_NO_FILE)) throw new RecetteImageExcep($rec['photo'], $maj);
 			// ingredients
 			foreach ($rec['ingredients_recette'] as $i => &$ingr)
 			{
