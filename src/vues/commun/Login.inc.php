@@ -4,6 +4,19 @@
 <h3>Bienvenue<br /><span><?php echo $dVueLogin['utilisateur']['prenom'].' '.$dVueLogin['utilisateur']['nom']; ?></span></h3>
 
 <!-- liens utilisateurs -->
+<!-- deconnexion -->
+<form method="post" action="" name="deconnexion">
+	<?php if ($dVueLogin['lister_recette_utilisateur']) { ?>
+	<input type="hidden" name="page" id="page" value="lister_recette" />
+	<?php } elseif ($dVueLogin['afficher_compte']) { ?>
+	<input type="hidden" name="page" id="page" value="accueil" />
+	<?php } else { ?>
+	<input type="hidden" name="page" id="page" value="<?php echo $dVueLogin['page']; ?>" />
+	<?php } ?>
+	<input type="hidden" name="deconnexion" id="deconnexion" value="true" />
+	<a href="javascript:document.deconnexion.submit()">Déconnexion</a>
+</form>
+
 <!-- compte -->
 <form method="post" action="" name="afficher_compte">
 	<input type="hidden" name="page" id="page" value="afficher_compte" />
@@ -20,19 +33,6 @@
 <form method="post" action="" name="lister_recette_utilisateur">
 	<input type="hidden" name="page" id="page" value="lister_recette_utilisateur" />
 	<a href="javascript:document.lister_recette_utilisateur.submit()">Lister mes recettes</a>
-</form>
-
-<!-- deconnexion -->
-<form method="post" action="" name="deconnexion">
-	<?php if ($dVueLogin['lister_recette_utilisateur']) { ?>
-	<input type="hidden" name="page" id="page" value="lister_recette" />
-	<?php } elseif ($dVueLogin['afficher_compte']) { ?>
-	<input type="hidden" name="page" id="page" value="accueil" />
-	<?php } else { ?>
-	<input type="hidden" name="page" id="page" value="<?php echo $dVueLogin['page']; ?>" />
-	<?php } ?>
-	<input type="hidden" name="deconnexion" id="deconnexion" value="true" />
-	<a href="javascript:document.deconnexion.submit()">Déconnexion</a>
 </form>
 
 <?php } else { ?>

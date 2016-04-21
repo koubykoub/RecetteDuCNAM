@@ -84,6 +84,19 @@ SQL;
 		}
 		
 		// delete
+		public function DeleteByRecette($idRec)
+		{
+			// execute la requette
+			$sql =
+<<<SQL
+			DELETE FROM v_commentaire
+			WHERE v_commentaire.id_recette = :idRec
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('idRec', $idRec, PDO::PARAM_INT);
+			$resultat->execute();
+		}
+		
 		public function DeleteByUtilisateurAndRecette($idUt, $idRec)
 		{
 			// execute la requette
@@ -96,7 +109,7 @@ SQL;
 			$resultat = $this->Prepare($sql);
 			$resultat->bindParam('idUt', $idUt, PDO::PARAM_INT);
 			$resultat->bindParam('idRec', $idRec, PDO::PARAM_INT);
-			$resultat->execute();
+			return $resultat->execute();
 		}
 		
 		// statistiques

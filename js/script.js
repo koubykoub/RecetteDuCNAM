@@ -7,24 +7,12 @@ function MenuCritere_Init()
 	// affiche / cache les sous categories
 	// lien categorie
 	$('.menu_critere form > ul > li > a').hover(
-	function()
-	{
-		$(this).parent().find('ul').show();
-	},
-	function()
-	{
-		$(this).parent().find('ul').hide();
-	});
+	function() {$(this).parent().find('ul').show();},
+	function() {$(this).parent().find('ul').hide();});
 	// panneau sous categorie
 	$('.menu_critere form > ul ul').hover(	
-	function()
-	{
-		$(this).show();
-	},
-	function()
-	{
-		$(this).hide();
-	});
+	function() {$(this).show();},
+	function() {$(this).hide();});
 }
 
 function MenuCritere_Toutes()
@@ -182,6 +170,17 @@ function CreerRecette_ChangerCategorie()
 			select.append(option);
 		}
 	});
+}
+
+
+/**************************************************************/
+/* AFFICHER RECETTE											  */
+/**************************************************************/
+function AfficherRecette_ConfirmDelete()
+{
+	var confirm = window.confirm("Etes vous sûr de vouloir détruire cette recette ?");
+	if (confirm)
+		document.supprimer_recette.submit();
 }
 
 

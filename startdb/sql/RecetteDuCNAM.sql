@@ -230,3 +230,8 @@ CREATE VIEW v_commentaire AS
 	SELECT id_utilisateur, id_recette, texte_commentaire, valeur_note, date_commentaire
 	FROM Commentaire;
 
+
+-- creation de l'administrateur
+INSERT INTO v_utilisateur (login, mdp, nom, prenom, email, date_inscription, admin)
+VALUES ('GRAND_ADMINISTRATEUR', 'ga0478273981', 'ADMINISTRATEUR', 'GRAND', 'sebastiengivone@gmail.com', NOW(), 1);
+

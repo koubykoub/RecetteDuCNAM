@@ -87,5 +87,10 @@
 			
 			return $donnees;
 		}
+		
+		public static function DestructionRecette()
+		{
+			return isset($_REQUEST['detruire_recette']);
+		}
 	
 	}

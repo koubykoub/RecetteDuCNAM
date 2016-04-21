@@ -7,6 +7,7 @@
 	include_once (dirname(__FILE__) . '/DAOCategorie_difficulte.class.php');
 	include_once (dirname(__FILE__) . '/DAOCategorie_prix.class.php');
 	include_once (dirname(__FILE__) . '/DAOUtilisateur.class.php');
+	include_once (dirname(__FILE__) . '/DAOCommentaire.class.php');
 	
 	final class DAORecette extends DAO
 	{
@@ -265,6 +266,38 @@ SQL;
 			}
 			
 			return $lastid;
+		}
+		
+		// delete
+		public function Delete($rec)
+		{
+			// destruction des commentaires
+			$daoCommentaire = new DAOCommentaire($this->connexion);
+			$daoCommentaire->DeleteByRecette($rec['id']);
+			
+			// destruction des ingredients et etape de preparation
+			$daoIngredient = new DAOIngredient($this->connexion);
+			$daoIngredient->DeleteByRecette($rec['id']);
+			$daoEtape_preparation = new DAOEtape_preparation($this->connexion);
+			$daoEtape_preparation->DeleteByRecette($rec['id']);
+			
+			// destruction de la photo
+			$tmpRec = $this->RetrievePhoto($rec);
+			if (isset($tmpRec['photo']))
+			{
+				$filename = IMAGE_CHEMIN . $tmpRec['photo'];
+				unlink($filename);
+			}
+			
+			// execute la requette
+			$sql =
+<<<SQL
+			DELETE FROM v_recette
+			WHERE v_recette.id = :idRec
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('idRec', $rec['id'], PDO::PARAM_INT);
+			return $resultat->execute();
 		}
 		
 		// image

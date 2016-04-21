@@ -62,7 +62,7 @@ SQL;
 SQL;
 			$resultat = $this->Prepare($sql);
 			$resultat->bindParam('idRec', $idRec, PDO::PARAM_INT);
-			$resultat->execute();
+			return $resultat->execute();
 		}
 		
 	}

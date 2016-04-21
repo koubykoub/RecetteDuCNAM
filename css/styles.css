@@ -29,7 +29,7 @@ a
 {
 	display: inline-block;
 	text-decoration: none;
-	background-color: white;
+	background-color: yellow;
 	color: black;
 	//border: black solid 1px;
 	padding: 3px;
@@ -37,7 +37,7 @@ a
 
 a:hover
 {
-	background-color: yellow;
+	background-color: orange;
 }
 
 /* les differentes sections */
@@ -118,16 +118,21 @@ footer
 	width: 57px;
 }
 
+.menu_critere ul ul a
+{
+	width: 100px;
+}
+
 /* taille de la police */
 .menu_critere form > ul
 {
 	font-size: 0.66em;
 }
 
-.menu_critere form > ul ul
+/*.menu_critere form > ul ul
 {
 	font-size: 0.9em;
-}
+}*/
 
 .menu_critere form > ul li ul a
 {
@@ -149,6 +154,7 @@ footer
 
 .menu_critere form > ul > li ul
 {
+	position: absolute;
 	display: none;
 }
 

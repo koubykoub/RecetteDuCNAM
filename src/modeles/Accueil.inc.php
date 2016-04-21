@@ -17,6 +17,13 @@
 	else $donneesModele['identification'] = LoginModele::Identification($donneesControleur['identification']);
 	// categories / sous categories
 	$donneesModele['categories'] = CritereModele::Categories();
+	// destruction recette
+	$donneesModele['detruire_recette'] = FALSE;
+	if ($donneesControleur['detruire_recette'])
+	{
+		$donneesModele['detruire_recette_succes'] = RecetteModele::DestructionRecette();
+		$donneesModele['detruire_recette'] = TRUE;
+	}
 	// random recette
 	$donneesModele['critere'] = CritereModele::CritereRechercheToutes();
 	$donneesModele['recette_random'] = RecetteModele::RandomRecette($donneesModele['critere']);

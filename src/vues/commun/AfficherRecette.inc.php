@@ -74,10 +74,16 @@
 	<?php } ?>
 </div>
 
-<!-- modifier recette -->
+<!-- modifier / supprimer recette -->
 <?php if ($dVueAfficherRecette['identifie'] && ($dVueAfficherRecette['utilisateur']['id'] == $dVueAfficherRecette['recette']['utilisateur']['id'])) { ?>
 <form method="post" action="" name="modifier_recette">
 	<input type="hidden" name="page" id="page" value="modifier_recette" />
 	<a href="javascript:document.modifier_recette.submit()">Modifier votre recette</a>
+</form>
+
+<form method="post" action="" name="supprimer_recette">
+	<input type="hidden" name="page" id="page" value="accueil" />
+	<input type="hidden" name="detruire_recette" id="detruire_recette" value="true" />
+	<a href="javascript:AfficherRecette_ConfirmDelete()">Détruire votre recette</a>
 </form>
 <?php } ?>

@@ -13,6 +13,9 @@
 	$dVueLogin['page'] = $donneesControleur['page'];
 	// random recette
 	$dVueRandomRecette['recette_random'] = $donneesModele['recette_random'];
+	// message
+	$dVueMessage['destruction_recette'] = $donneesModele['detruire_recette'];
+	if ($donneesModele['detruire_recette']) $dVueMessage['destruction_recette_succes'] = $donneesModele['detruire_recette_succes'];
 	
 	// html
 	HtmlStruct::DebutHtml('Accueil', array('css/styles.css'), array('js/script.js'));
@@ -47,6 +50,14 @@
 		
 			// section
 			HtmlStruct::DebutSection('section_principale');
+				// message de destruction de recette
+				if ($dVueMessage['destruction_recette'])
+				{
+					HtmlStruct::DebutArticle('section_message');
+					include (dirname(__FILE__) . '/commun/MessageDestructionRecette.inc.php');
+					HtmlStruct::FinArticle();
+				}
+			
 				// recette au hasard
 				HtmlStruct::DebutArticle('random_recette');
 					include (dirname(__FILE__) . '/commun/RandomRecette.inc.php');
