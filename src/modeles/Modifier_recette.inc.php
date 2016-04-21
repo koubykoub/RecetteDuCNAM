@@ -21,7 +21,12 @@
 	$donneesModele['categories_difficulte'] = CritereModele::CategoriesDif();
 	$donneesModele['categories_prix'] = CritereModele::CategoriesPrix();
 	// recette
+	$donneesModele['recette'] = RecetteModele::RecetteSession();
 	$donneesModele['recette_en_creation'] = RecetteModele::SessionRecetteCreation();
-	if ($donneesModele['recette_en_creation']['existe']) $donneesModele['recette'] = $donneesModele['recette_en_creation']['recette'];
-	else $donneesModele['recette'] = RecetteModele::RecetteSession();
+	if ($donneesModele['recette_en_creation']['existe'])
+	{
+		if (isset($donneesModele['recette']['photo']))
+			$donneesModele['recette_en_creation']['recette']['photo'] = $donneesModele['recette']['photo'];
+		$donneesModele['recette'] = $donneesModele['recette_en_creation']['recette'];
+	}
 	RecetteModele::PrevModifierRecette();

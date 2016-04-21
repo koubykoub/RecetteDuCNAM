@@ -54,5 +54,3 @@
 	
 	// fin html
 	HtmlStruct::FinHtml();
-	
-?>

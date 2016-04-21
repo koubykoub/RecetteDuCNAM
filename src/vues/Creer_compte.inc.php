@@ -16,5 +16,3 @@
 	
 	// include
 	include (dirname(__FILE__) . '/Creer_compte_base.inc.php');
-	
-?>

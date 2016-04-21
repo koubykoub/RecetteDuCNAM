@@ -26,5 +26,3 @@
 	
 	// include
 	include (dirname(__FILE__) . '/Lister_recette_base.inc.php');
-
-?>

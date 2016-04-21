@@ -42,12 +42,7 @@
 
 		
 		switch ($donneesControleur['page'])
-		{
-			// image
-			case 'image' :
-				include_once (dirname(__FILE__) .'/src/controleurs/Image.inc.php');
-				break;
-				
+		{	
 			// accueil
 			case 'accueil' :
 				include_once (dirname(__FILE__) .'/src/controleurs/Accueil.inc.php');
@@ -91,6 +86,16 @@
 			// lister une recette d'utilisateur
 			case 'lister_recette_utilisateur' :
 				include_once (dirname(__FILE__) .'/src/controleurs/Lister_recette_utilisateur.inc.php');
+				break;
+				
+			// image
+			case 'image' :
+				include_once (dirname(__FILE__) .'/src/controleurs/Image.inc.php');
+				break;
+				
+			// zone d'aministration
+			case 'zone_administration' :
+				include_once (dirname(__FILE__) .'/src/controleurs/Zone_administration.inc.php');
 				break;
 				
 			// le nom de la page n'existe pas

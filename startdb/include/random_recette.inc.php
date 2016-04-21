@@ -14,10 +14,6 @@
 	// creation des categories
 	// categories / sous categories
 	$categories = array();
-	// autre
-	$categorie['intitule'] = 'Autres...';
-	$categorie['sous_categorie'] = array();
-	$categories[] = $categorie;
 	// aperitif
 	$categorie['intitule'] = 'Apéritifs';
 	$categorie['sous_categorie'] = array();
@@ -99,7 +95,6 @@
 	
 	// categorie difficulte
 	$categoriesDif = array();
-	$categoriesDif[] = 'Sans catégorie de difficulté';
 	$categoriesDif[] = 'Facile';
 	$categoriesDif[] = 'Moyenne';
 	$categoriesDif[] = 'Difficile';
@@ -113,7 +108,6 @@
 
 	// categorie prix
 	$categoriesPrix= array();
-	$categoriesPrix[] = 'Sans catégorie de prix';
 	$categoriesPrix[] = 'Bon marché (inférieur à 10 €)';
 	$categoriesPrix[] = 'Abordable (entre 10 et 50 €)';
 	$categoriesPrix[] = 'Cher (supérieur à 50 €)';

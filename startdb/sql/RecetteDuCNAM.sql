@@ -231,7 +231,21 @@ CREATE VIEW v_commentaire AS
 	FROM Commentaire;
 
 
--- creation de l'administrateur
+-- creation des donnees de base
+-- administrateur
 INSERT INTO v_utilisateur (login, mdp, nom, prenom, email, date_inscription, admin)
 VALUES ('GRAND_ADMINISTRATEUR', 'ga0478273981', 'ADMINISTRATEUR', 'GRAND', 'sebastiengivone@gmail.com', NOW(), 1);
+-- categorie de base
+INSERT INTO v_categorie (intitule)
+VALUES ('Autres...');
+-- sous categorie de base
+INSERT INTO v_sous_categorie (id, id_categorie, intitule)
+SELECT 0, MAX(c.id), 'Autres...'
+FROM v_categorie c;
+-- categorie de difficulte de base
+INSERT INTO v_categorie_difficulte (intitule)
+VALUES ('Sans catégorie de difficulté');
+-- categorie de prix de base
+INSERT INTO v_categorie_prix (intitule)
+VALUES ('Sans catégorie de prix');
 

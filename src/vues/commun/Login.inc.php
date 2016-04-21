@@ -35,6 +35,14 @@
 	<a href="javascript:document.lister_recette_utilisateur.submit()">Lister mes recettes</a>
 </form>
 
+<!-- zone administrateur -->
+<?php if ($dVueLogin['utilisateur']['admin'] != 0) { ?>
+<form method="post" action="" name="zone_administration">
+	<input type="hidden" name="page" id="page" value="zone_administration" />
+	<a href="javascript:document.zone_administration.submit()">Zone d'administration</a>
+</form>
+<?php } ?>
+
 <?php } else { ?>
 
 <!-- menu de login -->

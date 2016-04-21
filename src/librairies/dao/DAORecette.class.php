@@ -286,7 +286,8 @@ SQL;
 			if (isset($tmpRec['photo']))
 			{
 				$filename = IMAGE_CHEMIN . $tmpRec['photo'];
-				unlink($filename);
+				if (file_exists($filename))
+					unlink($filename);
 			}
 			
 			// execute la requette

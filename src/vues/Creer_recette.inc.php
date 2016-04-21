@@ -44,5 +44,3 @@
 	
 	// include
 	include (dirname(__FILE__) . '/Creer_recette_base.inc.php');
-	
-?>

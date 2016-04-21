@@ -31,8 +31,9 @@
 		<legend>Photo</legend>
 		<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo IMAGE_RECETTE_SIZE_MAX; ?>" />
 		<label for="photo">Image &nbsp;</label><input type="file" name="photo" id="photo" accept="image/*" />
-		<?php if ($dVueCreerRecette['mise_a_jour']) { ?>
-		<br /><label for="effacer_image">Effacer l'image actuelle &nbsp;</label><input type="checkbox" name="effacer_image" id="effacer_image" value="true" />
+		<?php if ($dVueCreerRecette['mise_a_jour'] && isset($dVueCreerRecette['recette']['photo'])) { ?>
+		<br /><img alt="" src="?page=image&image=<?php echo $dVueCreerRecette['recette']['photo']; ?>" />
+		<label for="effacer_image">Effacer l'image actuelle &nbsp;</label><input type="checkbox" name="effacer_image" id="effacer_image" value="true" />
 		<?php } ?>
 	</fieldset>
 	

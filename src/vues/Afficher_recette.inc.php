@@ -108,5 +108,3 @@
 	
 	// fin html
 	HtmlStruct::FinHtml();
-	
-?>
