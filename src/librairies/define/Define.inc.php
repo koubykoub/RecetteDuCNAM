@@ -1,9 +1,4 @@
 <?php
-	// data base
-	DEFINE ('SERVEUR', 'mysql:host=localhost;dbname=Recette_du_CNAM');
-	DEFINE ('USER', 'RecetteDuCNAM_wb'); // utilisateur
-	DEFINE ('PWD', 'koub'); // password
-	
 	// nombre de recettes par page
 	DEFINE ('RECETTES_PAR_PAGE', 10);
 	

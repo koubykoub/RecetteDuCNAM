@@ -1,5 +1,6 @@
 <?php
 	// include
+	include_once (dirname(__FILE__) . '/db/db_define.inc.php');
 	include_once (dirname(__FILE__) . '/src/librairies/define/Define.inc.php');
 	include_once (dirname(__FILE__) . '/src/librairies/exception/RequeteException.class.php');
 	include_once (dirname(__FILE__) . '/src/librairies/fb/fb.php');
