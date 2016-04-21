@@ -314,6 +314,16 @@
 			$rec['conseil_recette'] = trim($rec['conseil_recette']);
 			// photo
 			if (($rec['photo']['error'] != UPLOAD_ERR_OK) && ($rec['photo']['error'] != UPLOAD_ERR_NO_FILE)) throw new RecetteImageExcep($rec['photo'], $maj);
+			if ($rec['photo']['error'] == UPLOAD_ERR_OK)
+			{
+				// information su le fichier
+				$finfo = new finfo(FILEINFO_MIME_TYPE);
+				$ftype = $finfo->file($rec['photo']['tmp_name']);
+				$eltInfo = explode('/', $ftype);
+				// si le fichier n'est pas une image ou du bon type
+				if (!isset($eltInfo[0]) || (strcmp($eltInfo[0], 'image') != 0)) throw new RecetteImageFichierExcep($rec['photo'], isset($eltInfo[0]) ? $eltInfo[0] : 'inconnu', $maj);
+				if (!isset($eltInfo[1]) || !in_array($eltInfo[1], explode('/', IMAGE_TYPE_AUTORISE))) throw new RecetteImageTypeExcep($rec['photo'], isset($eltInfo[1]) ? $eltInfo[1] : 'inconnu', $maj);
+			}
 			// ingredients
 			foreach ($rec['ingredients_recette'] as $i => &$ingr)
 			{
