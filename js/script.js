@@ -4,25 +4,23 @@
 /**************************************************************/
 function MenuCritere_Init()
 {
+	// affiche / cache les sous categories
+	// lien categorie
 	$('.menu_critere form > ul > li > a').hover(
-			
 	function()
 	{
 		$(this).parent().find('ul').show();
 	},
-	
 	function()
 	{
 		$(this).parent().find('ul').hide();
 	});
-	
-	$('.menu_critere form > ul ul').hover(
-			
+	// panneau sous categorie
+	$('.menu_critere form > ul ul').hover(	
 	function()
 	{
 		$(this).show();
 	},
-	
 	function()
 	{
 		$(this).hide();
