@@ -14,7 +14,7 @@ body
 }
 
 /* titre */
-h1
+h1, h2
 {
 	text-align: center;
 }
@@ -129,11 +129,6 @@ footer
 	font-size: 0.66em;
 }
 
-/*.menu_critere form > ul ul
-{
-	font-size: 0.9em;
-}*/
-
 .menu_critere form > ul li ul a
 {
 	display: inline-block;
@@ -146,16 +141,19 @@ footer
 	position: relative;
 }
 
-/* on affiche pas les sous categories directement */
-/*.menu_critere form > ul > li li > a
-{
-	display: none;
-}*/
-
 .menu_critere form > ul > li ul
 {
 	position: absolute;
 	display: none;
+}
+
+
+/**************************************************************/
+/* LOGIN													  */
+/**************************************************************/
+.section_login h3
+{
+	text-align: center;
 }
 
 

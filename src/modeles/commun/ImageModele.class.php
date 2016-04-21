@@ -62,18 +62,26 @@
 		
 		private static function CreateImage($source, $dest)
 		{
-			if (!move_uploaded_file($source, IMAGE_CHEMIN . $dest))
+			$filename = self::GetImagePath($dest);
+			if (!move_uploaded_file($source, $filename))
 				throw new ImageCreationExcep();
 		}
 		
 		private static function DestroyImage($image)
 		{
-			unlink(IMAGE_CHEMIN . $image);
+			$filename = self::GetImagePath($image);
+			if (file_exists($filename))
+				unlink($filename);
 		}
 		
 		private static function GetUniqFileName($prefix)
 		{
 			return uniqid($prefix . '_', TRUE);
+		}
+		
+		private static function GetImagePath($filename)
+		{
+			return IMAGE_CHEMIN . $filename;
 		}
 		
 	}

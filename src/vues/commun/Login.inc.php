@@ -1,7 +1,7 @@
 <?php if ($dVueLogin['identifie']) { ?>
 
 <!-- titre -->
-<h3>Bienvenue<br /><span><?php echo $dVueLogin['utilisateur']['prenom'].' '.$dVueLogin['utilisateur']['nom']; ?></span></h3>
+<h3>Bienvenue<br /><?php if ($dVueLogin['utilisateur']['admin'] == 1) echo 'Ô '; ?><span><?php echo $dVueLogin['utilisateur']['prenom'].' '.$dVueLogin['utilisateur']['nom']; ?></span></h3>
 
 <!-- liens utilisateurs -->
 <!-- deconnexion -->
