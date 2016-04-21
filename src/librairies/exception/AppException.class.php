@@ -26,7 +26,7 @@
 			switch ($image['error'])
 			{
 				case UPLOAD_ERR_INI_SIZE :
-					return 'La taille du fichier téléchargé ne doit pas excèder la valeur de 2097152 octets, limite configurée dans le site.';
+					return 'La taille du fichier téléchargé ne doit pas excèder la valeur de ' . ini_get('upload_max_filesize') . ' octets, limite configurée dans le site.';
 				case UPLOAD_ERR_FORM_SIZE :
 					return 'La taille du fichier téléchargé ne doit pas excèder la valeur de ' . IMAGE_UTILISATEUR_SIZE_MAX . ' octets.';
 				case UPLOAD_ERR_PARTIAL :

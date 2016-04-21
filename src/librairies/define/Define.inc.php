@@ -39,6 +39,7 @@
 	
 	// image
 	DEFINE ('IMAGE_CHEMIN', 'upload/image/');
+	DEFINE ('IMAGE_TYPE_AUTORISE', 'gif/jpeg/png');
 	DEFINE ('IMAGE_UTILISATEUR_SIZE_MAX', 51200);
 	DEFINE ('IMAGE_RECETTE_SIZE_MAX', 102400);
 	

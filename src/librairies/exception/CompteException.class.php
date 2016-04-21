@@ -112,3 +112,23 @@
 		}
 	}
 	
+	class CompteImageFichierExcep extends CompteExcepBase
+	{
+		// constructeur
+		public function __construct($imageInfo, $ftype, $maj)
+		{
+			parent::__construct("Le fichier <span>" . $imageInfo['name'] . "</span> " . 'n\'est pas une image :<br />' . $ftype . '.', $maj);
+		}
+	}
+	
+	class CompteImageTypeExcep extends CompteExcepBase
+	{
+		// constructeur
+		public function __construct($imageInfo, $ftype, $maj)
+		{
+			$typeAut = '';
+			foreach (explode('/', IMAGE_TYPE_AUTORISE) as $i => $str) $typeAut .= (($i != 0) ? ', ' : '') . $str;
+			parent::__construct("Le fichier d'image <span>" . $imageInfo['name'] . "</span> " . 'n\'est pas du bon type :<br />' . $ftype . '<br />Types autorisés : ' . $typeAut . '.', $maj);
+		}
+	}
+	

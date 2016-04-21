@@ -176,6 +176,16 @@
 			
 			// validite de la photo
 			if (($compte['photo']['error'] != UPLOAD_ERR_OK) && ($compte['photo']['error'] != UPLOAD_ERR_NO_FILE)) throw new CompteImageExcep($compte['photo'], $maj);
+			if ($compte['photo']['error'] == UPLOAD_ERR_OK)
+			{
+				// information su le fichier
+				$finfo = new finfo(FILEINFO_MIME_TYPE);
+				$ftype = $finfo->file($compte['photo']['tmp_name']);
+				$eltInfo = explode('/', $ftype);
+				// si le fichier n'est pas une image ou du bon type
+				if (!isset($eltInfo[0]) || (strcmp($eltInfo[0], 'image') != 0)) throw new CompteImageFichierExcep($compte['photo'], isset($eltInfo[0]) ? $eltInfo[0] : 'inconnu', $maj);
+				if (!isset($eltInfo[1]) || !in_array($eltInfo[1], explode('/', IMAGE_TYPE_AUTORISE))) throw new CompteImageTypeExcep($compte['photo'], isset($eltInfo[1]) ? $eltInfo[1] : 'inconnu', $maj);
+			}
 				
 			// creation de l'email
 			if (!empty($compte['email_left']) && !empty($compte['email_right']))

@@ -73,7 +73,7 @@
 		
 		private static function GetUniqFileName($prefix)
 		{
-			return uniqid($prefix . '_', TRUE) . '.png';
+			return uniqid($prefix . '_', TRUE);
 		}
 		
 	}
