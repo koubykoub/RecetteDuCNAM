@@ -26,3 +26,9 @@
 	<input type="hidden" name="page" id="page" value="modifier_compte" />
 	<a href="javascript:document.modifier_compte.submit()">Modifier le compte</a>
 </form>
+
+<form method="post" action="" name="supprimer_compte">
+	<input type="hidden" name="page" id="page" value="accueil" />
+	<input type="hidden" name="detruire_compte" id="detruire_compte" value="true" />
+	<a href="javascript:AfficherCompte_ConfirmDelete()">Détruire votre compte</a>
+</form>

@@ -97,6 +97,19 @@ SQL;
 			$resultat->execute();
 		}
 		
+		public function DeleteByUtilisateur($idUt)
+		{
+			// execute la requette
+			$sql =
+<<<SQL
+			DELETE FROM v_commentaire
+			WHERE v_commentaire.id_utilisateur = :idUt
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('idUt', $idUt, PDO::PARAM_INT);
+			$resultat->execute();
+		}
+		
 		public function DeleteByUtilisateurAndRecette($idUt, $idRec)
 		{
 			// execute la requette

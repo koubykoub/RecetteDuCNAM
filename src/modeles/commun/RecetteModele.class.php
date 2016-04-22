@@ -232,7 +232,9 @@
 			if (!isset($_SESSION['id_recette']) || is_null($_SESSION['id_recette'])) throw new SessionExpireeExcep();
 			$rec['id'] = $_SESSION['id_recette'];
 			$daoRec = new DAORecette(parent::GetConnexion());
-			return $daoRec->Delete($rec);
+			$ret = $daoRec->Delete($rec);
+			unset($_SESSION['id_recette']);
+			return $ret;
 		}
 		
 		

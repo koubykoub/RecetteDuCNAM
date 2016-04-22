@@ -10,6 +10,8 @@
 	$donneesControleur['deconnexion'] = LoginControleur::Deconnexion();
 	// destruction recette
 	$donneesControleur['detruire_recette'] = RecetteControleur::DestructionRecette();
+	// destruction compte
+	$donneesControleur['detruire_compte'] = LoginControleur::DestructionCompte();
 	
 	
 	// modele

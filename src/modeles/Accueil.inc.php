@@ -12,6 +12,13 @@
 	
 	
 	// donnees du modele
+	// destruction compte
+	$donneesModele['detruire_compte'] = FALSE;
+	if ($donneesControleur['detruire_compte'])
+	{
+		$donneesModele['detruire_compte_succes'] = LoginModele::DestructionCompte();
+		$donneesModele['detruire_compte'] = TRUE;
+	}
 	// login
 	if ($donneesControleur['deconnexion']) $donneesModele['identification'] = LoginModele::Deconnexion();
 	else $donneesModele['identification'] = LoginModele::Identification($donneesControleur['identification']);

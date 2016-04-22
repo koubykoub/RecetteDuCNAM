@@ -185,6 +185,17 @@ function AfficherRecette_ConfirmDelete()
 
 
 /**************************************************************/
+/* AFFICHER COMPTE											  */
+/**************************************************************/
+function AfficherCompte_ConfirmDelete()
+{
+	var confirm = window.confirm("Etes vous sûr de vouloir détruire votre compte ?");
+	if (confirm)
+		document.supprimer_compte.submit();
+}
+
+
+/**************************************************************/
 /* DOCUMENT PRET											  */
 /**************************************************************/
 $(document).ready(function()

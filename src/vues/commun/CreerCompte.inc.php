@@ -28,10 +28,10 @@
 			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo IMAGE_UTILISATEUR_SIZE_MAX; ?>" />
 			<label for="photo">Image &nbsp;</label><input type="file" name="photo" id="photo" accept="image/*" />
 		</li>
-		<?php if ($dVueCreerCompte['mise_a_jour'] && isset($dVueCreerCompte['utilisateur']['photo'])) { ?>
+		<?php if ($dVueCreerCompte['mise_a_jour'] && isset($dVueCreerCompte['utilisateur']['photo']) && is_string($dVueCreerCompte['utilisateur']['photo'])) { ?>
 		<li>
+			<label for="effacer_image">Effacer l'image actuelle &nbsp;</label><input type="checkbox" name="effacer_image" id="effacer_image" value="true" /><br />
 			<img alt="" src="?page=image&image=<?php echo $dVueCreerCompte['utilisateur']['photo']; ?>" />
-			<label for="effacer_image">Effacer l'image actuelle &nbsp;</label><input type="checkbox" name="effacer_image" id="effacer_image" value="true" />
 		</li>
 		<?php } ?>
 		

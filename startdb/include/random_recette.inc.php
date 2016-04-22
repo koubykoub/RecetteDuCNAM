@@ -160,7 +160,7 @@
 	function GetRandomText($size, &$loremipsum)
 	{
 		$sizeLorem = strlen($loremipsum);
-		$size = ($size > $sizeLorem) ? $loremipsum : $size;
+		$size = ($size > $sizeLorem) ? $sizeLorem : $size;
 		$offset = rand(0, $sizeLorem - $size);
 		return substr($loremipsum, $offset, $size);
 	}

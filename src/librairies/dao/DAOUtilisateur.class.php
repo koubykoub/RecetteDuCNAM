@@ -1,5 +1,7 @@
 <?php
 	include_once (dirname(__FILE__) . '/DAO.class.php');
+	include_once (dirname(__FILE__) . '/DAORecette.class.php');
+	include_once (dirname(__FILE__) . '/DAOCommentaire.class.php');
 
 	final class DAOUtilisateur extends DAO
 	{
@@ -94,6 +96,39 @@ SQL;
 			$resultat->bindParam('id', $ut['id'], PDO::PARAM_INT);
 			$resultat->execute();
 			return $ut['id'];
+		}
+		
+		// delete
+		public function Delete($ut)
+		{
+			// destruction des recettes
+			$daoRec = new DAORecette($this->connexion);
+			$listRec = $daoRec->RetrieveIdByUtilisateur($ut['id']);
+			foreach ($listRec as $rec)
+				$daoRec->Delete($rec);
+			
+			// destruction des commentaires
+			$daoCommentaire = new DAOCommentaire($this->connexion);
+			$daoCommentaire->DeleteByUtilisateur($ut['id']);
+			
+			// destruction de la photo
+			$tmpUt = $this->RetrievePhoto($ut);
+			if (isset($tmpUt['photo']))
+			{
+				$filename = IMAGE_CHEMIN . $tmpUt['photo'];
+				if (file_exists($filename))
+					unlink($filename);
+			}
+			
+			// execute la requette
+			$sql =
+<<<SQL
+			DELETE FROM v_utilisateur
+			WHERE v_utilisateur.id = :idUt
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('idUt', $ut['id'], PDO::PARAM_INT);
+			return $resultat->execute();
 		}
 		
 		// image

@@ -133,6 +133,20 @@ SQL;
 				return array();
 		}
 		
+		public function RetrieveIdByUtilisateur($idUt)
+		{
+			$sql =
+<<<SQL
+			SELECT id
+			FROM v_recette
+			WHERE id_utilisateur = :idUt
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('idUt', $idUt, PDO::PARAM_INT);
+			$resultat->execute();
+			return $this->RetrieveAllGenEx($resultat);
+		}
+		
 		public function RetrieveIngredients(&$recette)
 		{
 			$daoIngredient = new DAOIngredient($this->connexion);
@@ -359,6 +373,11 @@ SQL;
 		
 			$sql = '';
 			$first = TRUE;
+			if ($idUt != 0)
+			{
+				$sql .= ($first ? ' WHERE ' : ' AND ') . 'id_utilisateur = :id_utilisateur';
+				$first = FALSE;
+			}
 			if (isset($critere['id_categorie']))
 			{
 				$sql .= ($first ? ' WHERE ' : ' AND ') . 'id_categorie = :id_categorie';
@@ -367,11 +386,6 @@ SQL;
 			if (isset($critere['id_sous_categorie']))
 			{
 				$sql .= ($first ? ' WHERE ' : ' AND ') . 'id_sous_categorie = :id_sous_categorie';
-				$first = FALSE;
-			}
-			if ($idUt != 0)
-			{
-				$sql .= ($first ? ' WHERE ' : ' AND ') . 'id_utilisateur = :id_utilisateur';
 				$first = FALSE;
 			}
 			
@@ -386,12 +400,12 @@ SQL;
 		
 		private function BindSqlCritere(&$resultat, $critere, $idUt)
 		{
+			if ($idUt != 0)
+				$resultat->bindParam('id_utilisateur', $idUt, PDO::PARAM_INT);
 			if (isset($critere['id_categorie']))
 				$resultat->bindParam('id_categorie', $critere['id_categorie'], PDO::PARAM_INT);
 			if (isset($critere['id_sous_categorie']))
 				$resultat->bindParam('id_sous_categorie', $critere['id_sous_categorie'], PDO::PARAM_INT);
-			if ($idUt != 0)
-				$resultat->bindParam('id_utilisateur', $idUt, PDO::PARAM_INT);
 		}
 	
 	}

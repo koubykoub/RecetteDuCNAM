@@ -2,7 +2,9 @@
 	include_once (dirname(__FILE__) . '/../librairies/html/HtmlStruct.class.php');
 	
 	// html
-	HtmlStruct::DebutHtml('Zone d\'administration', array('css/styles.css'), array('js/script.js'));
+	HtmlStruct::DebutHtml('Zone d\'administration',
+						  array('css/styles.css', '//cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css'),
+						  array('//cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/jstree.min.js', 'js/script.js', 'js/za_script.js'));
 	
 	
 		// header

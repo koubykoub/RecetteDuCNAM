@@ -71,4 +71,9 @@
 			return $donnees;
 		}
 		
+		public static function DestructionCompte()
+		{
+			return isset($_REQUEST['detruire_compte']);
+		}
+		
 	}

@@ -112,6 +112,18 @@
 			return $donnees;
 		}
 		
+		//detruire compte
+		public static function DestructionCompte()
+		{
+			parent::StartSession();
+			if (!isset($_SESSION['id_utilisateur']) || is_null($_SESSION['id_utilisateur'])) throw new SessionExpireeExcep();
+			$ut['id'] = $_SESSION['id_utilisateur'];
+			$daoUt = new DAOUtilisateur(parent::GetConnexion());
+			$ret = $daoUt->Delete($ut);
+			unset($_SESSION['id_utilisateur']);
+			return $ret;
+		}
+		
 		
 		// prive
 		private static function CreationUtilisateurBase($compte, $maj)

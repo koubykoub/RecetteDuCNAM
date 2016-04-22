@@ -16,6 +16,8 @@
 	// message
 	$dVueMessage['destruction_recette'] = $donneesModele['detruire_recette'];
 	if ($donneesModele['detruire_recette']) $dVueMessage['destruction_recette_succes'] = $donneesModele['detruire_recette_succes'];
+	$dVueMessage['destruction_compte'] = $donneesModele['detruire_compte'];
+	if ($donneesModele['detruire_compte']) $dVueMessage['destruction_compte_succes'] = $donneesModele['detruire_compte_succes'];
 	
 	// html
 	HtmlStruct::DebutHtml('Accueil', array('css/styles.css'), array('js/script.js'));
@@ -55,6 +57,14 @@
 				{
 					HtmlStruct::DebutArticle('section_message');
 					include (dirname(__FILE__) . '/commun/MessageDestructionRecette.inc.php');
+					HtmlStruct::FinArticle();
+				}
+				
+				// message de destruction de compte
+				if ($dVueMessage['destruction_compte'])
+				{
+					HtmlStruct::DebutArticle('section_message');
+					include (dirname(__FILE__) . '/commun/MessageDestructionCompte.inc.php');
 					HtmlStruct::FinArticle();
 				}
 			
