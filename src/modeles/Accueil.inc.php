@@ -14,9 +14,9 @@
 	// donnees du modele
 	// destruction compte
 	$donneesModele['detruire_compte'] = FALSE;
-	if ($donneesControleur['detruire_compte'])
+	if ($donneesControleur['detruire_compte']['existe'])
 	{
-		$donneesModele['detruire_compte_succes'] = LoginModele::DestructionCompte();
+		$donneesModele['detruire_compte_succes'] = LoginModele::DestructionCompte($donneesControleur['detruire_compte']['garder_recette']);
 		$donneesModele['detruire_compte'] = TRUE;
 	}
 	// login

@@ -2,6 +2,7 @@
 	// include
 	include_once (dirname(__FILE__) . '/ModeleBase.class.php');
 	include_once (dirname(__FILE__) . '/../../librairies/dao/DAOUtilisateur.class.php');
+	include_once (dirname(__FILE__) . '/../../librairies/dao/DAORecette.class.php');
 	include_once (dirname(__FILE__) . '/../../librairies/exception/CompteException.class.php');
 	include_once (dirname(__FILE__) . '/../../librairies/exception/LoginException.class.php');
 	include_once (dirname(__FILE__) . '/ImageModele.class.php');
@@ -113,12 +114,24 @@
 		}
 		
 		//detruire compte
-		public static function DestructionCompte()
+		public static function DestructionCompte($keep)
 		{
 			parent::StartSession();
 			if (!isset($_SESSION['id_utilisateur']) || is_null($_SESSION['id_utilisateur'])) throw new SessionExpireeExcep();
 			$ut['id'] = $_SESSION['id_utilisateur'];
 			$daoUt = new DAOUtilisateur(parent::GetConnexion());
+			if ($keep)
+			{
+				$admin = $daoUt->RetrieveByLogin('GRAND_ADMINISTRATEUR');
+				$daoRec = new DAORecette(parent::GetConnexion());
+				$listeRecette = $daoRec->RetrieveIdByUtilisateur($ut['id']);
+				foreach ($listeRecette as $rec)
+				{
+					$tmpRec = $daoRec->RetrieveById($rec['id']);
+					$tmpRec['id_utilisateur'] = $admin['id'];
+					$daoRec->Update($tmpRec);
+				}
+			}
 			$ret = $daoUt->Delete($ut);
 			unset($_SESSION['id_utilisateur']);
 			return $ret;

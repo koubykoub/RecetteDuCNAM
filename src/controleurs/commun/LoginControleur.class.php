@@ -73,7 +73,15 @@
 		
 		public static function DestructionCompte()
 		{
-			return isset($_REQUEST['detruire_compte']);
+			$donnees['existe'] = FALSE;
+			if (isset($_REQUEST['detruire_compte']) && !is_null($_REQUEST['detruire_compte']))
+			{
+				$donnees['garder_recette'] = FALSE;
+				if (isset($_REQUEST['garder_recette']) && !is_null($_REQUEST['garder_recette']))
+					$donnees['garder_recette'] = TRUE;
+				$donnees['existe'] = TRUE;
+			}
+			return $donnees;
 		}
 		
 	}

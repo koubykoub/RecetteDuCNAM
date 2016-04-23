@@ -1,10 +1,6 @@
 <!-- les sous categories -->
-<?php
-	foreach ($dVueCreerRecette['categories'] as $i => $cat)
-		foreach ($cat['sous_categories'] as $j => $scat)
-		{
-?>
-			<input type="hidden" id="<?php echo $cat['id']; ?>" value="<?php echo $scat['id']; ?>" name="<?php echo $scat['intitule']; ?>" />
+<?php foreach ($dVueCreerRecette['categories'] as $i => $cat) foreach ($cat['sous_categories'] as $j => $scat) { ?>
+	<input type="hidden" id="<?php echo $cat['id']; ?>" value="<?php echo $scat['id']; ?>" name="<?php echo $scat['intitule']; ?>" />
 <?php } ?>
 
 <!-- titre -->

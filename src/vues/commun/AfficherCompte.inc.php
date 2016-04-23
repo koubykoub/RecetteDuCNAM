@@ -31,4 +31,5 @@
 	<input type="hidden" name="page" id="page" value="accueil" />
 	<input type="hidden" name="detruire_compte" id="detruire_compte" value="true" />
 	<a href="javascript:AfficherCompte_ConfirmDelete()">Détruire votre compte</a>
+	<label for="garder_recette">Laisser mes recettes sur le site &nbsp;</label><input type="checkbox" name="garder_recette" id="garder_recette" value="true" checked="checked" />
 </form>
