@@ -1,0 +1,65 @@
+@CHARSET "UTF-8";
+
+/**************************************************************/
+/* BASES													  */
+/**************************************************************/
+fieldset > select
+{
+	width: 400px;
+	padding: 0px;
+	margin: 0px;
+}
+
+fieldset > select > option
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+fieldset > div
+{
+	width: 480px;
+	margin-left: 10px;
+	min-height: 300px;
+}
+
+fieldset > fieldset > div
+{
+	width: 450px;
+	min-height: 100px;
+}
+
+fieldset > select, fieldset > div
+{
+	float: left;
+	border: 1px solid black;
+}
+
+
+/**************************************************************/
+/* TABLEAU													  */
+/**************************************************************/
+div.za_tableau
+{
+	display: table;
+	margin: 0px;
+	padding: 0px;
+}
+
+div.za_tableau > div
+{
+	display: table-row;
+	margin: 0px;
+	padding: 0px;
+}
+
+div.za_tableau > div > div
+{
+	display: table-cell;
+	width: 100px;
+	height: 17px;
+	border: 1px solid black;
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+}

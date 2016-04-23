@@ -1,328 +1,226 @@
+
 /**************************************************************/
-/* ZONE D'ADMINISTRATION									  */
+/* INIT														  */
 /**************************************************************/
-// init
-function za_init()
+// tab config
+function za_TabConfig(sizes, data)
 {
-	$('#zone_administration').jstree(
-	{
-		'core' : {'data' :
-		[
-		 	// categories
-		 	{
-		 		'text' : 'Catégories',
-		 		'children' :
-		 		[
-		 		 	// categorie
-		 		 	{
-		 		 		'text' : 'Catégories',
-		 		 	},
-		 		 	
-		 		 	// categorie difficulte
-		 		 	{
-		 		 		'text' : 'Catégories de difficulté'
-		 		 	},
-		 		 	
-		 		 	// categorie prix
-		 		 	{
-		 		 		'text' : 'Catégories de prix'
-		 		 	}
-		 		 ]
-		 	},
-		      
-		 	// utilisateurs
-		 	{
-		 		'text' : 'Utilisateurs',
-		 		'id' : 'utilisateur'
-		 	},
-		 	
-		 	// recettes
-		 	{
-		 		'text' : 'Recettes'
-		 	},
-		 	
-		 	// commentaires
-		 	{
-		 		'text' : 'Commentaires'
-		 	}
-	    ]}
-	});
-	
-	$('#zone_administration2').jstree(
-	{
-		'core' : {'data' :
-		[
-		 	// categories
-		 	{
-		 		'text' : 'Catégories',
-		 		'children' :
-		 		[
-		 		 	// categorie
-		 		 	{
-		 		 		'text' : 'Catégories',
-		 		 	},
-		 		 	
-		 		 	// categorie difficulte
-		 		 	{
-		 		 		'text' : 'Catégories de difficulté'
-		 		 	},
-		 		 	
-		 		 	// categorie prix
-		 		 	{
-		 		 		'text' : 'Catégories de prix'
-		 		 	}
-		 		 ]
-		 	},
-		      
-		 	// utilisateurs
-		 	{
-		 		'text' : 'Utilisateurs',
-		 		'id' : 'utilisateur'
-		 	},
-		 	
-		 	// recettes
-		 	{
-		 		'text' : 'Recettes'
-		 	},
-		 	
-		 	// commentaires
-		 	{
-		 		'text' : 'Commentaires'
-		 	}
-	    ]}
-	});
-	
-	$('#zone_administration').on("changed.jstree", function (e, data) {
-	    console.log("The selected nodes are:");
-	    console.log(data.selected);
-	    $('li#utilisateur').append($('<div />').attr('id', 'div_utilisateur'));
-	    $('#div_utilisateur').jstree(
-		{
-			'core' : {'data' :
-			[
-			 	// utilisateurs
-			 	{
-			 		'text' : 'Utilisateurs',
-			 		'id' : 'x'
-			 	},
-			 	
-			 	// recettes
-			 	{
-			 		'text' : 'Recettes',
-			 		'id' : 'y'
-			 	},
-			 	
-			 	// commentaires
-			 	{
-			 		'text' : 'Commentaires',
-			 		'id' : 'z'
-			 	}
-		    ]}
-		});
-	});
-	
-	
+	this.sizes = sizes;
+	this.data = data;
 }
 
-function za_init2()
+// lists states
+function za_ListState()
 {
-	$.jstree.plugins.addHTML = function (options, parent) {
-	    this.redraw_node = function(obj, deep,
-	                                callback, force_draw) {
-	        obj = parent.redraw_node.call(
-	            this, obj, deep, callback, force_draw
-	        );
-	        if (obj) {
-	            var node = this.get_node(jQuery(obj).attr('id'));
-	            if (node && 
-	                node.data &&
-	                ( "addHTML" in node.data ) ) {
-	                jQuery(obj).append(
-	                    "<div style='margin-left: 50px'>" +
-	                        node.data.addHTML +
-	                    "</div>"
-	                );
-	            }
-	        }
-	        return obj;
-	    };
-	};
-	$.jstree.defaults.addHTML = {};
-	
-	var div2 = $('<div />').attr('id', 'za2').jstree(
-	{
-		'core' : {'data' :
-		[
-		 	// utilisateurs
-		 	{
-		 		'text' : 'Utilisateurs',
-		 	},
-		 	
-		 	// recettes
-		 	{
-		 		'text' : 'Recettes'
-		 	},
-		 	
-		 	// commentaires
-		 	{
-		 		'text' : 'Commentaires'
-		 	}
-	    ]}
-	});
-	
-	var div = $('<div />').attr('id', 'za').jstree(
-	{
-		'core' : {'data' :
-		[
-		 	// categories
-		 	{
-		 		'text' : 'Catégories',
-		 		'children' :
-		 		[
-		 		 	// categorie
-		 		 	{
-		 		 		'text' : 'Catégories',
-		 		 	},
-		 		 	
-		 		 	// categorie difficulte
-		 		 	{
-		 		 		'text' : 'Catégories de difficulté'
-		 		 	},
-		 		 	
-		 		 	// categorie prix
-		 		 	{
-		 		 		'text' : 'Catégories de prix'
-		 		 	}
-		 		 ]
-		 	},
-		      
-		 	// utilisateurs
-		 	{
-		 		'text' : 'Utilisateurs',
-		 		'data' :
-		 		{
-		 			'addHTML' : div2
-		 		}
-		 	},
-		 	
-		 	// recettes
-		 	{
-		 		'text' : 'Recettes'
-		 	},
-		 	
-		 	// commentaires
-		 	{
-		 		'text' : 'Commentaires'
-		 	}
-	    ]}
-	});
-	
-	
-	
-	$('#zone_administration').append(div);
+	this.selected = -1;
+	this.data = [];
 }
 
-function za_init3()
+// call back
+function za_CallBack(evtCB)
 {
-	multiLineMarkup='<div id="markup"></div><div>of</div><div>markup</div>';
-
-	data = [
-	    {text: "My Node", data: {addHTML: "some HTML to append"}},
-	    {text: "My Node", data: {addHTML: multiLineMarkup}},
-	    {text: "My Parent Node", data: {addHTML: "$10"}, children: [
-	            {text: "My child Node",
-	             data: {addHTML: multiLineMarkup},
-	             id: "aChild"},
-	            {text: "My child Node", data: {addHTML: "foobar"}}
-	        ]
-	    },
-	    {text: "No addHTML in data", data: {}},
-	    {text: "No data"},
-	    {text: "Zero (false) value addHTML", data: { addHTML: 0}},
-	    {text: "My Node", data: {addHTML: "$10"}}
-	];
-
-	$.jstree.plugins.addHTML = function (options, parent) {
-	    this.redraw_node = function(obj, deep,
-	                                callback, force_draw) {
-	        obj = parent.redraw_node.call(
-	            this, obj, deep, callback, force_draw
-	        );
-	        if (obj) {
-	            var node = this.get_node(jQuery(obj).attr('id'));
-	            if (node && 
-	                node.data &&
-	                ( "addHTML" in node.data ) ) {
-	                jQuery(obj).append(
-	                    "<div style='margin-left: 50px'>" +
-	                        node.data.addHTML +
-	                    "</div>"
-	                );
-	            }
-	        }
-	        return obj;
-	    };
-	};
-
-	$.jstree.defaults.addHTML = {};
-
-	$("#zone_administration").jstree({
-	    plugins: ["addHTML"],
-	    core : {
-	        'data' : data,
-	        themes: {
-	            responsive: false,
-	        }
-	    }
-	});
-
-	
-	var div = $('<div />').attr('id', 'za').jstree(
+	var self = this;
+	this.subCB = {};
+	this.eventCB = evtCB;
+	this.cb = function()
 	{
-		'core' : {'data' :
-		[
-		 	// categories
-		 	{
-		 		'text' : 'Catégories',
-		 		'children' :
-		 		[
-		 		 	// categorie
-		 		 	{
-		 		 		'text' : 'Catégories',
-		 		 	},
-		 		 	
-		 		 	// categorie difficulte
-		 		 	{
-		 		 		'text' : 'Catégories de difficulté'
-		 		 	},
-		 		 	
-		 		 	// categorie prix
-		 		 	{
-		 		 		'text' : 'Catégories de prix'
-		 		 	}
-		 		 ]
-		 	},
-		      
-		 	// utilisateurs
-		 	{
-		 		'text' : 'Utilisateurs'
-		 	},
-		 	
-		 	// recettes
-		 	{
-		 		'text' : 'Recettes'
-		 	},
-		 	
-		 	// commentaires
-		 	{
-		 		'text' : 'Commentaires'
-		 	}
-	    ]}
+		self.eventCB(this);
+		for (var title in self.subCB)
+			self.subCB[title]();
+	}
+	this.AddCB = function(title, CB)
+	{
+		self.subCB[title] = CB;
+	}
+	this.RemoveCB = function(title)
+	{
+		delete self.subCB[title];
+	}
+}
+
+// donnees de la zone d'administration
+function za_Data()
+{
+	// enum
+	this.type =
+	{
+		'CATEGORIE' : 0,
+		'SOUS_CATEGORIE' : 1,
+		'CATEGORIE_DIFF' : 2,
+		'CATEGORIE_PRIX' : 3
+	};
+	
+	// configuration ligne de tableau
+	this.tabConfig = [];
+	this.tabConfig[this.type.CATEGORIE] = new za_TabConfig([50, 330], ['id', 'intitule']);
+	this.tabConfig[this.type.SOUS_CATEGORIE] = new za_TabConfig([50, 50, 280], ['id', 'id_categorie', 'intitule']);
+	this.tabConfig[this.type.CATEGORIE_DIFF] = new za_TabConfig([50, 330], ['id', 'intitule']);
+	this.tabConfig[this.type.CATEGORIE_PRIX] = new za_TabConfig([50, 330], ['id', 'intitule']);
+	
+	// etats
+	this.listState = [];
+	for (var i = 0 ; i < Object.keys(this.type).length ; ++i)
+		this.listState[this.listState.length] = new za_ListState();
+	
+	// call back
+	// on change
+	this.onChangeCB = [];
+	this.onChangeCB[this.type.CATEGORIE] = new za_CallBack(function(obj){za_data.listState[za_data.type.CATEGORIE].selected = $(obj).val();});
+	this.onChangeCB[this.type.CATEGORIE].AddCB('load_sous_categorie', za_LoadSousCategorieList);
+	this.onChangeCB[this.type.SOUS_CATEGORIE] = new za_CallBack(function(obj){za_data.listState[za_data.type.SOUS_CATEGORIE].selected = $(obj).val();});
+	this.onChangeCB[this.type.CATEGORIE_DIFF] = new za_CallBack(function(obj){za_data.listState[za_data.type.CATEGORIE_DIFF].selected = $(obj).val();});
+	this.onChangeCB[this.type.CATEGORIE_PRIX] = new za_CallBack(function(obj){za_data.listState[za_data.type.CATEGORIE_PRIX].selected = $(obj).val();});
+	
+}
+var za_data = new za_Data();
+
+function za_Init()
+{
+	// lists
+	// categorie
+	za_LoadCategorieList();
+	za_GetSelectList('za_menu_categorie').on('change', za_data.onChangeCB[za_data.type.CATEGORIE].cb);
+	za_LoadSousCategorieList();
+	za_LoadCategorieDiffList();
+	za_LoadCategoriePrixList();
+}
+
+
+/**************************************************************/
+/* AJAX														  */
+/**************************************************************/
+function za_Ajax(type, data, succesFct, errorFct)
+{
+	var metaData =
+	{
+		page : 'zone_administration_ajax',
+		type : type,
+		data : data
+	}
+	$.ajax
+	({
+		type : 'POST',
+		url : '',
+		data : metaData,
+		success : succesFct,
+		error : errorFct
 	});
-	div2 = $(div).clone();
-	$('#zone_administration2').append(div);
-	$('#zone_administration3').append(div2);
-	$('#markup').append($(div).clone());
+}
+
+
+/**************************************************************/
+/* SELECT													  */
+/**************************************************************/
+function za_GetLigneTableau(sizes, data)
+{
+	var row = $('<div />');
+	for (var i = 0 ; i < sizes.length ; ++i)
+		row.append($('<div style="width: ' + sizes[i] + 'px"/>').text(data[i]));
+	return $('<div />').attr('class', 'za_tableau').append(row);
+}
+
+function za_GetSelectOptions(type, data)
+{
+	var options = [];
+	var sizes = za_data.tabConfig[type].sizes;
+	var dataTypes = za_data.tabConfig[type].data;
+	for (var i = 0 ; i < data.length ; ++i)
+	{
+		var dataTab = [];
+		for (var j = 0 ; j < dataTypes.length ; ++j)
+			dataTab[dataTab.length] = data[i][dataTypes[j]];
+		var option = $('<option />').attr('value', i).append(za_GetLigneTableau(sizes, dataTab));
+		options[options.length] = option;
+	}
+	return options;
+}
+
+
+/**************************************************************/
+/* LISTES													  */
+/**************************************************************/
+// general
+function za_GetSelectList(id)
+{
+	return $('fieldset#' + id + ' > select');
+}
+
+function za_ResetSelectList(id, option)
+{
+	var select = za_GetSelectList(id);
+	select.empty();
+	if (option != null)
+		select.append($('<option />').text(option));
+	return select;
+}
+
+// categorie
+function za_LoadCategorieList_Loaded(resp)
+{
+	var select = za_ResetSelectList('za_menu_categorie', null);
+	za_data.listState[za_data.type.CATEGORIE].data = JSON.parse(resp);
+	select.append(za_GetSelectOptions(za_data.type.CATEGORIE, za_data.listState[za_data.type.CATEGORIE].data));
+}
+function za_LoadCategorieList_LoadeError(resp)
+{
+	var select = za_ResetSelectList('za_menu_categorie', 'Erreur de chargement\n' + resp);
+}
+function za_LoadCategorieList()
+{
+	var select = za_ResetSelectList('za_menu_categorie', 'chargement...');
+	za_Ajax('categorie_list', {}, za_LoadCategorieList_Loaded, za_LoadCategorieList_LoadeError);
+}
+
+// sous categorie
+function za_LoadSousCategorieList_Loaded(resp)
+{
+	var select = za_ResetSelectList('za_menu_sous_categorie', null);
+	za_data.listState[za_data.type.SOUS_CATEGORIE].data = JSON.parse(resp);
+	select.append(za_GetSelectOptions(za_data.type.SOUS_CATEGORIE, za_data.listState[za_data.type.SOUS_CATEGORIE].data));
+}
+function za_LoadSousCategorieList_LoadeError(resp)
+{
+	var select = za_ResetSelectList('za_menu_sous_categorie', 'Erreur de chargement\n' + resp);
+}
+function za_LoadSousCategorieList()
+{
+	var select = za_ResetSelectList('za_menu_sous_categorie', 'chargement...');
+	if (za_data.listState[za_data.type.CATEGORIE].selected != -1)
+		za_Ajax('sous_categorie_list', {'id_categorie' : za_data.listState[za_data.type.CATEGORIE].data[za_data.listState[za_data.type.CATEGORIE].selected].id}, za_LoadSousCategorieList_Loaded, za_LoadSousCategorieList_LoadeError);
+}
+
+// categorie difficulte
+function za_LoadCategorieDiffList_Loaded(resp)
+{
+	var select = za_ResetSelectList('za_menu_categorie_diff', null);
+	za_data.listState[za_data.type.CATEGORIE_DIFF].data = JSON.parse(resp);
+	select.append(za_GetSelectOptions(za_data.type.CATEGORIE_DIFF, za_data.listState[za_data.type.CATEGORIE_DIFF].data));
+}
+function za_LoadCategorieDiffList_LoadeError(resp)
+{
+	var select = za_ResetSelectList('za_menu_categorie_diff', 'Erreur de chargement\n' + resp);
+}
+function za_LoadCategorieDiffList()
+{
+	var select = za_ResetSelectList('za_menu_categorie_diff', 'chargement...');
+	za_Ajax('categorie_diff_list', {}, za_LoadCategorieDiffList_Loaded, za_LoadCategorieDiffList_LoadeError);
+}
+
+//categorie prix
+function za_LoadCategoriePrixList_Loaded(resp)
+{
+	var select = za_ResetSelectList('za_menu_categorie_prix', null);
+	za_data.listState[za_data.type.CATEGORIE_PRIX].data = JSON.parse(resp);
+	select.append(za_GetSelectOptions(za_data.type.CATEGORIE_PRIX, za_data.listState[za_data.type.CATEGORIE_PRIX].data));
+}
+function za_LoadCategoriePrixList_LoadeError(resp)
+{
+	var select = za_ResetSelectList('za_menu_categorie_prix', 'Erreur de chargement\n' + resp);
+}
+function za_LoadCategoriePrixList()
+{
+	var select = za_ResetSelectList('za_menu_categorie_prix', 'chargement...');
+	za_Ajax('categorie_prix_list', {}, za_LoadCategoriePrixList_Loaded, za_LoadCategoriePrixList_LoadeError);
 }
 
 
@@ -332,7 +230,5 @@ function za_init3()
 $(document).ready(function()
 {
 	// init zone d'administration
-	//za_init();
-	//za_init2();
-	//za_init3();
+	za_Init();
 });

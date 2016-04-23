@@ -97,6 +97,9 @@
 			case 'zone_administration' :
 				include_once (dirname(__FILE__) .'/src/controleurs/Zone_administration.inc.php');
 				break;
+			case 'zone_administration_ajax' :
+				include_once (dirname(__FILE__) .'/src/controleurs/Zone_administration_ajax.inc.php');
+				break;
 				
 			// le nom de la page n'existe pas
 			default :

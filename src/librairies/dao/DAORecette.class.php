@@ -282,6 +282,20 @@ SQL;
 			return $lastid;
 		}
 		
+		public function TransfererRecetteUtilisateur($idUtSrc, $idUtDst)
+		{
+			// modification d'une recette
+			$sql =
+<<<SQL
+			UPDATE v_recette SET id_utilisateur = :idUtDst
+			WHERE v_recette.id_utilisateur = :idUtScr
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('idUtScr', $idUtSrc, PDO::PARAM_INT);
+			$resultat->bindParam('idUtDst', $idUtDst, PDO::PARAM_INT);
+			$resultat->execute();
+		}
+		
 		// delete
 		public function Delete($rec)
 		{

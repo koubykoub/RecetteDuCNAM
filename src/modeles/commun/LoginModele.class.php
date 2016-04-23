@@ -124,13 +124,7 @@
 			{
 				$admin = $daoUt->RetrieveByLogin('GRAND_ADMINISTRATEUR');
 				$daoRec = new DAORecette(parent::GetConnexion());
-				$listeRecette = $daoRec->RetrieveIdByUtilisateur($ut['id']);
-				foreach ($listeRecette as $rec)
-				{
-					$tmpRec = $daoRec->RetrieveById($rec['id']);
-					$tmpRec['id_utilisateur'] = $admin['id'];
-					$daoRec->Update($tmpRec);
-				}
+				$daoRec->TransfererRecetteUtilisateur($ut['id'], $admin['id']);
 			}
 			$ret = $daoUt->Delete($ut);
 			unset($_SESSION['id_utilisateur']);
