@@ -18,8 +18,16 @@
 			$donneesModele = $daoCat->RetrieveAll();
 			break;
 		case 'sous_categorie_list' :
-			$daoCat = new DAOSous_Categorie($conn);
-			$donneesModele = $daoCat->RetrieveAllByCategorie($donneesControleur['data']['id_categorie']);
+			if (isset($donneesControleur['data']) && isset($donneesControleur['data']['id_categorie']))
+			{
+				$daoCat = new DAOSous_Categorie($conn);
+				if ($donneesControleur['data']['id_categorie'] != 0)
+					$donneesModele = $daoCat->RetrieveAllByCategorie($donneesControleur['data']['id_categorie']);
+				else
+					$donneesModele = $daoCat->RetrieveAll();
+			}
+			else
+				$donneesModele = array();
 			break;
 		case 'categorie_diff_list' :
 			$daoCat = new DAOCategorie_difficulte($conn);

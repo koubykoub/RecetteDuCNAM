@@ -1,92 +1,5 @@
 
 /**************************************************************/
-/* INIT														  */
-/**************************************************************/
-// tab config
-function za_TabConfig(sizes, data)
-{
-	this.sizes = sizes;
-	this.data = data;
-}
-
-// lists states
-function za_ListState()
-{
-	this.selected = -1;
-	this.data = [];
-}
-
-// call back
-function za_CallBack(evtCB)
-{
-	var self = this;
-	this.subCB = {};
-	this.eventCB = evtCB;
-	this.cb = function()
-	{
-		self.eventCB(this);
-		for (var title in self.subCB)
-			self.subCB[title]();
-	}
-	this.AddCB = function(title, CB)
-	{
-		self.subCB[title] = CB;
-	}
-	this.RemoveCB = function(title)
-	{
-		delete self.subCB[title];
-	}
-}
-
-// donnees de la zone d'administration
-function za_Data()
-{
-	// enum
-	this.type =
-	{
-		'CATEGORIE' : 0,
-		'SOUS_CATEGORIE' : 1,
-		'CATEGORIE_DIFF' : 2,
-		'CATEGORIE_PRIX' : 3
-	};
-	
-	// configuration ligne de tableau
-	this.tabConfig = [];
-	this.tabConfig[this.type.CATEGORIE] = new za_TabConfig([50, 330], ['id', 'intitule']);
-	this.tabConfig[this.type.SOUS_CATEGORIE] = new za_TabConfig([50, 50, 280], ['id', 'id_categorie', 'intitule']);
-	this.tabConfig[this.type.CATEGORIE_DIFF] = new za_TabConfig([50, 330], ['id', 'intitule']);
-	this.tabConfig[this.type.CATEGORIE_PRIX] = new za_TabConfig([50, 330], ['id', 'intitule']);
-	
-	// etats
-	this.listState = [];
-	for (var i = 0 ; i < Object.keys(this.type).length ; ++i)
-		this.listState[this.listState.length] = new za_ListState();
-	
-	// call back
-	// on change
-	this.onChangeCB = [];
-	this.onChangeCB[this.type.CATEGORIE] = new za_CallBack(function(obj){za_data.listState[za_data.type.CATEGORIE].selected = $(obj).val();});
-	this.onChangeCB[this.type.CATEGORIE].AddCB('load_sous_categorie', za_LoadSousCategorieList);
-	this.onChangeCB[this.type.SOUS_CATEGORIE] = new za_CallBack(function(obj){za_data.listState[za_data.type.SOUS_CATEGORIE].selected = $(obj).val();});
-	this.onChangeCB[this.type.CATEGORIE_DIFF] = new za_CallBack(function(obj){za_data.listState[za_data.type.CATEGORIE_DIFF].selected = $(obj).val();});
-	this.onChangeCB[this.type.CATEGORIE_PRIX] = new za_CallBack(function(obj){za_data.listState[za_data.type.CATEGORIE_PRIX].selected = $(obj).val();});
-	
-}
-var za_data = new za_Data();
-
-function za_Init()
-{
-	// lists
-	// categorie
-	za_LoadCategorieList();
-	za_GetSelectList('za_menu_categorie').on('change', za_data.onChangeCB[za_data.type.CATEGORIE].cb);
-	za_LoadSousCategorieList();
-	za_LoadCategorieDiffList();
-	za_LoadCategoriePrixList();
-}
-
-
-/**************************************************************/
 /* AJAX														  */
 /**************************************************************/
 function za_Ajax(type, data, succesFct, errorFct)
@@ -109,119 +22,602 @@ function za_Ajax(type, data, succesFct, errorFct)
 
 
 /**************************************************************/
-/* SELECT													  */
+/* OBJECTS													  */
 /**************************************************************/
-function za_GetLigneTableau(sizes, data)
+/* UTIL *******************************************************/
+var za_ExtendClass = function(child, parent)
+{
+	var ProtoConst = function(){};
+	ProtoConst.prototype = parent.prototype;
+	child.prototype = new ProtoConst();
+};
+
+/* FIN UTIL ***************************************************/
+
+
+/* BASE *******************************************************/
+// constructor
+var za_ElementBase_Construct = function(name, fsName)
+{
+	// attributs
+	this.name = name;
+	this.fsName = fsName;
+	this.parent = null;
+	this.enabled = false;
+	this.CreateDOMElementBase();
+};
+za_ElementBase_Construct.prototype.SetParent = function(parent)
+{
+	this.parent = parent;
+};
+
+// enable / disable
+za_ElementBase_Construct.prototype.EnableBase = function()
+{
+	this.parent.DOMElement.append(this.DOMElement);
+	this.enabled = true;
+};
+za_ElementBase_Construct.prototype.DisableBase = function()
+{
+	this.DOMElement.detach();
+	this.enabled = false;
+};
+
+// DOM
+za_ElementBase_Construct.prototype.CreateDOMElementBase = function()
+{
+	this.DOMElement = $('<fieldset />').append($('<legend />').text(this.fsName));
+};
+
+/* FIN BASE ***************************************************/
+
+
+/* MENU *******************************************************/
+//constructor
+var za_Menu_Construct = function(name, fsName)
+{
+	// attributs
+	this.constructor(name, fsName);
+	this.opened = false;
+	this.elements = {};
+	this.SetDOMElement();
+};
+za_ExtendClass(za_Menu_Construct, za_ElementBase_Construct);
+
+// constant
+za_Menu_Construct.prototype.CLOSED_COLOR = 'orange';
+za_Menu_Construct.prototype.OPENED_COLOR = 'green';
+za_Menu_Construct.prototype.MOUSE_OVER_COLOR = 'red';
+za_Menu_Construct.prototype.MOUSE_OUT_COLOR = 'black';
+
+// enable / disable
+za_Menu_Construct.prototype.Enable = function()
+{
+	this.EnableBase();
+	for (var key in this.elements)
+		if (this.opened) this.elements[key].Enable();
+};
+
+za_Menu_Construct.prototype.Disable = function()
+{
+	this.DisableBase();
+	for (var key in this.elements)
+		if (this.opened) this.elements[key].Disable();
+};
+
+// children
+za_Menu_Construct.prototype.AddChild = function(child)
+{
+	child.SetParent(this);
+	this.elements[child.name] = child;
+};
+
+// DOM
+za_Menu_Construct.prototype.SetDOMElement = function()
+{
+	// DOM events
+	var self = this;
+	this.DOMElement.find('> legend').attr('class', 'za_legend_menu')
+	// mouse over legend
+	.mouseover(function()
+	{
+		$(this).css('color', self.MOUSE_OVER_COLOR);
+		$(this).css('cursor', 'pointer');
+	})
+	// mouse out legend
+	.mouseout(function()
+	{
+		$(this).css('color', self.MOUSE_OUT_COLOR);
+		$(this).css('cursor', 'default');
+	})
+	// click legend
+	.click(function(){self.onClickLegend();});
+};
+
+za_Menu_Construct.prototype.SetDOMElementOpened = function()
+{
+	if (this.opened)
+		this.DOMElement.find('> legend').css('background-color', this.OPENED_COLOR);
+	else
+		this.DOMElement.find('> legend').css('background-color', this.CLOSED_COLOR);
+}
+
+// input
+za_Menu_Construct.prototype.onClickLegend = function()
+{
+	this.opened = !this.opened;
+	for (var key in this.elements)
+	{
+		if (this.opened)
+			this.elements[key].Enable();
+		else
+			this.elements[key].Disable();
+	}
+	this.SetDOMElementOpened();
+};
+
+/* FIN MENU ***************************************************/
+
+
+/* DETAILS ****************************************************/
+//constructor
+var za_Details_Construct = function(name, fsName)
+{
+	// attributs
+	this.constructor(name, fsName);
+	this.SetDOMElement();
+};
+za_ExtendClass(za_Details_Construct, za_ElementBase_Construct);
+
+//enable / disable
+za_Details_Construct.prototype.Enable = function()
+{
+	this.EnableBase();
+};
+
+za_Details_Construct.prototype.Disable = function()
+{
+	this.DisableBase();
+};
+
+//DOM
+za_Details_Construct.prototype.SetDOMElement = function()
+{
+	this.DOMElement.append($('<h4 />').text(this.fsName));
+};
+
+/* FIN DETAILS ************************************************/
+
+
+/* SELECT LIST ************************************************/
+//constructor
+var za_SelectList_Construct = function(name, fsName, size, type, header)
+{
+	// attributs
+	this.constructor(name, fsName);
+	this.size = size;
+	this.type = type;
+	this.header = header;
+	this.data = [];
+	this.ajaxData = {};
+	this.selectedOption = -1;
+	this.selectCB = {};
+	this.parentCB = {};
+	this.SetDOMElement();
+};
+za_ExtendClass(za_SelectList_Construct, za_ElementBase_Construct);
+
+// constant
+za_SelectList_Construct.prototype.LOAD_MESSAGE = 'Chargement...';
+za_SelectList_Construct.prototype.EMPTY_MESSAGE = 'Liste vide...';
+za_SelectList_Construct.prototype.ERROR_MESSAGE = 'Erreur interne : ';
+
+//enable / disable
+za_SelectList_Construct.prototype.Enable = function()
+{
+	this.EnableBase();
+	this.InitSelect(this.LOAD_MESSAGE);
+	this.data = [];
+	this.ajaxData = {};
+	this.selectedOption = -1;
+	this.InitSelectedParents();
+	this.Ajax();
+};
+
+za_SelectList_Construct.prototype.Disable = function()
+{
+	this.DisableBase();
+	this.Select(-1);
+	this.InitSelect(null);
+};
+
+// select
+za_SelectList_Construct.prototype.Select = function(id)
+{
+	this.selectedOption = id;
+	
+	// select call backs
+	for (var key in this.selectCB)
+	{
+		var selectCB = this.selectCB[key];
+		if (selectCB.element.enabled)
+			selectCB.cb.call(selectCB.element, this);
+	}
+}
+
+za_SelectList_Construct.prototype.AddSelectCB = function(key, element, cb)
+{
+	var newCB =
+	{
+			element : element,
+			cb : cb
+	};
+	this.selectCB[key] = newCB;
+}
+
+za_SelectList_Construct.prototype.ParentSelected = function(parent, parentName, name, ajax = true)
+{
+	var id = parent.selectedOption;
+	if (!id || (id == -1))
+		this.ValueSelected(-1, name, ajax);
+	else if (id && (id != -1))
+		this.ValueSelected(parent.data[id][parentName], name, ajax);
+}
+
+za_SelectList_Construct.prototype.ValueSelected = function(val, name, ajax)
+{
+	this.AddSelection(val, name);
+	if (ajax)
+	{
+		this.data = [];
+		this.Ajax();
+	}
+}
+
+za_SelectList_Construct.prototype.AddSelection = function(val, name)
+{
+	if ((!val || (val == -1)) && this.ajaxData[name])
+		delete this.ajaxData[name];
+	else if (val && (val != -1))
+		this.ajaxData[name] = val;
+}
+
+za_SelectList_Construct.prototype.AddParentCB = function(key, parent, cb)
+{
+	var newCB =
+	{
+			parent : parent,
+			cb : cb
+	};
+	this.parentCB[key] = newCB;
+}
+
+za_SelectList_Construct.prototype.InitSelectedParents = function()
+{
+	// parent call backs
+	for (var key in this.parentCB)
+	{
+		var parentCB = this.parentCB[key];
+		if (parentCB.parent.enabled)
+			parentCB.cb.call(this, parentCB.parent);
+	}
+}
+
+// ajax
+za_SelectList_Construct.prototype.Ajax = function()
+{
+	var self = this;
+	za_Ajax(this.type, this.ajaxData,
+	function(resp)
+	{
+		self.data = JSON.parse(resp);
+		self.InitSelectData();
+	},
+	function(resp)
+	{
+		self.InitSelect(self.ERROR_MESSAGE + resp);
+	});
+}
+
+//DOM
+za_SelectList_Construct.prototype.SetDOMElement = function()
+{
+	var self = this;
+	var select = $('<select />').attr('size', this.size).attr('multiple', 'multiple').attr('class', 'za_salect_list')
+	// change selected option
+	.change(function()
+	{
+		var val = $(this).find('> option:selected').val();
+		self.Select(val);
+	});
+	this.DOMElement.append(select);
+};
+
+za_SelectList_Construct.prototype.InitSelect = function(message)
+{
+	var select = this.DOMElement.find('> select');
+	select.find('> option').remove();
+	if (message != null)
+		select.append($('<option />').attr('value', -1).text(message));
+};
+
+za_SelectList_Construct.prototype.InitSelectData = function()
+{
+	if (this.data.length == 0)
+		this.InitSelect(this.EMPTY_MESSAGE);
+	else
+	{
+		this.InitSelect(null);
+		for (var i = 0 ; i < this.data.length ; ++i)
+			this.DOMElement.find('> select').append($('<option />').attr('value', i).append(this.CreateTabLine(i)));
+	}
+};
+
+za_SelectList_Construct.prototype.CreateTabLine = function(idData)
 {
 	var row = $('<div />');
-	for (var i = 0 ; i < sizes.length ; ++i)
-		row.append($('<div style="width: ' + sizes[i] + 'px"/>').text(data[i]));
+	for (var i = 0 ; i < this.header.length ; ++i)
+		row.append($('<div />').css('width', this.header[i].size + 'px').text(this.data[idData][this.header[i].type]));
 	return $('<div />').attr('class', 'za_tableau').append(row);
 }
 
-function za_GetSelectOptions(type, data)
+/* FIN SELECT LIST ********************************************/
+
+
+/* INIT *******************************************************/
+
+// DATA
+function za_Data_Construct()
 {
-	var options = [];
-	var sizes = za_data.tabConfig[type].sizes;
-	var dataTypes = za_data.tabConfig[type].data;
-	for (var i = 0 ; i < data.length ; ++i)
+	this.menu = [];
+}
+za_data = new za_Data_Construct();
+
+
+// CALL BACKS
+function za_InitCBMenuCategorie_Categorie(cat, scat)
+{
+	// sous categorie
+	cat.AddSelectCB('sous_categorie_cb', scat, function(parent)
 	{
-		var dataTab = [];
-		for (var j = 0 ; j < dataTypes.length ; ++j)
-			dataTab[dataTab.length] = data[i][dataTypes[j]];
-		var option = $('<option />').attr('value', i).append(za_GetLigneTableau(sizes, dataTab));
-		options[options.length] = option;
-	}
-	return options;
+		this.ParentSelected(parent, 'id', 'id_categorie');
+	});
+	scat.AddParentCB('categorie_cb', cat, function(parent)
+	{
+		this.ParentSelected(parent, 'id', 'id_categorie', false);
+	});
 }
 
 
-/**************************************************************/
-/* LISTES													  */
-/**************************************************************/
-// general
-function za_GetSelectList(id)
+// MENU
+function za_CreateMenuCategorie()
 {
-	return $('fieldset#' + id + ' > select');
+	// menu categorie
+	var menuCategorie = new za_Menu_Construct('menu_categorie', 'Menu des catégories');
+		// categorie select list
+		var mc_catList = new  za_SelectList_Construct('select_list_categorie', 'Liste des catégories', 7, 'categorie_list', [{type:'id', size:100}, {type:'intitule', size:500}]);
+		menuCategorie.AddChild(mc_catList);
+		// MENU
+		// details
+		var mc_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+			// details
+			var mc_md_details = new za_Details_Construct('details_categorie', 'Détails de la catégorie sélectionnée');
+			mc_menuDetails.AddChild(mc_md_details);
+		menuCategorie.AddChild(mc_menuDetails);
+		// sous categories
+		var mc_menuSousCategorie = new za_Menu_Construct('menu_sous_categorie', 'Sous catégories');
+			// sous categorie select list
+			var mc_msc_scatList = new  za_SelectList_Construct('select_list_sous_categorie', 'Liste des sous catégories', 7, 'sous_categorie_list', [{type:'id', size:100}, {type:'intitule', size:500}]);
+			mc_menuSousCategorie.AddChild(mc_msc_scatList);
+			// MENU
+			// details
+			var mc_msc_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+				// details
+				var mc_msc_md_details = new za_Details_Construct('details_categorie', 'Détails de la sous catégorie sélectionnée');
+				mc_msc_menuDetails.AddChild(mc_msc_md_details);
+			za_InitCBMenuCategorie_Categorie(mc_catList, mc_msc_scatList);
+			mc_menuSousCategorie.AddChild(mc_msc_menuDetails);
+		menuCategorie.AddChild(mc_menuSousCategorie);
+	return menuCategorie;
 }
 
-function za_ResetSelectList(id, option)
+function za_CreateMenuSousCategorie()
 {
-	var select = za_GetSelectList(id);
-	select.empty();
-	if (option != null)
-		select.append($('<option />').text(option));
-	return select;
+	// menu sous categories
+	var menuSousCategorie = new za_Menu_Construct('menu_sous_categorie', 'Menu des sous catégories');
+		// MENU
+		// details
+		var msc_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+		menuSousCategorie.AddChild(msc_menuDetails);
+		// FILTER
+		var msc_menuFilter = new za_Menu_Construct('menu_filter', 'Filtrer');
+			// MENU
+			// categorie
+			var msc_mf_menuCategorie = new za_Menu_Construct('menu_categorie', 'Catégories');
+				// MENU
+				// details
+				var msc_mf_mc_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+				msc_mf_menuCategorie.AddChild(msc_mf_mc_menuDetails);
+			msc_menuFilter.AddChild(msc_mf_menuCategorie);
+		menuSousCategorie.AddChild(msc_menuFilter);
+	return menuSousCategorie;
 }
 
-// categorie
-function za_LoadCategorieList_Loaded(resp)
+function za_CreateMenuCategorieDiff()
 {
-	var select = za_ResetSelectList('za_menu_categorie', null);
-	za_data.listState[za_data.type.CATEGORIE].data = JSON.parse(resp);
-	select.append(za_GetSelectOptions(za_data.type.CATEGORIE, za_data.listState[za_data.type.CATEGORIE].data));
-}
-function za_LoadCategorieList_LoadeError(resp)
-{
-	var select = za_ResetSelectList('za_menu_categorie', 'Erreur de chargement\n' + resp);
-}
-function za_LoadCategorieList()
-{
-	var select = za_ResetSelectList('za_menu_categorie', 'chargement...');
-	za_Ajax('categorie_list', {}, za_LoadCategorieList_Loaded, za_LoadCategorieList_LoadeError);
+	// menu categorie difficulte
+	var menuCategorieDiff = new za_Menu_Construct('menu_categorie_diff', 'Menu des catégories de difficulté');
+		// select list
+		var mcd_catList = new  za_SelectList_Construct('select_list_categorie', 'Liste des catégories', 7, 'categorie_diff_list', [{type:'id', size:100}, {type:'intitule', size:500}]);
+		menuCategorieDiff.AddChild(mcd_catList);
+		// MENU
+		// details
+		var mcd_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+		menuCategorieDiff.AddChild(mcd_menuDetails);
+	return menuCategorieDiff;
 }
 
-// sous categorie
-function za_LoadSousCategorieList_Loaded(resp)
+function za_CreateMenuCategoriePrix()
 {
-	var select = za_ResetSelectList('za_menu_sous_categorie', null);
-	za_data.listState[za_data.type.SOUS_CATEGORIE].data = JSON.parse(resp);
-	select.append(za_GetSelectOptions(za_data.type.SOUS_CATEGORIE, za_data.listState[za_data.type.SOUS_CATEGORIE].data));
-}
-function za_LoadSousCategorieList_LoadeError(resp)
-{
-	var select = za_ResetSelectList('za_menu_sous_categorie', 'Erreur de chargement\n' + resp);
-}
-function za_LoadSousCategorieList()
-{
-	var select = za_ResetSelectList('za_menu_sous_categorie', 'chargement...');
-	if (za_data.listState[za_data.type.CATEGORIE].selected != -1)
-		za_Ajax('sous_categorie_list', {'id_categorie' : za_data.listState[za_data.type.CATEGORIE].data[za_data.listState[za_data.type.CATEGORIE].selected].id}, za_LoadSousCategorieList_Loaded, za_LoadSousCategorieList_LoadeError);
+	// menu categorie difficulte
+	var menuCategoriePrix = new za_Menu_Construct('menu_categorie_prix', 'Menu des catégories de prix');
+		// select list
+		var mcp_catList = new  za_SelectList_Construct('select_list_categorie', 'Liste des catégories', 7, 'categorie_prix_list', [{type:'id', size:100}, {type:'intitule', size:500}]);
+		menuCategoriePrix.AddChild(mcp_catList);
+		// MENU
+		// details
+		var mcp_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+		menuCategoriePrix.AddChild(mcp_menuDetails);
+	return menuCategoriePrix;
 }
 
-// categorie difficulte
-function za_LoadCategorieDiffList_Loaded(resp)
+function za_CreateMenuUtilisateur()
 {
-	var select = za_ResetSelectList('za_menu_categorie_diff', null);
-	za_data.listState[za_data.type.CATEGORIE_DIFF].data = JSON.parse(resp);
-	select.append(za_GetSelectOptions(za_data.type.CATEGORIE_DIFF, za_data.listState[za_data.type.CATEGORIE_DIFF].data));
-}
-function za_LoadCategorieDiffList_LoadeError(resp)
-{
-	var select = za_ResetSelectList('za_menu_categorie_diff', 'Erreur de chargement\n' + resp);
-}
-function za_LoadCategorieDiffList()
-{
-	var select = za_ResetSelectList('za_menu_categorie_diff', 'chargement...');
-	za_Ajax('categorie_diff_list', {}, za_LoadCategorieDiffList_Loaded, za_LoadCategorieDiffList_LoadeError);
+	// menu utilisateur
+	var menuUtilisateur = new za_Menu_Construct('menu_utilisateur', 'Menu des utilisateurs');
+		// MENU
+		// details
+		var mu_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+		menuUtilisateur.AddChild(mu_menuDetails);
+		// recettes
+		var mu_menuRecette = new za_Menu_Construct('menu_recette', 'Recettes');
+			// MENU
+			// details
+			var mu_mr_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+			mu_menuRecette.AddChild(mu_mr_menuDetails);
+			// commentaire
+			var mu_mr_menuCommentaire = new za_Menu_Construct('menu_commentaire', 'Commentaire');
+			mu_menuRecette.AddChild(mu_mr_menuCommentaire);
+		menuUtilisateur.AddChild(mu_menuRecette);
+		// commentaires
+		var mu_menuCommentaire = new za_Menu_Construct('menu_commentaire', 'Commentaires');
+			// MENU
+			// details
+			var mu_mc_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+			mu_menuCommentaire.AddChild(mu_mc_menuDetails);
+			// recette
+			var mu_mc_menuRecette = new za_Menu_Construct('menu_recette', 'Recette');
+			mu_menuCommentaire.AddChild(mu_mc_menuRecette);
+		menuUtilisateur.AddChild(mu_menuCommentaire);
+	return menuUtilisateur;
 }
 
-//categorie prix
-function za_LoadCategoriePrixList_Loaded(resp)
+function za_CreateMenuRecette()
 {
-	var select = za_ResetSelectList('za_menu_categorie_prix', null);
-	za_data.listState[za_data.type.CATEGORIE_PRIX].data = JSON.parse(resp);
-	select.append(za_GetSelectOptions(za_data.type.CATEGORIE_PRIX, za_data.listState[za_data.type.CATEGORIE_PRIX].data));
+	// menu recette
+	var menuRecette = new za_Menu_Construct('menu_recette', 'Menu des recettes');
+		// MENU
+		// details
+		var mr_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+		menuRecette.AddChild(mr_menuDetails);
+		// utilisateur
+		var mr_menuUtilisateur = new za_Menu_Construct('menu_utilisateur', 'Utilisateur');
+		menuRecette.AddChild(mr_menuUtilisateur);
+		// commentaire
+		var mr_menuCommentaire = new za_Menu_Construct('menu_commentaire', 'Commentaires');
+			// MENU
+			// details
+			var mr_mc_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+			mr_menuCommentaire.AddChild(mr_mc_menuDetails);
+			// utilisateur
+			var mr_mc_menuUtilisateur = new za_Menu_Construct('menu_utilisateur', 'Utilisateur');
+			mr_menuCommentaire.AddChild(mr_mc_menuUtilisateur);
+		menuRecette.AddChild(mr_menuCommentaire);
+		// FILTER
+		var mr_menuFilter = new za_Menu_Construct('menu_filter', 'Filtrer');
+			// MENU
+			// categorie
+			var mr_mf_menuCategorie = new za_Menu_Construct('menu_categorie', 'Filtrer par catégories');
+				// MENU
+				// details
+				var mr_mf_mc_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+				mr_mf_menuCategorie.AddChild(mr_mf_mc_menuDetails);
+				// sous categories
+				var mr_mf_mc_menuSousCategorie = new za_Menu_Construct('menu_sous_categorie', 'Filtrer par sous catégories');
+					// MENU
+					// details
+					var mr_mf_mc_msc_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+					mr_mf_mc_menuSousCategorie.AddChild(mr_mf_mc_msc_menuDetails);
+				mr_mf_menuCategorie.AddChild(mr_mf_mc_menuSousCategorie);
+			mr_menuFilter.AddChild(mr_mf_menuCategorie);
+			// categorie difficulte
+			var mr_mf_menuCategorieDiff = new za_Menu_Construct('menu_categorie_diff', 'Filtrer par catégories de difficulté');
+				// MENU
+				// details
+				var mr_mf_mcd_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+				mr_mf_menuCategorieDiff.AddChild(mr_mf_mcd_menuDetails);
+			mr_menuFilter.AddChild(mr_mf_menuCategorieDiff);
+			// categorie prix
+			var mr_mf_menuCategoriePrix = new za_Menu_Construct('menu_categorie_prix', 'Filtrer par catégories de prix');
+				// MENU
+				// details
+				var mr_mf_mcp_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+				mr_mf_menuCategoriePrix.AddChild(mr_mf_mcp_menuDetails);
+			mr_menuFilter.AddChild(mr_mf_menuCategoriePrix);
+			// utilisateur
+			var mr_mf_menuUtilisateur = new za_Menu_Construct('menu_utilisateur', 'Filtrer par utilisateurs');
+				// MENU
+				// details
+				var mr_mf_mu_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+				mr_mf_menuUtilisateur.AddChild(mr_mf_mu_menuDetails);
+			mr_menuFilter.AddChild(mr_mf_menuUtilisateur);
+		menuRecette.AddChild(mr_menuFilter);
+	return menuRecette;
 }
-function za_LoadCategoriePrixList_LoadeError(resp)
+
+function za_CreateMenuCommentaire()
 {
-	var select = za_ResetSelectList('za_menu_categorie_prix', 'Erreur de chargement\n' + resp);
+	// menu commentaire
+	var menuCommentaire = new za_Menu_Construct('menu_commentaire', 'Menu des commentaires');
+		// MENU
+		// details
+		var mc_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+		menuCommentaire.AddChild(mc_menuDetails);
+		// utilisateur
+		var mc_menuUtilisateur = new za_Menu_Construct('menu_utilisateur', 'Utilisateur');
+		menuCommentaire.AddChild(mc_menuUtilisateur);
+		// recette
+		var mc_menuRecette = new za_Menu_Construct('menu_recette', 'Recette');
+		menuCommentaire.AddChild(mc_menuRecette);
+		// FILTER
+		var mc_menuFilter = new za_Menu_Construct('menu_filter', 'Filtrer');
+			// utilisateur
+			var mc_mf_menuUtilisateur = new za_Menu_Construct('menu_utilisateur', 'Filtrer par utilisateurs');
+				// MENU
+				// details
+				var mc_mf_mu_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+				mc_mf_menuUtilisateur.AddChild(mc_mf_mu_menuDetails);
+			mc_menuFilter.AddChild(mc_mf_menuUtilisateur);
+			// recette
+			var mc_mf_menuRecette = new za_Menu_Construct('menu_recette', 'Filtrer par recettes');
+				// MENU
+				// details
+				var mc_mf_mr_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+				mc_mf_menuRecette.AddChild(mc_mf_mr_menuDetails);
+			mc_menuFilter.AddChild(mc_mf_menuRecette);
+		menuCommentaire.AddChild(mc_menuFilter);
+	return menuCommentaire;
 }
-function za_LoadCategoriePrixList()
+
+// init menu
+function za_InitMenu()
 {
-	var select = za_ResetSelectList('za_menu_categorie_prix', 'chargement...');
-	za_Ajax('categorie_prix_list', {}, za_LoadCategoriePrixList_Loaded, za_LoadCategoriePrixList_LoadeError);
+	// create menu
+	za_data.menu.menu_categorie = za_CreateMenuCategorie();
+	za_data.menu.menu_sous_categorie = za_CreateMenuSousCategorie();
+	za_data.menu.menu_categorie_diff = za_CreateMenuCategorieDiff();
+	za_data.menu.menu_categorie_prix = za_CreateMenuCategoriePrix();
+	za_data.menu.menu_utilisateur = za_CreateMenuUtilisateur();
+	za_data.menu.menu_recette = za_CreateMenuRecette();
+	za_data.menu.menu_commentaire = za_CreateMenuCommentaire();
+	
+	// init DOM
+	var za_section = $('section.section_zone_administration');
+	for (var key in za_data.menu)
+		za_section.append(za_data.menu[key].DOMElement);
 }
+
+/* FIN INIT ***************************************************/
 
 
 /**************************************************************/
@@ -229,6 +625,6 @@ function za_LoadCategoriePrixList()
 /**************************************************************/
 $(document).ready(function()
 {
-	// init zone d'administration
-	za_Init();
+	// menu
+	za_InitMenu();
 });

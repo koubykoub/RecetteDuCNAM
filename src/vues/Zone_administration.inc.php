@@ -25,7 +25,7 @@
 		// section
 		HtmlStruct::DebutSection();
 			// zone d'administration
-			HtmlStruct::DebutSection('section_principale_large');
+			HtmlStruct::DebutSection('section_zone_administration');
 				include (dirname(__FILE__) . '/commun/ZoneAdministration.inc.php');
 			HtmlStruct::FinSection();
 		HtmlStruct::FinSection();

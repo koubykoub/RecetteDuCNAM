@@ -1,42 +1,6 @@
 @CHARSET "UTF-8";
 
 /**************************************************************/
-/* BASES													  */
-/**************************************************************/
-fieldset > select
-{
-	width: 400px;
-	padding: 0px;
-	margin: 0px;
-}
-
-fieldset > select > option
-{
-	padding: 0px;
-	margin: 0px;
-}
-
-fieldset > div
-{
-	width: 480px;
-	margin-left: 10px;
-	min-height: 300px;
-}
-
-fieldset > fieldset > div
-{
-	width: 450px;
-	min-height: 100px;
-}
-
-fieldset > select, fieldset > div
-{
-	float: left;
-	border: 1px solid black;
-}
-
-
-/**************************************************************/
 /* TABLEAU													  */
 /**************************************************************/
 div.za_tableau
@@ -56,10 +20,43 @@ div.za_tableau > div
 div.za_tableau > div > div
 {
 	display: table-cell;
-	width: 100px;
-	height: 17px;
-	border: 1px solid black;
-	text-align: center;
 	margin: 0px;
 	padding: 0px;
+}
+
+
+/**************************************************************/
+/* MENU														  */
+/**************************************************************/
+legend.za_legend_menu
+{
+	display: inline-block;
+	border: 1px red solid;
+	background-color: orange;
+}
+
+
+/**************************************************************/
+/* SELECT													  */
+/**************************************************************/
+select.za_salect_list
+{
+	width: 700px;
+	padding: 0px;
+	margin: 0px;
+	border: 1px solid black;
+}
+
+select.za_salect_list > option
+{
+	width: 700px;
+	padding: 0px;
+	margin: 0px;
+}
+
+select.za_salect_list > option > div.za_tableau > div > div
+{
+	height: 17px;
+	text-align: left;
+	border: 1px solid black;
 }
