@@ -198,6 +198,7 @@ var za_SelectList_Construct = function(name, fsName, size, type, header)
 	this.size = size;
 	this.type = type;
 	this.header = header;
+	this.alone = true;
 	this.data = [];
 	this.ajaxData = {};
 	this.selectedOption = -1;
@@ -306,6 +307,8 @@ za_SelectList_Construct.prototype.InitSelectedParents = function()
 // ajax
 za_SelectList_Construct.prototype.Ajax = function()
 {
+	if (this.alone && $.isEmptyObject(this.ajaxData))
+		this.ajaxData.empty = true;
 	var self = this;
 	za_Ajax(this.type, this.ajaxData,
 	function(resp)
@@ -343,21 +346,38 @@ za_SelectList_Construct.prototype.InitSelect = function(message)
 
 za_SelectList_Construct.prototype.InitSelectData = function()
 {
-	if (this.data.length == 0)
-		this.InitSelect(this.EMPTY_MESSAGE);
-	else
-	{
-		this.InitSelect(null);
-		for (var i = 0 ; i < this.data.length ; ++i)
-			this.DOMElement.find('> select').append($('<option />').attr('value', i).append(this.CreateTabLine(i)));
-	}
+	this.InitSelect(null);
+	var select = this.DOMElement.find('> select');
+	select.append($('<option />').attr('value', -1).append(this.CreateTabLineHeader()));
+	for (var i = 0 ; i < this.data.length ; ++i)
+		select.append($('<option />').attr('value', i).append(this.CreateTabLine(i)));
 };
+
+za_SelectList_Construct.prototype.CreateTabLineHeader = function()
+{
+	var row = $('<div />');
+	for (var i = 0 ; i < this.header.length ; ++i)
+		row.append($('<div />').css('max-width', this.header[i].size + 'px').css('min-width', this.header[i].size + 'px')
+							   .css('font-weight', 'bold')
+							   .css('font-style', 'italic')
+							   .css('height', 22)
+							   .css('font-size', '1.2em')
+							   .text(this.header[i].type));
+	return $('<div />').attr('class', 'za_tableau').append(row);
+}
 
 za_SelectList_Construct.prototype.CreateTabLine = function(idData)
 {
 	var row = $('<div />');
 	for (var i = 0 ; i < this.header.length ; ++i)
-		row.append($('<div />').css('width', this.header[i].size + 'px').text(this.data[idData][this.header[i].type]));
+	{
+		var d = $('<div />').css('max-width', this.header[i].size + 'px').css('min-width', this.header[i].size + 'px');
+		if (this.data[idData][this.header[i].type])
+			d.text(this.data[idData][this.header[i].type]);
+		else
+			d.text('');
+		row.append(d);
+	}
 	return $('<div />').attr('class', 'za_tableau').append(row);
 }
 
@@ -369,20 +389,75 @@ za_SelectList_Construct.prototype.CreateTabLine = function(idData)
 // DATA
 function za_Data_Construct()
 {
+	// MENU
 	this.menu = [];
+	
+	// SELECT LINE DETAILS (700 de large)
+	this.selectLineDetails_categorie =
+	[
+		{type:'id', size:50},
+		{type:'intitule', size:650}
+	 ];
+	this.selectLineDetails_sousCategorie =
+	[
+		{type:'id', size:50},
+		{type:'id_categorie', size:100},
+		{type:'intitule', size:550}
+	 ];
+	this.selectLineDetails_utilisateur =
+	[
+		{type:'id', size:50},
+		{type:'date_inscription', size:100},
+		{type:'login', size:110},
+		{type:'nom', size:120},
+		{type:'prenom', size:120},
+		{type:'email', size:200}
+	 ];
+	this.selectLineDetails_recette =
+	[
+		{type:'id', size:50},
+		{type:'titre', size:150},
+		{type:'date_creation', size:100},
+		{type:'date_maj', size:100},
+		{type:'nb_personne', size:100},
+		{type:'temps_cuisson', size:100},
+		{type:'temps_preparation', size:100}
+	 ];
+	this.selectLineDetails_commentaire =
+	[
+		{type:'id_utilisateur', size:50},
+		{type:'id_recette', size:50},
+		{type:'date_commentaire', size:150},
+		{type:'valeur_note', size:50},
+		{type:'texte_commentaire', size:400}
+	 ];
 }
 za_data = new za_Data_Construct();
 
 
 // CALL BACKS
-function za_InitCBMenuCategorie_Categorie(cat, scat)
+function za_InitCBMenuCategorie(cat, scat)
 {
 	// sous categorie
 	cat.AddSelectCB('sous_categorie_cb', scat, function(parent)
 	{
 		this.ParentSelected(parent, 'id', 'id_categorie');
 	});
+	scat.alone = false;
 	scat.AddParentCB('categorie_cb', cat, function(parent)
+	{
+		this.ParentSelected(parent, 'id', 'id_categorie', false);
+	});
+}
+
+function za_InitCBMenuSousCategorie(scat, catFilter)
+{
+	// filtre categorie
+	catFilter.AddSelectCB('sous_categorie_cb', scat, function(parent)
+	{
+		this.ParentSelected(parent, 'id', 'id_categorie');
+	});
+	scat.AddParentCB('categorie_cb', catFilter, function(parent)
 	{
 		this.ParentSelected(parent, 'id', 'id_categorie', false);
 	});
@@ -395,7 +470,7 @@ function za_CreateMenuCategorie()
 	// menu categorie
 	var menuCategorie = new za_Menu_Construct('menu_categorie', 'Menu des catégories');
 		// categorie select list
-		var mc_catList = new  za_SelectList_Construct('select_list_categorie', 'Liste des catégories', 7, 'categorie_list', [{type:'id', size:100}, {type:'intitule', size:500}]);
+		var mc_catList = new  za_SelectList_Construct('select_list_categorie', 'Liste des catégories', 7, 'categorie_list', za_data.selectLineDetails_categorie);
 		menuCategorie.AddChild(mc_catList);
 		// MENU
 		// details
@@ -407,7 +482,7 @@ function za_CreateMenuCategorie()
 		// sous categories
 		var mc_menuSousCategorie = new za_Menu_Construct('menu_sous_categorie', 'Sous catégories');
 			// sous categorie select list
-			var mc_msc_scatList = new  za_SelectList_Construct('select_list_sous_categorie', 'Liste des sous catégories', 7, 'sous_categorie_list', [{type:'id', size:100}, {type:'intitule', size:500}]);
+			var mc_msc_scatList = new  za_SelectList_Construct('select_list_sous_categorie', 'Liste des sous catégories', 7, 'sous_categorie_list', za_data.selectLineDetails_sousCategorie);
 			mc_menuSousCategorie.AddChild(mc_msc_scatList);
 			// MENU
 			// details
@@ -415,9 +490,9 @@ function za_CreateMenuCategorie()
 				// details
 				var mc_msc_md_details = new za_Details_Construct('details_categorie', 'Détails de la sous catégorie sélectionnée');
 				mc_msc_menuDetails.AddChild(mc_msc_md_details);
-			za_InitCBMenuCategorie_Categorie(mc_catList, mc_msc_scatList);
 			mc_menuSousCategorie.AddChild(mc_msc_menuDetails);
 		menuCategorie.AddChild(mc_menuSousCategorie);
+		za_InitCBMenuCategorie(mc_catList, mc_msc_scatList);
 	return menuCategorie;
 }
 
@@ -425,6 +500,9 @@ function za_CreateMenuSousCategorie()
 {
 	// menu sous categories
 	var menuSousCategorie = new za_Menu_Construct('menu_sous_categorie', 'Menu des sous catégories');
+		// sous categorie select list
+		var msc_scatList = new  za_SelectList_Construct('select_list_sous_categorie', 'Liste des sous catégories', 7, 'sous_categorie_list', za_data.selectLineDetails_sousCategorie);
+		menuSousCategorie.AddChild(msc_scatList);
 		// MENU
 		// details
 		var msc_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
@@ -434,12 +512,16 @@ function za_CreateMenuSousCategorie()
 			// MENU
 			// categorie
 			var msc_mf_menuCategorie = new za_Menu_Construct('menu_categorie', 'Catégories');
+				// categorie select list
+				var msc_mf_mc_catList = new  za_SelectList_Construct('select_list_categorie', 'Filtrer par catégories', 7, 'categorie_list', za_data.selectLineDetails_categorie);
+				msc_mf_menuCategorie.AddChild(msc_mf_mc_catList);
 				// MENU
 				// details
 				var msc_mf_mc_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
 				msc_mf_menuCategorie.AddChild(msc_mf_mc_menuDetails);
 			msc_menuFilter.AddChild(msc_mf_menuCategorie);
 		menuSousCategorie.AddChild(msc_menuFilter);
+		za_InitCBMenuSousCategorie(msc_scatList, msc_mf_mc_catList);
 	return menuSousCategorie;
 }
 
@@ -448,7 +530,7 @@ function za_CreateMenuCategorieDiff()
 	// menu categorie difficulte
 	var menuCategorieDiff = new za_Menu_Construct('menu_categorie_diff', 'Menu des catégories de difficulté');
 		// select list
-		var mcd_catList = new  za_SelectList_Construct('select_list_categorie', 'Liste des catégories', 7, 'categorie_diff_list', [{type:'id', size:100}, {type:'intitule', size:500}]);
+		var mcd_catList = new  za_SelectList_Construct('select_list_categorie', 'Liste des catégories', 7, 'categorie_diff_list', za_data.selectLineDetails_categorie);
 		menuCategorieDiff.AddChild(mcd_catList);
 		// MENU
 		// details
@@ -462,7 +544,7 @@ function za_CreateMenuCategoriePrix()
 	// menu categorie difficulte
 	var menuCategoriePrix = new za_Menu_Construct('menu_categorie_prix', 'Menu des catégories de prix');
 		// select list
-		var mcp_catList = new  za_SelectList_Construct('select_list_categorie', 'Liste des catégories', 7, 'categorie_prix_list', [{type:'id', size:100}, {type:'intitule', size:500}]);
+		var mcp_catList = new  za_SelectList_Construct('select_list_categorie', 'Liste des catégories', 7, 'categorie_prix_list', za_data.selectLineDetails_categorie);
 		menuCategoriePrix.AddChild(mcp_catList);
 		// MENU
 		// details
@@ -475,6 +557,9 @@ function za_CreateMenuUtilisateur()
 {
 	// menu utilisateur
 	var menuUtilisateur = new za_Menu_Construct('menu_utilisateur', 'Menu des utilisateurs');
+		// select list
+		var mu_utList = new  za_SelectList_Construct('select_list_utilisateur', 'Liste des utilisateurs', 10, 'utilisateur_list', za_data.selectLineDetails_utilisateur);
+		menuUtilisateur.AddChild(mu_utList);
 		// MENU
 		// details
 		var mu_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
@@ -506,6 +591,9 @@ function za_CreateMenuRecette()
 {
 	// menu recette
 	var menuRecette = new za_Menu_Construct('menu_recette', 'Menu des recettes');
+		// select list
+		var mr_recList = new  za_SelectList_Construct('select_list_recette', 'Liste des recettes', 10, 'recette_list', za_data.selectLineDetails_recette);
+		menuRecette.AddChild(mr_recList);
 		// MENU
 		// details
 		var mr_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
@@ -569,6 +657,9 @@ function za_CreateMenuCommentaire()
 {
 	// menu commentaire
 	var menuCommentaire = new za_Menu_Construct('menu_commentaire', 'Menu des commentaires');
+		// select list
+		var mc_comList = new  za_SelectList_Construct('select_list_commentaire', 'Liste des commentaires', 10, 'commentaire_list', za_data.selectLineDetails_commentaire);
+		menuCommentaire.AddChild(mc_comList);
 		// MENU
 		// details
 		var mc_menuDetails = new za_Menu_Construct('menu_details', 'Détails');

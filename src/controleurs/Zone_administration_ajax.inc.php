@@ -5,19 +5,24 @@ try
 	$donneesControleur['type'] = $_REQUEST['type'];
 	if (isset($_REQUEST['data']))
 		$donneesControleur['data'] = $_REQUEST['data'];
-	
+	else
+		$donneesControleur['data'] = array();
 	
 	// modele
 	switch ($donneesControleur['type'])
 	{
-		// categories
+		// liste en json
 		case 'categorie_list' :
 		case 'sous_categorie_list' :
 		case 'categorie_diff_list' :
 		case 'categorie_prix_list' :
-			include_once (dirname(__FILE__) . '/../modeles/za/Za_categorie_list.inc.php');
+		case 'utilisateur_list' :
+		case 'recette_list' :
+		case 'commentaire_list' :
+			include_once (dirname(__FILE__) . '/../modeles/za/Za_list.inc.php');
 			break;
 			
+		// ERREUR
 		default :
 			throw new Exception('Erreur');
 			break;

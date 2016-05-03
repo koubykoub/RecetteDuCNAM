@@ -159,10 +159,10 @@
 	$loremipsum = 'Quisque massa vestibulum sapien lobortïs venesatis luctus volutpat torquenté molestie class nullä torquenté gravida sét, potentié lacinia blandît alèquam potentié adipiscing scéléréo neque donéc lorém ût sét porta, quisque çurcus donéc placérat torquenté auctor quisque variûs gravida eu phaséllœs. Imperdiet iaculis laoreet ullamcorpér sollicitudin fringilla. Masse lacinia sit quîs sociosqu ipsum eleifend pulvîar diam justo sém donéc luctus at venesatis sagittis arcu gravida cubilia in èst ligula tempès, fermentum ùrci egestas ùrci 12 336€ elementum lacus viverra dapibus vivamùs tortor pérès pulvîar. Habitasse curàé mié id du intègèr curàé Frînglilia alèquam.';
 	function GetRandomText($size, &$loremipsum)
 	{
-		$sizeLorem = strlen($loremipsum);
+		$sizeLorem = mb_strlen($loremipsum,'UTF-8');
 		$size = ($size > $sizeLorem) ? $sizeLorem : $size;
 		$offset = rand(0, $sizeLorem - $size);
-		return substr($loremipsum, $offset, $size);
+		return mb_substr($loremipsum, $offset, $size, 'UTF-8');
 	}
 	$daoRec = new DAORecette($conn);
 	$daoCat = new DAOCategorie($conn);
