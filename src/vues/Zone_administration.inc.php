@@ -4,7 +4,7 @@
 	// html
 	HtmlStruct::DebutHtml('Zone d\'administration',
 						  array('css/styles.css', 'css/za_styles.css'),
-						  array('js/script.js', 'js/za_script.js'));
+						  array('js/script.js', 'js/za_script.js', 'js/za_script_object.js', 'js/za_script_menu.js'));
 	
 	
 		// header
