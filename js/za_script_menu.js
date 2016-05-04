@@ -21,21 +21,21 @@ function za_Data_Construct()
 	this.selectLineDetails_utilisateur =
 	[
 		{type:'id', size:50},
-		{type:'date_inscription', size:100},
-		{type:'login', size:110},
-		{type:'nom', size:120},
-		{type:'prenom', size:120},
-		{type:'email', size:200}
+		{type:'date_inscription', size:150},
+		{type:'login', size:150},
+		{type:'nom', size:200},
+		{type:'prenom', size:200},
+		{type:'email', size:250}
 	 ];
 	this.selectLineDetails_recette =
 	[
 		{type:'id', size:50},
-		{type:'titre', size:150},
-		{type:'date_creation', size:100},
-		{type:'date_maj', size:100},
-		{type:'nb_personne', size:100},
-		{type:'temps_cuisson', size:100},
-		{type:'temps_preparation', size:100}
+		{type:'titre', size:260},
+		{type:'date_creation', size:150},
+		{type:'date_maj', size:150},
+		{type:'nb_personne', size:130},
+		{type:'temps_cuisson', size:130},
+		{type:'temps_preparation', size:130}
 	 ];
 	this.selectLineDetails_commentaire =
 	[
@@ -50,30 +50,79 @@ za_data = new za_Data_Construct();
 
 
 // CALL BACKS
-function za_InitCBMenuCategorie(cat, scat)
+function za_InitCBMenuCategorie(cat, scat, catDetails, scatDetails)
 {
-	// sous categorie
-	cat.AddSelectCB('sous_categorie_cb', scat, function(parent)
+	// detail categorie
+	cat.AddSelectCB('categorie_details_cb', catDetails, function(element, parent)
 	{
-		this.ParentSelected(parent, 'id', 'id_categorie');
+		element.SetValue(parent.GetSelectedValue());
+	});
+	catDetails.AddParentCB('categorie_cb', cat, function(element, parent)
+	{
+		element.SetValue(parent.GetSelectedValue());
+	});
+	// sous categorie
+	cat.AddSelectCB('sous_categorie_cb', scat, function(element, parent)
+	{
+		element.ParentSelected(parent, 'id', 'id_categorie');
 	});
 	scat.alone = false;
-	scat.AddParentCB('categorie_cb', cat, function(parent)
+	scat.AddParentCB('categorie_cb', cat, function(element, parent)
 	{
-		this.ParentSelected(parent, 'id', 'id_categorie', false);
+		element.ParentSelected(parent, 'id', 'id_categorie', false);
+	});
+	// detail sous categorie
+	scat.AddSelectCB('sous_categorie_details_cb', scatDetails, function(element, parent)
+	{
+		element.SetValue(parent.GetSelectedValue());
+	});
+	scatDetails.AddParentCB('sous_categorie_cb', scat, function(element, parent)
+	{
+		element.SetValue(parent.GetSelectedValue());
 	});
 }
 
-function za_InitCBMenuSousCategorie(scat, catFilter)
+function za_InitCBMenuSousCategorie(scat, catFilter, scatDetails, catDetails)
 {
-	// filtre categorie
-	catFilter.AddSelectCB('sous_categorie_cb', scat, function(parent)
+	// detail sous categorie
+	scat.AddSelectCB('sous_categorie_details_cb', scatDetails, function(element, parent)
 	{
-		this.ParentSelected(parent, 'id', 'id_categorie');
+		element.SetValue(parent.GetSelectedValue());
 	});
-	scat.AddParentCB('categorie_cb', catFilter, function(parent)
+	scatDetails.AddParentCB('sous_categorie_cb', scat, function(element, parent)
 	{
-		this.ParentSelected(parent, 'id', 'id_categorie', false);
+		element.SetValue(parent.GetSelectedValue());
+	});
+	// filtre categorie
+	catFilter.AddSelectCB('sous_categorie_cb', scat, function(element, parent)
+	{
+		element.ParentSelected(parent, 'id', 'id_categorie');
+	});
+	scat.AddParentCB('categorie_cb', catFilter, function(element, parent)
+	{
+		element.ParentSelected(parent, 'id', 'id_categorie', false);
+	});
+	// detail categorie
+	catFilter.AddSelectCB('sous_categorie_details_cb', catDetails, function(element, parent)
+	{
+		element.SetValue(parent.GetSelectedValue());
+	});
+	catDetails.AddParentCB('sous_categorie_cb', catFilter, function(element, parent)
+	{
+		element.SetValue(parent.GetSelectedValue());
+	});
+}
+
+function za_InitCBMenuCategorieSpe(cat, catDetails)
+{
+	// detail categorie
+	cat.AddSelectCB('categorie_details_cb', catDetails, function(element, parent)
+	{
+		element.SetValue(parent.GetSelectedValue());
+	});
+	catDetails.AddParentCB('categorie_cb', cat, function(element, parent)
+	{
+		element.SetValue(parent.GetSelectedValue());
 	});
 }
 
@@ -84,29 +133,29 @@ function za_CreateMenuCategorie()
 	// menu categorie
 	var menuCategorie = new za_Menu_Construct('menu_categorie', 'Menu des catégories');
 		// categorie select list
-		var mc_catList = new  za_SelectList_Construct('select_list_categorie', 'Liste des catégories', 7, 'categorie_list', za_data.selectLineDetails_categorie);
+		var mc_catList = new  za_SelectList_Construct('select_list_categorie', 'Liste des catégories', 7, 700, 'categorie_list', za_data.selectLineDetails_categorie);
 		menuCategorie.AddChild(mc_catList);
 		// MENU
 		// details
 		var mc_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
 			// details
-			var mc_md_details = new za_Details_Construct('details_categorie', 'Détails de la catégorie sélectionnée');
+			var mc_md_details = new za_CategorieDetails_Construct('details_categorie', 'Détails de la catégorie sélectionnée');
 			mc_menuDetails.AddChild(mc_md_details);
 		menuCategorie.AddChild(mc_menuDetails);
 		// sous categories
 		var mc_menuSousCategorie = new za_Menu_Construct('menu_sous_categorie', 'Sous catégories');
 			// sous categorie select list
-			var mc_msc_scatList = new  za_SelectList_Construct('select_list_sous_categorie', 'Liste des sous catégories', 7, 'sous_categorie_list', za_data.selectLineDetails_sousCategorie);
+			var mc_msc_scatList = new  za_SelectList_Construct('select_list_sous_categorie', 'Liste des sous catégories', 7, 700, 'sous_categorie_list', za_data.selectLineDetails_sousCategorie);
 			mc_menuSousCategorie.AddChild(mc_msc_scatList);
 			// MENU
 			// details
 			var mc_msc_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
 				// details
-				var mc_msc_md_details = new za_Details_Construct('details_categorie', 'Détails de la sous catégorie sélectionnée');
+				var mc_msc_md_details = new za_SousCategorieDetails_Construct('details_sous_categorie', 'Détails de la catégorie sélectionnée');
 				mc_msc_menuDetails.AddChild(mc_msc_md_details);
 			mc_menuSousCategorie.AddChild(mc_msc_menuDetails);
 		menuCategorie.AddChild(mc_menuSousCategorie);
-		za_InitCBMenuCategorie(mc_catList, mc_msc_scatList);
+	za_InitCBMenuCategorie(mc_catList, mc_msc_scatList, mc_md_details, mc_msc_md_details);
 	return menuCategorie;
 }
 
@@ -115,11 +164,14 @@ function za_CreateMenuSousCategorie()
 	// menu sous categories
 	var menuSousCategorie = new za_Menu_Construct('menu_sous_categorie', 'Menu des sous catégories');
 		// sous categorie select list
-		var msc_scatList = new  za_SelectList_Construct('select_list_sous_categorie', 'Liste des sous catégories', 7, 'sous_categorie_list', za_data.selectLineDetails_sousCategorie);
+		var msc_scatList = new  za_SelectList_Construct('select_list_sous_categorie', 'Liste des sous catégories', 7, 700, 'sous_categorie_list', za_data.selectLineDetails_sousCategorie);
 		menuSousCategorie.AddChild(msc_scatList);
 		// MENU
 		// details
 		var msc_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+			// details
+			var msc_md_details = new za_SousCategorieDetails_Construct('details_sous_categorie', 'Détails de la catégorie sélectionnée');
+			msc_menuDetails.AddChild(msc_md_details);
 		menuSousCategorie.AddChild(msc_menuDetails);
 		// FILTER
 		var msc_menuFilter = new za_Menu_Construct('menu_filter', 'Filtrer');
@@ -127,15 +179,18 @@ function za_CreateMenuSousCategorie()
 			// categorie
 			var msc_mf_menuCategorie = new za_Menu_Construct('menu_categorie', 'Catégories');
 				// categorie select list
-				var msc_mf_mc_catList = new  za_SelectList_Construct('select_list_categorie', 'Filtrer par catégories', 7, 'categorie_list', za_data.selectLineDetails_categorie);
+				var msc_mf_mc_catList = new  za_SelectList_Construct('select_list_categorie', 'Filtrer par catégories', 7, 700, 'categorie_list', za_data.selectLineDetails_categorie);
 				msc_mf_menuCategorie.AddChild(msc_mf_mc_catList);
 				// MENU
 				// details
 				var msc_mf_mc_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+					// details
+					var msc_mf_mc_md_details = new za_CategorieDetails_Construct('details_categorie', 'Détails de la catégorie sélectionnée');
+					msc_mf_mc_menuDetails.AddChild(msc_mf_mc_md_details);
 				msc_mf_menuCategorie.AddChild(msc_mf_mc_menuDetails);
 			msc_menuFilter.AddChild(msc_mf_menuCategorie);
 		menuSousCategorie.AddChild(msc_menuFilter);
-		za_InitCBMenuSousCategorie(msc_scatList, msc_mf_mc_catList);
+	za_InitCBMenuSousCategorie(msc_scatList, msc_mf_mc_catList, msc_md_details, msc_mf_mc_md_details);
 	return menuSousCategorie;
 }
 
@@ -144,12 +199,16 @@ function za_CreateMenuCategorieDiff()
 	// menu categorie difficulte
 	var menuCategorieDiff = new za_Menu_Construct('menu_categorie_diff', 'Menu des catégories de difficulté');
 		// select list
-		var mcd_catList = new  za_SelectList_Construct('select_list_categorie', 'Liste des catégories', 7, 'categorie_diff_list', za_data.selectLineDetails_categorie);
+		var mcd_catList = new  za_SelectList_Construct('select_list_categorie', 'Liste des catégories', 7, 700, 'categorie_diff_list', za_data.selectLineDetails_categorie);
 		menuCategorieDiff.AddChild(mcd_catList);
 		// MENU
 		// details
 		var mcd_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+			// details
+			var mcd_md_details = new za_CategorieDetails_Construct('details_categorie_diff', 'Détails de la catégorie sélectionnée');
+			mcd_menuDetails.AddChild(mcd_md_details);
 		menuCategorieDiff.AddChild(mcd_menuDetails);
+	za_InitCBMenuCategorieSpe(mcd_catList, mcd_md_details);
 	return menuCategorieDiff;
 }
 
@@ -158,12 +217,16 @@ function za_CreateMenuCategoriePrix()
 	// menu categorie difficulte
 	var menuCategoriePrix = new za_Menu_Construct('menu_categorie_prix', 'Menu des catégories de prix');
 		// select list
-		var mcp_catList = new  za_SelectList_Construct('select_list_categorie', 'Liste des catégories', 7, 'categorie_prix_list', za_data.selectLineDetails_categorie);
+		var mcp_catList = new  za_SelectList_Construct('select_list_categorie', 'Liste des catégories', 7, 700, 'categorie_prix_list', za_data.selectLineDetails_categorie);
 		menuCategoriePrix.AddChild(mcp_catList);
 		// MENU
 		// details
 		var mcp_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+			// details
+			var mcp_md_details = new za_CategorieDetails_Construct('details_categorie_prix', 'Détails de la catégorie sélectionnée');
+			mcp_menuDetails.AddChild(mcp_md_details);
 		menuCategoriePrix.AddChild(mcp_menuDetails);
+	za_InitCBMenuCategorieSpe(mcp_catList, mcp_md_details);
 	return menuCategoriePrix;
 }
 
@@ -172,7 +235,7 @@ function za_CreateMenuUtilisateur()
 	// menu utilisateur
 	var menuUtilisateur = new za_Menu_Construct('menu_utilisateur', 'Menu des utilisateurs');
 		// select list
-		var mu_utList = new  za_SelectList_Construct('select_list_utilisateur', 'Liste des utilisateurs', 10, 'utilisateur_list', za_data.selectLineDetails_utilisateur);
+		var mu_utList = new  za_SelectList_Construct('select_list_utilisateur', 'Liste des utilisateurs', 10, 1000, 'utilisateur_list', za_data.selectLineDetails_utilisateur);
 		menuUtilisateur.AddChild(mu_utList);
 		// MENU
 		// details
@@ -206,7 +269,7 @@ function za_CreateMenuRecette()
 	// menu recette
 	var menuRecette = new za_Menu_Construct('menu_recette', 'Menu des recettes');
 		// select list
-		var mr_recList = new  za_SelectList_Construct('select_list_recette', 'Liste des recettes', 10, 'recette_list', za_data.selectLineDetails_recette);
+		var mr_recList = new  za_SelectList_Construct('select_list_recette', 'Liste des recettes', 10, 1000, 'recette_list', za_data.selectLineDetails_recette);
 		menuRecette.AddChild(mr_recList);
 		// MENU
 		// details
@@ -272,7 +335,7 @@ function za_CreateMenuCommentaire()
 	// menu commentaire
 	var menuCommentaire = new za_Menu_Construct('menu_commentaire', 'Menu des commentaires');
 		// select list
-		var mc_comList = new  za_SelectList_Construct('select_list_commentaire', 'Liste des commentaires', 10, 'commentaire_list', za_data.selectLineDetails_commentaire);
+		var mc_comList = new  za_SelectList_Construct('select_list_commentaire', 'Liste des commentaires', 10, 700, 'commentaire_list', za_data.selectLineDetails_commentaire);
 		menuCommentaire.AddChild(mc_comList);
 		// MENU
 		// details
@@ -303,3 +366,5 @@ function za_CreateMenuCommentaire()
 		menuCommentaire.AddChild(mc_menuFilter);
 	return menuCommentaire;
 }
+
+/* FIN INIT ***************************************************/

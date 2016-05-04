@@ -43,6 +43,7 @@ var za_ElementBase_Construct = function(name, fsName)
 	this.fsName = fsName;
 	this.parent = null;
 	this.enabled = false;
+	this.parentCB = {};
 	this.CreateDOMElementBase();
 };
 za_ElementBase_Construct.prototype.SetParent = function(parent)
@@ -60,6 +61,28 @@ za_ElementBase_Construct.prototype.DisableBase = function()
 {
 	this.DOMElement.detach();
 	this.enabled = false;
+};
+
+// parent
+za_ElementBase_Construct.prototype.AddParentCB = function(key, parent, cb)
+{
+	var newCB =
+	{
+			parent : parent,
+			cb : cb
+	};
+	this.parentCB[key] = newCB;
+};
+
+za_ElementBase_Construct.prototype.InitSelectedParents = function()
+{
+	// parent call backs
+	for (var key in this.parentCB)
+	{
+		var parentCB = this.parentCB[key];
+		if (parentCB.parent.enabled)
+			parentCB.cb(this, parentCB.parent);
+	}
 };
 
 // DOM
@@ -139,7 +162,7 @@ za_Menu_Construct.prototype.SetDOMElementOpened = function()
 		this.DOMElement.find('> legend').css('background-color', this.OPENED_COLOR);
 	else
 		this.DOMElement.find('> legend').css('background-color', this.CLOSED_COLOR);
-}
+};
 
 // input
 za_Menu_Construct.prototype.onClickLegend = function()
@@ -158,43 +181,14 @@ za_Menu_Construct.prototype.onClickLegend = function()
 /* FIN MENU ***************************************************/
 
 
-/* DETAILS ****************************************************/
-//constructor
-var za_Details_Construct = function(name, fsName)
-{
-	// attributs
-	this.constructor(name, fsName);
-	this.SetDOMElement();
-};
-za_ExtendClass(za_Details_Construct, za_ElementBase_Construct);
-
-//enable / disable
-za_Details_Construct.prototype.Enable = function()
-{
-	this.EnableBase();
-};
-
-za_Details_Construct.prototype.Disable = function()
-{
-	this.DisableBase();
-};
-
-//DOM
-za_Details_Construct.prototype.SetDOMElement = function()
-{
-	this.DOMElement.append($('<h4 />').text(this.fsName));
-};
-
-/* FIN DETAILS ************************************************/
-
-
 /* SELECT LIST ************************************************/
 //constructor
-var za_SelectList_Construct = function(name, fsName, size, type, header)
+var za_SelectList_Construct = function(name, fsName, size, width, type, header)
 {
 	// attributs
 	this.constructor(name, fsName);
 	this.size = size;
+	this.width = width;
 	this.type = type;
 	this.header = header;
 	this.alone = true;
@@ -202,7 +196,7 @@ var za_SelectList_Construct = function(name, fsName, size, type, header)
 	this.ajaxData = {};
 	this.selectedOption = -1;
 	this.selectCB = {};
-	this.parentCB = {};
+	//this.parentCB = {};
 	this.SetDOMElement();
 };
 za_ExtendClass(za_SelectList_Construct, za_ElementBase_Construct);
@@ -241,9 +235,9 @@ za_SelectList_Construct.prototype.Select = function(id)
 	{
 		var selectCB = this.selectCB[key];
 		if (selectCB.element.enabled)
-			selectCB.cb.call(selectCB.element, this);
+			selectCB.cb(selectCB.element, this);
 	}
-}
+};
 
 za_SelectList_Construct.prototype.AddSelectCB = function(key, element, cb)
 {
@@ -253,7 +247,7 @@ za_SelectList_Construct.prototype.AddSelectCB = function(key, element, cb)
 			cb : cb
 	};
 	this.selectCB[key] = newCB;
-}
+};
 
 za_SelectList_Construct.prototype.ParentSelected = function(parent, parentName, name, ajax = true)
 {
@@ -262,7 +256,8 @@ za_SelectList_Construct.prototype.ParentSelected = function(parent, parentName, 
 		this.ValueSelected(-1, name, ajax);
 	else if (id && (id != -1))
 		this.ValueSelected(parent.data[id][parentName], name, ajax);
-}
+	this.Select(-1);
+};
 
 za_SelectList_Construct.prototype.ValueSelected = function(val, name, ajax)
 {
@@ -272,7 +267,7 @@ za_SelectList_Construct.prototype.ValueSelected = function(val, name, ajax)
 		this.data = [];
 		this.Ajax();
 	}
-}
+};
 
 za_SelectList_Construct.prototype.AddSelection = function(val, name)
 {
@@ -280,27 +275,13 @@ za_SelectList_Construct.prototype.AddSelection = function(val, name)
 		delete this.ajaxData[name];
 	else if (val && (val != -1))
 		this.ajaxData[name] = val;
-}
+};
 
-za_SelectList_Construct.prototype.AddParentCB = function(key, parent, cb)
+za_SelectList_Construct.prototype.GetSelectedValue = function()
 {
-	var newCB =
-	{
-			parent : parent,
-			cb : cb
-	};
-	this.parentCB[key] = newCB;
-}
-
-za_SelectList_Construct.prototype.InitSelectedParents = function()
-{
-	// parent call backs
-	for (var key in this.parentCB)
-	{
-		var parentCB = this.parentCB[key];
-		if (parentCB.parent.enabled)
-			parentCB.cb.call(this, parentCB.parent);
-	}
+	if (this.selectedOption != -1)
+		return this.data[this.selectedOption];
+	return null;
 }
 
 // ajax
@@ -319,13 +300,13 @@ za_SelectList_Construct.prototype.Ajax = function()
 	{
 		self.InitSelect(self.ERROR_MESSAGE + resp);
 	});
-}
+};
 
 //DOM
 za_SelectList_Construct.prototype.SetDOMElement = function()
 {
 	var self = this;
-	var select = $('<select />').attr('size', this.size).attr('multiple', 'multiple').attr('class', 'za_salect_list')
+	var select = $('<select />').attr('size', this.size).attr('multiple', 'multiple').attr('class', 'za_salect_list').css('width', this.width)
 	// change selected option
 	.change(function()
 	{
@@ -340,30 +321,32 @@ za_SelectList_Construct.prototype.InitSelect = function(message)
 	var select = this.DOMElement.find('> select');
 	select.find('> option').remove();
 	if (message != null)
-		select.append($('<option />').attr('value', -1).text(message));
+		select.append($('<option />').attr('value', -1).css('width', this.width).text(message));
 };
 
 za_SelectList_Construct.prototype.InitSelectData = function()
 {
 	this.InitSelect(null);
 	var select = this.DOMElement.find('> select');
-	select.append($('<option />').attr('value', -1).append(this.CreateTabLineHeader()));
+	select.append($('<option />').attr('value', -1).css('width', this.width).append(this.CreateTabLineHeader()));
 	for (var i = 0 ; i < this.data.length ; ++i)
-		select.append($('<option />').attr('value', i).append(this.CreateTabLine(i)));
+		select.append($('<option />').attr('value', i).css('width', this.width).append(this.CreateTabLine(i)));
 };
 
 za_SelectList_Construct.prototype.CreateTabLineHeader = function()
 {
 	var row = $('<div />');
 	for (var i = 0 ; i < this.header.length ; ++i)
+	{
 		row.append($('<div />').css('max-width', this.header[i].size + 'px').css('min-width', this.header[i].size + 'px')
 							   .css('font-weight', 'bold')
 							   .css('font-style', 'italic')
 							   .css('height', 22)
 							   .css('font-size', '1.2em')
 							   .text(this.header[i].type));
+	}
 	return $('<div />').attr('class', 'za_tableau').append(row);
-}
+};
 
 za_SelectList_Construct.prototype.CreateTabLine = function(idData)
 {
@@ -378,6 +361,140 @@ za_SelectList_Construct.prototype.CreateTabLine = function(idData)
 		row.append(d);
 	}
 	return $('<div />').attr('class', 'za_tableau').append(row);
-}
+};
 
 /* FIN SELECT LIST ********************************************/
+
+
+/* DETAILS ****************************************************/
+
+/* BASE *******************************************************/
+//constructor
+var za_Details_Construct = function(name, fsName)
+{
+	// attributs
+	this.constructor(name, fsName);
+	this.SetDOMElement();
+};
+za_ExtendClass(za_Details_Construct, za_ElementBase_Construct);
+
+//enable / disable
+za_Details_Construct.prototype.Enable = function()
+{
+	this.EnableBase();
+	this.InitSelectedParents();
+};
+
+za_Details_Construct.prototype.Disable = function()
+{
+	this.DisableBase();
+};
+
+//DOM
+za_Details_Construct.prototype.SetDOMElement = function()
+{
+	this.DOMElement.append($('<h4 />').text(this.fsName));
+};
+
+/* FIN BASE ***************************************************/
+
+/* CATEGORIE **************************************************/
+//constructor
+var za_CategorieDetails_Construct = function(name, fsName)
+{
+	this.constructor(name, fsName);
+	this.SetDOMElement();
+};
+za_ExtendClass(za_CategorieDetails_Construct, za_Details_Construct);
+
+// value
+za_CategorieDetails_Construct.prototype.SetValue = function(val)
+{
+	this.SetDOMValue(val);
+};
+
+//DOM
+za_CategorieDetails_Construct.prototype.SetDOMElement = function()
+{
+	var nid = this.name + '_detail_id';
+	var nint = this.name + '_detail_intitule';
+	var inputId = $('<input />').attr('type', 'text').attr('readonly', 'readonly').attr('id', nid);
+	var inputIntitule = $('<input />').attr('type', 'text').attr('id', nint);
+	this.DOMElement.append('id : ').append(inputId).append($('<br />'));
+	this.DOMElement.append('intitule : ').append(inputIntitule);
+};
+
+za_CategorieDetails_Construct.prototype.SetDOMValue = function(val)
+{
+	var nid = this.name + '_detail_id';
+	var nint = this.name + '_detail_intitule';
+	var inputId = this.DOMElement.find('input#' + nid);
+	var inputIntitule = this.DOMElement.find('input#' + nint);
+	if (val && (val != null))
+	{
+		inputId.val(val.id);
+		inputIntitule.val(val.intitule);
+	}
+	else
+	{
+		inputId.val('');
+		inputIntitule.val('');
+	}
+};
+
+/* FIN CATEGORIE **********************************************/
+
+/* SOUS CATEGORIE *********************************************/
+//constructor
+var za_SousCategorieDetails_Construct = function(name, fsName)
+{
+	this.constructor(name, fsName);
+	this.SetDOMElement();
+};
+za_ExtendClass(za_SousCategorieDetails_Construct, za_Details_Construct);
+
+//value
+za_SousCategorieDetails_Construct.prototype.SetValue = function(val)
+{
+	this.SetDOMValue(val);
+};
+
+//DOM
+za_SousCategorieDetails_Construct.prototype.SetDOMElement = function()
+{
+	var nid = this.name + '_detail_id';
+	var nidc = this.name + '_detail_id_categorie';
+	var nint = this.name + '_detail_intitule';
+	var inputId = $('<input />').attr('type', 'text').attr('readonly', 'readonly').attr('id', nid);
+	var inputIdc = $('<input />').attr('type', 'text').attr('readonly', 'readonly').attr('id', nidc);
+	var inputIntitule = $('<input />').attr('type', 'text').attr('id', nint);
+	this.DOMElement.append('id : ').append(inputId).append($('<br />'));
+	this.DOMElement.append('id catégorie : ').append(inputIdc).append($('<br />'));
+	this.DOMElement.append('intitule : ').append(inputIntitule);
+};
+
+za_SousCategorieDetails_Construct.prototype.SetDOMValue = function(val)
+{
+	var nid = this.name + '_detail_id';
+	var nidc = this.name + '_detail_id_categorie';
+	var nint = this.name + '_detail_intitule';
+	var inputId = this.DOMElement.find('input#' + nid);
+	var inputIdc = this.DOMElement.find('input#' + nidc);
+	var inputIntitule = this.DOMElement.find('input#' + nint);
+	if (val && (val != null))
+	{
+		inputId.val(val.id);
+		inputIdc.val(val.id_categorie);
+		inputIntitule.val(val.intitule);
+	}
+	else
+	{
+		inputId.val('');
+		inputIdc.val('');
+		inputIntitule.val('');
+	}
+};
+
+/* FIN SOUS CATEGORIE *****************************************/
+
+/* FIN DETAILS ************************************************/

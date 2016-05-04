@@ -8,7 +8,7 @@
 		
 		<!-- mot de passe -->
 		<?php if ($dVueCreerCompte['mise_a_jour']) { ?>
-		<li><label for="mdp">Ancien mot de passe &nbsp;</label><input type="password" name="ancien_mdp" id="ancien_mdp" /></li>
+		<li><label for="ancien_mdp">Ancien mot de passe &nbsp;</label><input type="password" name="ancien_mdp" id="ancien_mdp" /></li>
 		<li><label for="mdp">Nouveau mot de passe &nbsp;</label><input type="password" name="mdp" id="mdp" /></li>
 		<li><label for="mdp2">Répéter le nouveau mot de passe &nbsp;</label><input type="password" name="mdp2" id="mdp2" /></li>
 		<?php } else { ?>

@@ -16,8 +16,6 @@ function za_InitMenu()
 		za_section.append(za_data.menu[key].DOMElement);
 }
 
-/* FIN INIT ***************************************************/
-
 
 /**************************************************************/
 /* DOCUMENT PRET											  */
