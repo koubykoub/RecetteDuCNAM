@@ -25,6 +25,7 @@
 	</head>
 
 	<body>
+		<section class="wrapper">
 			<?php
 		}
 		
@@ -116,6 +117,7 @@
 		public static function FinHtml()
 		{
 			?>
+			</section>
 	</body>
 </html>
 			<?php

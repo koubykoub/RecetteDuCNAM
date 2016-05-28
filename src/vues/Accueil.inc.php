@@ -56,7 +56,7 @@
 				if ($dVueMessage['destruction_recette'])
 				{
 					HtmlStruct::DebutArticle('section_message');
-					include (dirname(__FILE__) . '/commun/MessageDestructionRecette.inc.php');
+						include (dirname(__FILE__) . '/commun/MessageDestructionRecette.inc.php');
 					HtmlStruct::FinArticle();
 				}
 				
@@ -64,7 +64,7 @@
 				if ($dVueMessage['destruction_compte'])
 				{
 					HtmlStruct::DebutArticle('section_message');
-					include (dirname(__FILE__) . '/commun/MessageDestructionCompte.inc.php');
+						include (dirname(__FILE__) . '/commun/MessageDestructionCompte.inc.php');
 					HtmlStruct::FinArticle();
 				}
 			

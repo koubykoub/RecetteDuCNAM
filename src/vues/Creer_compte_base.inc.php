@@ -23,7 +23,7 @@
 		// section
 		HtmlStruct::DebutSection();
 			// creer compte
-			HtmlStruct::DebutSection('section_principale_large');
+			HtmlStruct::DebutSection('creer_compte');
 				include (dirname(__FILE__) . '/commun/CreerCompte.inc.php');
 			HtmlStruct::FinSection();
 		HtmlStruct::FinSection();

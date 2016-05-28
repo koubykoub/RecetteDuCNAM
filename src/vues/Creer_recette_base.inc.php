@@ -31,7 +31,7 @@
 			}
 		
 			// section
-			HtmlStruct::DebutSection('section_principale_large');
+			HtmlStruct::DebutSection('creer_recette');
 				// creer une recette
 				include (dirname(__FILE__) . '/commun/CreerRecette.inc.php'); 
 			HtmlStruct::FinSection();

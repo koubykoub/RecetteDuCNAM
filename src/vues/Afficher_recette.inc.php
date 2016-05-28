@@ -80,12 +80,12 @@
 				}
 			
 				// afficher recette
-				HtmlStruct::DebutArticle('random_recette');
+				HtmlStruct::DebutArticle('recette');
 					include (dirname(__FILE__) . '/commun/AfficherRecette.inc.php');
 				HtmlStruct::FinArticle();
 				
 				// afficher commentaires
-				HtmlStruct::DebutArticle('random_recette');
+				HtmlStruct::DebutArticle('commentaire');
 					include (dirname(__FILE__) . '/commun/Commentaire.inc.php');
 				HtmlStruct::FinArticle();
 			HtmlStruct::FinSection(true);

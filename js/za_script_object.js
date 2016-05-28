@@ -45,6 +45,7 @@ var za_ElementBase_Construct = function(name, fsName)
 	this.enabled = false;
 	this.parentCB = {};
 	this.CreateDOMElementBase();
+	this.SetDOMElement();
 };
 za_ElementBase_Construct.prototype.SetParent = function(parent)
 {
@@ -99,10 +100,9 @@ za_ElementBase_Construct.prototype.CreateDOMElementBase = function()
 var za_Menu_Construct = function(name, fsName)
 {
 	// attributs
-	this.constructor(name, fsName);
+	za_ElementBase_Construct.call(this, name, fsName);
 	this.opened = false;
 	this.elements = {};
-	this.SetDOMElement();
 };
 za_ExtendClass(za_Menu_Construct, za_ElementBase_Construct);
 
@@ -186,7 +186,6 @@ za_Menu_Construct.prototype.onClickLegend = function()
 var za_SelectList_Construct = function(name, fsName, size, width, type, header)
 {
 	// attributs
-	this.constructor(name, fsName);
 	this.size = size;
 	this.width = width;
 	this.type = type;
@@ -196,8 +195,7 @@ var za_SelectList_Construct = function(name, fsName, size, width, type, header)
 	this.ajaxData = {};
 	this.selectedOption = -1;
 	this.selectCB = {};
-	//this.parentCB = {};
-	this.SetDOMElement();
+	za_ElementBase_Construct.call(this, name, fsName);
 };
 za_ExtendClass(za_SelectList_Construct, za_ElementBase_Construct);
 
@@ -373,10 +371,15 @@ za_SelectList_Construct.prototype.CreateTabLine = function(idData)
 var za_Details_Construct = function(name, fsName)
 {
 	// attributs
-	this.constructor(name, fsName);
-	this.SetDOMElement();
+	za_ElementBase_Construct.call(this, name, fsName);
 };
 za_ExtendClass(za_Details_Construct, za_ElementBase_Construct);
+
+// value
+za_Details_Construct.prototype.SetValue = function(val)
+{
+	this.SetDOMValue(val);
+};
 
 //enable / disable
 za_Details_Construct.prototype.Enable = function()
@@ -391,9 +394,12 @@ za_Details_Construct.prototype.Disable = function()
 };
 
 //DOM
-za_Details_Construct.prototype.SetDOMElement = function()
+za_Details_Construct.prototype.SetDOMValue = function(val)
 {
-	this.DOMElement.append($('<h4 />').text(this.fsName));
+	if (val && (val != null))
+		this.SetDOMWithValue(val);
+	else
+		this.SetDOMWithoutValue();
 };
 
 /* FIN BASE ***************************************************/
@@ -402,44 +408,49 @@ za_Details_Construct.prototype.SetDOMElement = function()
 //constructor
 var za_CategorieDetails_Construct = function(name, fsName)
 {
-	this.constructor(name, fsName);
-	this.SetDOMElement();
+	za_Details_Construct.call(this, name, fsName);
 };
 za_ExtendClass(za_CategorieDetails_Construct, za_Details_Construct);
 
-// value
-za_CategorieDetails_Construct.prototype.SetValue = function(val)
-{
-	this.SetDOMValue(val);
-};
-
 //DOM
+za_CategorieDetails_Construct.prototype.GetIdInput = function()
+{
+	var nid = this.name + '_detail_id';
+	var inputId = this.DOMElement.find('input#' + nid);
+	return inputId;
+}
+
+za_CategorieDetails_Construct.prototype.GetIntituleInput = function()
+{
+	var nint = this.name + '_detail_intitule';
+	var inputIntitule = this.DOMElement.find('input#' + nint);
+	return inputIntitule;
+}
+
 za_CategorieDetails_Construct.prototype.SetDOMElement = function()
 {
 	var nid = this.name + '_detail_id';
 	var nint = this.name + '_detail_intitule';
-	var inputId = $('<input />').attr('type', 'text').attr('readonly', 'readonly').attr('id', nid);
-	var inputIntitule = $('<input />').attr('type', 'text').attr('id', nint);
-	this.DOMElement.append('id : ').append(inputId).append($('<br />'));
-	this.DOMElement.append('intitule : ').append(inputIntitule);
+	var idInput = $('<input />').attr('type', 'text').attr('readonly', 'readonly').attr('id', nid);
+	var intituleInput = $('<input />').attr('type', 'text').attr('id', nint);
+	this.DOMElement.append('id : ').append(idInput).append($('<br />'));
+	this.DOMElement.append('intitule : ').append(intituleInput);
 };
 
-za_CategorieDetails_Construct.prototype.SetDOMValue = function(val)
+za_CategorieDetails_Construct.prototype.SetDOMWithValue = function(val)
 {
-	var nid = this.name + '_detail_id';
-	var nint = this.name + '_detail_intitule';
-	var inputId = this.DOMElement.find('input#' + nid);
-	var inputIntitule = this.DOMElement.find('input#' + nint);
-	if (val && (val != null))
-	{
-		inputId.val(val.id);
-		inputIntitule.val(val.intitule);
-	}
-	else
-	{
-		inputId.val('');
-		inputIntitule.val('');
-	}
+	var idInput = this.GetIdInput();
+	var intituleInput = this.GetIntituleInput();
+	idInput.val(val.id);
+	intituleInput.val(val.intitule);
+};
+
+za_CategorieDetails_Construct.prototype.SetDOMWithoutValue = function()
+{
+	var idInput = this.GetIdInput();
+	var intituleInput = this.GetIntituleInput();
+	idInput.val('');
+	intituleInput.val('');
 };
 
 /* FIN CATEGORIE **********************************************/
@@ -448,16 +459,17 @@ za_CategorieDetails_Construct.prototype.SetDOMValue = function(val)
 //constructor
 var za_SousCategorieDetails_Construct = function(name, fsName)
 {
-	this.constructor(name, fsName);
-	this.SetDOMElement();
+	za_CategorieDetails_Construct.call(this, name, fsName);
 };
-za_ExtendClass(za_SousCategorieDetails_Construct, za_Details_Construct);
+za_ExtendClass(za_SousCategorieDetails_Construct, za_CategorieDetails_Construct);
 
-//value
-za_SousCategorieDetails_Construct.prototype.SetValue = function(val)
+// value
+za_CategorieDetails_Construct.prototype.GetIdCategorieInput = function()
 {
-	this.SetDOMValue(val);
-};
+	var nidc = this.name + '_detail_id_categorie';
+	var idcInput = this.DOMElement.find('input#' + nidc);
+	return idcInput;
+}
 
 //DOM
 za_SousCategorieDetails_Construct.prototype.SetDOMElement = function()
@@ -473,28 +485,186 @@ za_SousCategorieDetails_Construct.prototype.SetDOMElement = function()
 	this.DOMElement.append('intitule : ').append(inputIntitule);
 };
 
-za_SousCategorieDetails_Construct.prototype.SetDOMValue = function(val)
+za_SousCategorieDetails_Construct.prototype.SetDOMWithValue = function(val)
 {
-	var nid = this.name + '_detail_id';
-	var nidc = this.name + '_detail_id_categorie';
-	var nint = this.name + '_detail_intitule';
-	var inputId = this.DOMElement.find('input#' + nid);
-	var inputIdc = this.DOMElement.find('input#' + nidc);
-	var inputIntitule = this.DOMElement.find('input#' + nint);
-	if (val && (val != null))
-	{
-		inputId.val(val.id);
-		inputIdc.val(val.id_categorie);
-		inputIntitule.val(val.intitule);
-	}
-	else
-	{
-		inputId.val('');
-		inputIdc.val('');
-		inputIntitule.val('');
-	}
+	var idInput = this.GetIdInput();
+	var idcInput = this.GetIdCategorieInput();
+	var intituleInput = this.GetIntituleInput();
+	idInput.val(val.id);
+	idcInput.val(val.id_categorie);
+	intituleInput.val(val.intitule);
+};
+
+za_SousCategorieDetails_Construct.prototype.SetDOMWithoutValue = function()
+{
+	var idInput = this.GetIdInput();
+	var idcInput = this.GetIdCategorieInput();
+	var intituleInput = this.GetIntituleInput();
+	idInput.val('');
+	idcInput.val('');
+	intituleInput.val('');
 };
 
 /* FIN SOUS CATEGORIE *****************************************/
+
+/* UTILISATEUR ************************************************/
+//constructor
+var za_UtilisateurDetails_Construct = function(name, fsName)
+{
+	za_Details_Construct.call(this, name, fsName);
+};
+za_ExtendClass(za_UtilisateurDetails_Construct, za_Details_Construct);
+
+//DOM
+za_UtilisateurDetails_Construct.prototype.GetIdInput = function()
+{
+	var nid = this.name + '_detail_id';
+	var idInput = this.DOMElement.find('input#' + nid);
+	return idInput;
+}
+
+za_UtilisateurDetails_Construct.prototype.GetLoginInput = function()
+{
+	var nlog = this.name + '_detail_login';
+	var loginInput = this.DOMElement.find('input#' + nlog);
+	return loginInput;
+}
+
+za_UtilisateurDetails_Construct.prototype.GetMDPInput = function()
+{
+	var nmdp = this.name + '_detail_mdp';
+	var mdpInput = this.DOMElement.find('input#' + nmdp);
+	return mdpInput;
+}
+
+za_UtilisateurDetails_Construct.prototype.GetNomInput = function()
+{
+	var nn = this.name + '_detail_nom';
+	var nomInput = this.DOMElement.find('input#' + nn);
+	return nomInput;
+}
+
+za_UtilisateurDetails_Construct.prototype.GetPrenomInput = function()
+{
+	var npn = this.name + '_detail_prenom';
+	var prenomInput = this.DOMElement.find('input#' + npn);
+	return prenomInput;
+}
+
+za_UtilisateurDetails_Construct.prototype.GetEmailInput = function()
+{
+	var nem = this.name + '_detail_email';
+	var emailInput = this.DOMElement.find('input#' + nem);
+	return emailInput;
+}
+
+za_UtilisateurDetails_Construct.prototype.GetDateInput = function()
+{
+	var nd = this.name + '_detail_date';
+	var dateInput = this.DOMElement.find('input#' + nd);
+	return dateInput;
+}
+
+za_UtilisateurDetails_Construct.prototype.GetPhotoInput = function()
+{
+	var np = this.name + '_detail_photo';
+	var photoInput = this.DOMElement.find('input#' + np);
+	return photoInput;
+}
+
+za_UtilisateurDetails_Construct.prototype.GetAdminInput = function()
+{
+	var na = this.name + '_detail_admin';
+	var adminInput = this.DOMElement.find('input#' + na);
+	return adminInput;
+}
+
+za_UtilisateurDetails_Construct.prototype.SetDOMElement = function()
+{
+	// name id
+	var nid = this.name + '_detail_id';
+	var nlog = this.name + '_detail_login';
+	var nmdp = this.name + '_detail_mdp';
+	var nn = this.name + '_detail_nom';
+	var npn = this.name + '_detail_prenom';
+	var nem = this.name + '_detail_email';
+	var nd = this.name + '_detail_date';
+	var np = this.name + '_detail_photo';
+	var na = this.name + '_detail_admin';
+	
+	// create input
+	var idInput = $('<input />').attr('type', 'text').attr('readonly', 'readonly').attr('id', nid);
+	var loginInput = $('<input />').attr('type', 'text').attr('id', nlog);
+	var mdpInput = $('<input />').attr('type', 'text').attr('id', nmdp);
+	var nomInput = $('<input />').attr('type', 'text').attr('id', nn);
+	var prenomInput = $('<input />').attr('type', 'text').attr('id', npn);
+	var emailInput = $('<input />').attr('type', 'text').attr('id', nem);
+	var dateInput = $('<input />').attr('type', 'text').attr('readonly', 'readonly').attr('id', nd);
+	var photoInput = $('<input />').attr('type', 'text').attr('readonly', 'readonly').attr('id', np);
+	var adminInput = $('<input />').attr('type', 'text').attr('readonly', 'readonly').attr('id', na);
+	
+	// set DOM
+	this.DOMElement.append('id : ').append(idInput).append($('<br />'));
+	this.DOMElement.append('login : ').append(loginInput).append($('<br />'));
+	this.DOMElement.append('mdp : ').append(mdpInput).append($('<br />'));
+	this.DOMElement.append('nom : ').append(nomInput).append($('<br />'));
+	this.DOMElement.append('prenom : ').append(prenomInput).append($('<br />'));
+	this.DOMElement.append('email : ').append(emailInput).append($('<br />'));
+	this.DOMElement.append('date : ').append(dateInput).append($('<br />'));
+	this.DOMElement.append('photo : ').append(photoInput).append($('<br />'));
+	this.DOMElement.append('admin : ').append(adminInput).append($('<br />'));
+};
+
+za_UtilisateurDetails_Construct.prototype.SetDOMWithValue = function(val)
+{
+	// get inputs
+	var idInput = this.GetIdInput();
+	var loginInput = this.GetLoginInput();
+	var mdpInput = this.GetMDPInput();
+	var nomInput = this.GetNomInput();
+	var prenomInput = this.GetPrenomInput();
+	var emailInput = this.GetEmailInput();
+	var dateInput = this.GetDateInput();
+	var photoInput = this.GetPhotoInput();
+	var adminInput = this.GetAdminInput();
+	
+	// fill inputs
+	idInput.val(val.id);
+	loginInput.val(val.login);
+	mdpInput.val(val.mdp);
+	nomInput.val(val.nom);
+	prenomInput.val(val.prenom);
+	emailInput.val(val.email ? val.email : '');
+	dateInput.val(val.date_inscription);
+	photoInput.val(val.photo ? val.photo : '');
+	adminInput.val(val.admin);
+};
+
+za_UtilisateurDetails_Construct.prototype.SetDOMWithoutValue = function()
+{
+	// get inputs
+	var idInput = this.GetIdInput();
+	var loginInput = this.GetLoginInput();
+	var mdpInput = this.GetMDPInput();
+	var nomInput = this.GetNomInput();
+	var prenomInput = this.GetPrenomInput();
+	var emailInput = this.GetEmailInput();
+	var dateInput = this.GetDateInput();
+	var photoInput = this.GetPhotoInput();
+	var adminInput = this.GetAdminInput();
+	
+	// fill inputs
+	idInput.val('');
+	loginInput.val('');
+	mdpInput.val('');
+	nomInput.val('');
+	prenomInput.val('');
+	emailInput.val('');
+	dateInput.val('');
+	photoInput.val('');
+	adminInput.val('');
+};
+
+/* FIN UTILISATEUR ********************************************/
 
 /* FIN DETAILS ************************************************/

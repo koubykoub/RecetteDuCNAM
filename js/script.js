@@ -46,21 +46,21 @@ function MenuCritere_SousCategorie(idSCat, idCat)
 /**************************************************************/
 function CreerRecette_Init()
 {
-	$('.section_principale_large form li#last_ingredient > input').click(CreerRecette_AjouterIngredient);
-	$('.section_principale_large form li#last_etape_preparation > input').click(CreerRecette_AjouterEtapePreparation);
-	$('.section_principale_large .recette_detail select#categorie').change(CreerRecette_ChangerCategorie);
+	$('.creer_recette form li#last_ingredient > input').click(CreerRecette_AjouterIngredient);
+	$('.creer_recette form li#last_etape_preparation > input').click(CreerRecette_AjouterEtapePreparation);
+	$('.creer_recette .recette_detail select#categorie').change(CreerRecette_ChangerCategorie);
 	CreerRecette_CalculerContenu('ingredient');
 	CreerRecette_CalculerContenu('etape_preparation');
 }
 
 function CreerRecette_GetNbElement(elt)
 {
-	return $('.section_principale_large form ul#' + elt + ' > li').length - 1;
+	return $('.creer_recette form ul#' + elt + ' > li').length - 1;
 }
 
 function CreerRecette_GetEniemeElement(elt, n)
 {
-	return $('.section_principale_large form ul#' + elt + ' > li:nth-child(' + (n + 1) + ')');
+	return $('.creer_recette form ul#' + elt + ' > li:nth-child(' + (n + 1) + ')');
 }
 
 function CreerRecette_PermuterRecette(elt, id1, id2)
@@ -98,7 +98,7 @@ function CreerRecette_CalculerContenu(elt)
 			{
 				var upBouton = $('<input />')
 				.attr('type', 'button')
-				.attr('value', 'monter')
+				.attr('value', '▲')
 				.attr('onclick', 'javascript:CreerRecette_PermuterRecette("' + elt + '", ' + i + ', ' + (i - 1) + ');');
 				li.append(upBouton);
 			}
@@ -106,7 +106,7 @@ function CreerRecette_CalculerContenu(elt)
 			{
 				var downBouton = $('<input />')
 				.attr('type', 'button')
-				.attr('value', 'descendre')
+				.attr('value', '▼')
 				.attr('onclick', 'javascript:CreerRecette_PermuterRecette("' + elt + '", ' + i + ', ' + (i + 1) + ');');
 				li.append(downBouton);
 			}
@@ -137,7 +137,7 @@ function CreerRecette_AjouterElement(elt, rows)
 	 					
 	// creation du nouveau li
 	var li = $('<li />').append(textArea);
-	li.insertBefore('.section_principale_large form li#last_' + elt);
+	li.insertBefore('.creer_recette form li#last_' + elt);
 	
 	// recalculer le contenu des elements
 	CreerRecette_CalculerContenu(elt);
@@ -155,9 +155,9 @@ function CreerRecette_AjouterEtapePreparation()
 
 function CreerRecette_ChangerCategorie()
 {
-	var selected = $('.section_principale_large .recette_detail select#categorie option:selected');
-	var inputs = $('.section_principale_large > input');
-	var select = $('.section_principale_large .recette_detail select#sous_categorie');
+	var selected = $('.creer_recette .recette_detail select#categorie option:selected');
+	var inputs = $('.creer_recette > input');
+	var select = $('.creer_recette .recette_detail select#sous_categorie');
 	select.empty();
 	inputs.each(function(i){
 		if ($(this).attr('id') == selected.attr('value'))

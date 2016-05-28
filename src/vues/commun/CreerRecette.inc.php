@@ -17,7 +17,7 @@
 	
 	<!-- recette -->
 	<!-- titre -->
-	<fieldset>
+	<fieldset class="recette_titre">
 		<legend>Titre</legend>
 		<input type="text" name="titre" id="titre" <?php if ($dVueCreerRecette['modifier_recette']) echo 'value="'.$dVueCreerRecette['recette']['titre'].'"'; ?> />
 	</fieldset>
@@ -34,7 +34,7 @@
 	</fieldset>
 	
 	<!-- commentaire -->
-	<fieldset>
+	<fieldset class="recette_commentaire">
 		<legend>Commentaires</legend>
 		<textarea rows="4" cols="80" name="commentaire" id="commentaire"><?php if ($dVueCreerRecette['modifier_recette'] && isset($dVueCreerRecette['recette']['commentaire'])) echo $dVueCreerRecette['recette']['commentaire']; ?></textarea>
 	</fieldset>
@@ -45,17 +45,17 @@
 		<ul>
 			<li>
 				<ul>
-					<li>Auteur : <span><?php echo $dVueCreerRecette['utilisateur']['login'].' ('.$dVueCreerRecette['utilisateur']['prenom'].' '.$dVueCreerRecette['utilisateur']['nom'].')'; ?></span></li>
-					<li>Nombre de personnes : <input type="number" value="<?php echo ($dVueCreerRecette['modifier_recette']) ? $dVueCreerRecette['recette']['nb_personne'] : '1'; ?>" id="nb_personne" name="nb_personne" /></li>
-					<li>Temps de préparation : <input type="number" value="<?php echo ($dVueCreerRecette['modifier_recette'] && isset($dVueCreerRecette['recette']['temps_preparation'])) ? $dVueCreerRecette['recette']['temps_preparation'] : '0'; ?>" id="temps_preparation" name="temps_preparation" /> mn</li>
-					<li>Temps de cuisson : <input type="number" value="<?php echo ($dVueCreerRecette['modifier_recette'] && isset($dVueCreerRecette['recette']['temps_cuisson'])) ? $dVueCreerRecette['recette']['temps_cuisson'] : '0'; ?>" id="temps_cuisson" name="temps_cuisson" /> mn</li>
+					<li><label>Auteur : </label><span><?php echo $dVueCreerRecette['utilisateur']['login'].' ('.$dVueCreerRecette['utilisateur']['prenom'].' '.$dVueCreerRecette['utilisateur']['nom'].')'; ?></span></li>
+					<li><label for="nb_personne">Nombre de personnes : </label><input type="number" value="<?php echo ($dVueCreerRecette['modifier_recette']) ? $dVueCreerRecette['recette']['nb_personne'] : '1'; ?>" id="nb_personne" name="nb_personne" /></li>
+					<li><label for="temps_preparation">Temps de préparation : </label><input type="number" value="<?php echo ($dVueCreerRecette['modifier_recette'] && isset($dVueCreerRecette['recette']['temps_preparation'])) ? $dVueCreerRecette['recette']['temps_preparation'] : '0'; ?>" id="temps_preparation" name="temps_preparation" /> mn</li>
+					<li><label for="temps_cuisson">Temps de cuisson : </label><input type="number" value="<?php echo ($dVueCreerRecette['modifier_recette'] && isset($dVueCreerRecette['recette']['temps_cuisson'])) ? $dVueCreerRecette['recette']['temps_cuisson'] : '0'; ?>" id="temps_cuisson" name="temps_cuisson" /> mn</li>
 				</ul>
 			</li>
 			
 			<li>
 				<ul>
 					<li>
-						Catégorie :
+						<label for="categorie">Catégorie :</label>
 						<select id="categorie" name="categorie">
 							<?php foreach ($dVueCreerRecette['categories'] as $i => $cat) { ?>
 							<option <?php echo 'value="'.$cat['id'].'"'.(($i == $dVueCreerRecette['categorie_select']) ? ' selected="selected"' : ''); ?>><?php echo $cat['intitule']; ?></option>
@@ -63,7 +63,7 @@
 						</select>
 					</li>
 					<li>
-						Sous catégorie :
+						<label for="sous_categorie">Sous catégorie :</label>
 						<select id="sous_categorie" name="sous_categorie">
 							<?php foreach ($dVueCreerRecette['categories'][$dVueCreerRecette['categorie_select']]['sous_categories'] as $i => $scat) { ?>
 							<option <?php echo 'value="'.$scat['id'].'"'.(($i == $dVueCreerRecette['sous_categorie_select']) ? ' selected="selected"' : ''); ?>><?php echo $scat['intitule']; ?></option>
@@ -71,7 +71,7 @@
 						</select>
 					</li>
 					<li>
-						Difficulté :
+						<label for="categorie_difficulte">Difficulté :</label>
 						<select id="categorie_difficulte" name="categorie_difficulte">
 							<?php foreach ($dVueCreerRecette['categories_difficulte'] as $i => $cat) { ?>
 							<option <?php echo 'value="'.$cat['id'].'"'.(($i == $dVueCreerRecette['categorie_difficulte_select']) ? ' selected="selected"' : ''); ?>><?php echo $cat['intitule']; ?></option>
@@ -79,7 +79,7 @@
 						</select>
 					</li>
 					<li>
-						Prix :
+						<label for="categorie_prix">Prix :</label>
 						<select id="categorie_prix" name="categorie_prix">
 							<?php foreach ($dVueCreerRecette['categories_prix'] as $i => $cat) { ?>
 							<option <?php echo 'value="'.$cat['id'].'"'.(($i == $dVueCreerRecette['categorie_prix_select']) ? ' selected="selected"' : ''); ?>><?php echo $cat['intitule']; ?></option>
@@ -93,7 +93,7 @@
 	</fieldset>
 	
 	<!-- ingredients -->
-	<fieldset>
+	<fieldset class="recette_list">
 		<legend>Ingrédient</legend>
 		<ul id="ingredient">
 			<?php if (!$dVueCreerRecette['modifier_recette']) { ?>
@@ -106,7 +106,7 @@
 	</fieldset>
 	
 	<!-- preparation -->
-	<fieldset>
+	<fieldset class="recette_list">
 		<legend>Préparation</legend>
 		<ul id="etape_preparation">
 			<?php if (!$dVueCreerRecette['modifier_recette']) { ?>
@@ -119,7 +119,7 @@
 	</fieldset>
 	
 	<!-- conseils -->
-	<fieldset>
+	<fieldset class="recette_commentaire">
 		<legend>Conseils</legend>
 		<textarea rows="4" cols="80" name="conseil" id="conseil"><?php if ($dVueCreerRecette['modifier_recette'] && isset($dVueCreerRecette['recette']['conseil'])) echo $dVueCreerRecette['recette']['conseil']; ?></textarea>
 	</fieldset>

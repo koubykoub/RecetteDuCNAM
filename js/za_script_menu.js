@@ -50,80 +50,58 @@ za_data = new za_Data_Construct();
 
 
 // CALL BACKS
+function za_InitCB_Details(element, parent)
+{
+	element.SetValue(parent.GetSelectedValue());
+}
+
+function za_GetInitCB_Select(idParent, idElement, ajax = true)
+{
+	return function(element, parent)
+	{
+		element.ParentSelected(parent, idParent, idElement, ajax);
+	};
+}
+
 function za_InitCBMenuCategorie(cat, scat, catDetails, scatDetails)
 {
 	// detail categorie
-	cat.AddSelectCB('categorie_details_cb', catDetails, function(element, parent)
-	{
-		element.SetValue(parent.GetSelectedValue());
-	});
-	catDetails.AddParentCB('categorie_cb', cat, function(element, parent)
-	{
-		element.SetValue(parent.GetSelectedValue());
-	});
+	cat.AddSelectCB('categorie_details_cb', catDetails, za_InitCB_Details);
+	catDetails.AddParentCB('categorie_cb', cat, za_InitCB_Details);
 	// sous categorie
-	cat.AddSelectCB('sous_categorie_cb', scat, function(element, parent)
-	{
-		element.ParentSelected(parent, 'id', 'id_categorie');
-	});
+	cat.AddSelectCB('sous_categorie_cb', scat, za_GetInitCB_Select('id', 'id_categorie'));
 	scat.alone = false;
-	scat.AddParentCB('categorie_cb', cat, function(element, parent)
-	{
-		element.ParentSelected(parent, 'id', 'id_categorie', false);
-	});
+	scat.AddParentCB('categorie_cb', cat, za_GetInitCB_Select('id', 'id_categorie', false));
 	// detail sous categorie
-	scat.AddSelectCB('sous_categorie_details_cb', scatDetails, function(element, parent)
-	{
-		element.SetValue(parent.GetSelectedValue());
-	});
-	scatDetails.AddParentCB('sous_categorie_cb', scat, function(element, parent)
-	{
-		element.SetValue(parent.GetSelectedValue());
-	});
+	scat.AddSelectCB('sous_categorie_details_cb', scatDetails, za_InitCB_Details);
+	scatDetails.AddParentCB('sous_categorie_cb', scat, za_InitCB_Details);
 }
 
 function za_InitCBMenuSousCategorie(scat, catFilter, scatDetails, catDetails)
 {
 	// detail sous categorie
-	scat.AddSelectCB('sous_categorie_details_cb', scatDetails, function(element, parent)
-	{
-		element.SetValue(parent.GetSelectedValue());
-	});
-	scatDetails.AddParentCB('sous_categorie_cb', scat, function(element, parent)
-	{
-		element.SetValue(parent.GetSelectedValue());
-	});
+	scat.AddSelectCB('sous_categorie_details_cb', scatDetails, za_InitCB_Details);
+	scatDetails.AddParentCB('sous_categorie_cb', scat, za_InitCB_Details);
 	// filtre categorie
-	catFilter.AddSelectCB('sous_categorie_cb', scat, function(element, parent)
-	{
-		element.ParentSelected(parent, 'id', 'id_categorie');
-	});
-	scat.AddParentCB('categorie_cb', catFilter, function(element, parent)
-	{
-		element.ParentSelected(parent, 'id', 'id_categorie', false);
-	});
+	catFilter.AddSelectCB('sous_categorie_cb', scat, za_GetInitCB_Select('id', 'id_categorie'));
+	scat.AddParentCB('categorie_cb', catFilter, za_GetInitCB_Select('id', 'id_categorie', false));
 	// detail categorie
-	catFilter.AddSelectCB('sous_categorie_details_cb', catDetails, function(element, parent)
-	{
-		element.SetValue(parent.GetSelectedValue());
-	});
-	catDetails.AddParentCB('sous_categorie_cb', catFilter, function(element, parent)
-	{
-		element.SetValue(parent.GetSelectedValue());
-	});
+	catFilter.AddSelectCB('sous_categorie_details_cb', catDetails, za_InitCB_Details);
+	catDetails.AddParentCB('sous_categorie_cb', catFilter, za_InitCB_Details);
 }
 
 function za_InitCBMenuCategorieSpe(cat, catDetails)
 {
 	// detail categorie
-	cat.AddSelectCB('categorie_details_cb', catDetails, function(element, parent)
-	{
-		element.SetValue(parent.GetSelectedValue());
-	});
-	catDetails.AddParentCB('categorie_cb', cat, function(element, parent)
-	{
-		element.SetValue(parent.GetSelectedValue());
-	});
+	cat.AddSelectCB('categorie_details_cb', catDetails, za_InitCB_Details);
+	catDetails.AddParentCB('categorie_cb', cat, za_InitCB_Details);
+}
+
+function za_InitCBMenuUtilisateur(ut, utDetails)
+{
+	// detail utilisateur
+	ut.AddSelectCB('utilisateur_details_cb', utDetails, za_InitCB_Details);
+	utDetails.AddParentCB('categorie_cb', ut, za_InitCB_Details);
 }
 
 
@@ -240,6 +218,9 @@ function za_CreateMenuUtilisateur()
 		// MENU
 		// details
 		var mu_menuDetails = new za_Menu_Construct('menu_details', 'Détails');
+			// details
+			var mu_md_details = new za_UtilisateurDetails_Construct('details_categorie_prix', 'Détails de la catégorie sélectionnée');
+			mu_menuDetails.AddChild(mu_md_details);
 		menuUtilisateur.AddChild(mu_menuDetails);
 		// recettes
 		var mu_menuRecette = new za_Menu_Construct('menu_recette', 'Recettes');
@@ -261,6 +242,7 @@ function za_CreateMenuUtilisateur()
 			var mu_mc_menuRecette = new za_Menu_Construct('menu_recette', 'Recette');
 			mu_menuCommentaire.AddChild(mu_mc_menuRecette);
 		menuUtilisateur.AddChild(mu_menuCommentaire);
+	za_InitCBMenuUtilisateur(mu_utList, mu_md_details);
 	return menuUtilisateur;
 }
 

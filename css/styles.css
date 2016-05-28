@@ -1,47 +1,162 @@
 @CHARSET "UTF-8";
 
-/**************************************************************/
-/* BASES													  */
-/**************************************************************/
+/********************************** CLEAN ********************************/
+body, h1, h2, h3, li, p, ul 
+{
+	font-size: 1em;
+	margin: 0;
+	padding: 0;
+}
+
+ul
+{
+	list-style-type: none;
+}
+
+a, abbr
+{
+	text-decoration: none;
+}
+
+
+/********************************** BASIC ********************************/
 /* body */
 body
 {
-	width: 1024px;
-	margin: auto;
-	background-color:#DCC089;
-	font-size: 100%;
-	font-family: "Arial", arial, sans-serif;
+	background-image: url(../image/fond.jpg);
+	background-color: #fee9bc;
+	background-size: 1024px 768px;
+	background-repeat: repeat;
+	background-attachment: fixed;
+	font-family: Helvetica, Arial, Sans-Serif;
+	font-size: 0.75em;
 }
 
-/* titre */
-h1, h2
+
+/* titles */
+h1, h2, h3, legend
 {
+	/* text */
+	font-family: Georgia, "Times New Roman", Times, Serif;
+	text-align: center;
+	font-weight: bolder;
+	color: #170800; /* marron tres fonce */
+	text-shadow: -1px -2px 1px #cab5aa; /* marron tres clair */
+	
+	/* block */
+	background-color: maroon;
+	background-image: url(../image/texture_bois_sombre.png);
+	box-shadow: 1px 2px 1px 3px #331700; /* marron fonce */
+	border-radius: 15px;
+	line-height: 48px;
+	width: 250px;
+	margin: 5px auto 25px auto;
+}
+h1
+{
+	font-size: 2em;
+	line-height: 48px;
+}
+h2, legend
+{
+	font-size: 1.7em;
+	line-height: 40px;
+	width: 200px;
+}
+h3
+{
+	font-size: 1.4em;
+	line-height: 32px;
+}
+
+/* fieldset */
+fieldset
+{
+	border: none;
+	box-shadow: 1px 2px 3px 3px rgba(0, 0, 0, 0.5) inset;
+	border-radius: 20px;
+	margin: 10px 1px 30px 1px;
+	padding: 20px;
+}
+
+/* paragraphe */
+p
+{
+	text-indent: 15px;
+	margin: 5px 0px;
+	color: #170800;
+}
+
+/* span */
+span
+{
+	font-style: italic;
+	font-weight: bold;
+	color: #331700;
+	position: relative;
+	text-decoration: none;
+}
+
+/* link */
+a, button, input[type="button"], option
+{
+	display: inline-block;
+	background-image: url(../image/bouton_papier.png);
+	background-size: contain;
+	text-align: center;
+	text-indent: 0px;
+	padding: 1px 5px;
+	color: #170800;
+	box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+	border-radius: 2px;
+	max-height: 1.5em;
+	border: none;
+}
+option
+{
+	display: block;
+}
+a:hover, button:hover, input[type="button"]:hover, option:hover
+{
+	box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
+	color: #5c2000;
+}
+
+/* input */
+input[type="text"], input[type="password"], input[type="number"], select, textarea
+{
+	/* block */
+	background-image: url(../image/texture_papier.png);
+	border: none;
+	box-shadow: 1px 2px 1px 1px rgba(0, 0, 0, 0.5) inset;
+	border-radius: 6px;
+	height: 20px;
+	padding: 3px 10px;
+	margin: 5px;
+	
+	/* text */
+	color: #170800;
+}
+textarea
+{
+	height: auto;
+	padding: 10px;
+}
+select
+{
+	height: 30px;
 	text-align: center;
 }
 
-h1, h2, h3, h4, h5, h6
+
+/********************************** SIZE *********************************/
+.wrapper
 {
-	font-family: "Times New Roman", Times, "Liberation Serif", FreeSerif, serif;
+	width: 1000px;
+	margin: auto;
 }
 
-/* liens */
-a
-{
-	display: inline-block;
-	text-decoration: none;
-	background-color: yellow;
-	color: black;
-	//border: black solid 1px;
-	padding: 3px;
-}
-
-a:hover
-{
-	background-color: orange;
-}
-
-/* les differentes sections */
-.section_logo, .section_header, .section_login, .section_principale
+.section_logo, .section_login, .section_principale
 {
 	float: left;
 }
@@ -51,19 +166,14 @@ a:hover
 	height: 150px;
 }
 
-.section_header, .section_principale
+.section_principale
 {
-	width: 700px;
+	width: 720px;
 }
 
 .section_logo, .section_login
 {
-	width: 200px;
-}
-
-footer, .section_principale_large
-{
-	width: 922px;
+	width: 220px;
 }
 
 footer
@@ -72,28 +182,79 @@ footer
 }
 
 
-/**************************************************************/
-/* LOGO														  */
-/**************************************************************/
+/********************************** PANNELS ******************************/
+.section_header, .section_login, .destruction_recette, .destruction_compte, .random_recette, .recette, .commentaire, .afficher_compte, .section_principale_large, .creer_compte, .creer_recette, .critere_recherche, .lister_recette, footer
+{
+	background-color: yellow;
+	background-image: url(../image/texture_bois_clair.png);
+	box-shadow: 1px 3px 1px 3px #7f602f;
+	border-radius: 30px;
+	padding: 20px 30px;
+	margin: 20px 20px 10px 20px;
+}
+
+
+/********************************** PAPIER *******************************/
+.random_recette ul, .recette .recette_detail > ul, .recette .recette_comment p, .recette .liste_recette ul, .commentaire > ul li
+{
+	text-indent: 30px;
+	text-align: justify;
+	background-image: url(../image/texture_papier.png);
+	background-color: rgba(0, 0, 0, 0);
+	box-shadow: 1px 2px 2px 2px rgba(0, 0, 0, 0.5);
+	border-radius: 4px;
+	margin: 15px 0px;
+	padding: 5px 10px;
+	line-height: 1.5em;
+	font-size: 1.05em;
+}
+
+
+/********************************** LOGO *********************************/
+.section_logo
+{
+	/* block */
+	float: left;
+	margin: -25px;
+	padding: 0px;
+	background-image: url(../image/logo_post_it.png);
+	background-repeat: no-repeat;
+	background-color: rgba(0, 0, 0, 0);
+	width: 300px;
+	height: 300px;
+	border-radius: 0px;
+	box-shadow: none;
+	transform: rotate(-7deg);
+	
+	/* text */
+	text-align: center;
+	font-family: cursive;
+}
+
+.section_logo a
+{
+	margin-top: 100px;
+	font-size: 2.5em;
+	font-weight: bolder;
+	background-image: none;
+	background-color: none;
+	box-shadow: none;
+	color: #22427c;
+}
 .section_logo h1
 {
-	text-align: center;
-	margin: 0px;
-	padding: 0px;
-	background-color: white;
+	margin-top: 100px;
+	font-size: 1.5em;
 }
-
-.section_logo h1 a
+.section_logo h2
 {
-	color: red;
-	font-size: 0.8em;
-	text-decoration: none;
+	margin-top: 30px;
+	padding: 0px 60px 0px 60px;
+	font-size: 1.2em;
 }
 
 
-/**************************************************************/
-/* MENU CRITERE												  */
-/**************************************************************/
+/********************************** MENU CRITERE *************************/
 /* position du formulaire */
 .menu_critere form
 {
@@ -115,7 +276,7 @@ footer
 .menu_critere a
 {
 	display: block;
-	width: 57px;
+	width: 70px;
 }
 
 .menu_critere ul ul a
@@ -126,7 +287,7 @@ footer
 /* taille de la police */
 .menu_critere form > ul
 {
-	font-size: 0.66em;
+	//font-size: 0.66em;
 }
 
 .menu_critere form > ul li ul a
@@ -148,32 +309,162 @@ footer
 }
 
 
-/**************************************************************/
-/* LOGIN													  */
-/**************************************************************/
+/********************************** LOGIN ********************************/
+.section_login
+{
+	padding: 20px 10px;
+}
+
 .section_login h3
+{
+	width: 200px;
+}
+
+.section_login a
+{
+	margin: 1px 0px 1px 30px;
+	width: 150px;
+	font-size: 1.3em;
+}
+
+.section_login input[type="text"], input[type="password"]
+{
+	width: 110px;
+}
+.section_login input[type="password"]
+{
+	margin-bottom: 20px;
+}
+
+.section_login label
+{
+	display: inline-block;
+	width: 80px;
+}
+
+/********************************** RANDOM RECETTE ***********************/
+.random_recette a
+{
+	padding-bottom: 5px;
+	margin-top: 3px;
+	margin-left: 10px;
+	box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
+	text-shadow: none;
+}
+.random_recette a:hover
+{
+	box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.8);
+}
+
+.random_recette h2
+{
+	width: auto;
+}
+
+.random_recette h3
+{
+	width: 200px;
+	margin-top: 50px;
+}
+
+
+/********************************** RECETTE ******************************/
+.recette h3
+{
+	width: 200px;
+	margin-top: 50px;
+}
+
+.recette .recette_detail ul ul
+{
+	float: left;
+	margin-left: 40px;
+}
+
+
+/********************************** CREER COMPTE **************************/
+.creer_compte label
+{
+	display: inline-block;
+	width: 300px;
+	font-weight: bold;
+	font-size: 1.3em;
+	font-style: italic;
+	text-align: right;
+}
+
+.creer_compte input[type="text"], .creer_compte input[type="password"]
+{
+	width: 350px;
+}
+
+.creer_compte input#email_left, .creer_compte input#email_right
+{
+	width: 151px;
+}
+
+
+/********************************** CREER RECETTE *************************/
+/* titre */
+.creer_recette .recette_titre
 {
 	text-align: center;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-/**************************************************************/
-/* TEST														  */
-/**************************************************************/
-.section_logo, .section_header, .section_login, .section_principale, .section_principale_large, footer, .random_recette, .lister_recette, .critere_recherche, .afficher_compte, .section_message
+.creer_recette .recette_titre input
 {
-	border: black solid 1px;
+	width: 400px;
+	height: 40px;
+	font-size: 1.5em;
+}
+
+/* details */
+.creer_recette .recette_detail label
+{
+	display: inline-block;
+	width: 300px;
+	font-weight: bold;
+	font-size: 1.3em;
+	font-style: italic;
+	text-align: right;
+}
+
+.creer_recette .recette_detail input, .creer_recette .recette_detail select
+{
+	width: 300px;
+}
+
+.creer_recette .recette_detail span
+{
+	margin-left: 10px;
+}
+.creer_recette .recette_detail option:hover
+{
+	color: red;
+}
+
+/* liste */
+.creer_recette .recette_list
+{
+	padding-left: 100px;
+}
+
+.creer_recette .recette_list legend
+{
+	margin-left: -82px;
+}
+
+.creer_recette .recette_list input[type="button"]
+{
+	font-size: 2em;
+	font-weight: bolder;
+	width: 30px;
+	height: 30px;
 	margin: 5px;
-	padding: 5px;
+}
+
+/* commentaire */
+.creer_recette .recette_commentaire
+{
+	text-align: center;
 }
