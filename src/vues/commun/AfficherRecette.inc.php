@@ -25,19 +25,19 @@
 	<ul>
 		<li>
 			<ul>
-				<li>Auteur : <span><?php echo $dVueAfficherRecette['recette']['utilisateur']['login'].' ('.$dVueAfficherRecette['recette']['utilisateur']['prenom'].' '.$dVueAfficherRecette['recette']['utilisateur']['nom'].')'; ?></span></li>
-				<li>Nombre de personnes : <span><?php echo $dVueAfficherRecette['recette']['nb_personne']; ?></span></li>
-				<li>Temps de préparation : <span><?php echo isset($dVueAfficherRecette['recette']['temps_preparation']) ? $dVueAfficherRecette['recette']['temps_preparation'].' mn' : '-'; ?></span></li>
-				<li>Temps de cuisson : <span><?php echo isset($dVueAfficherRecette['recette']['temps_cuisson']) ? $dVueAfficherRecette['recette']['temps_cuisson'].' mn' : '-'; ?></span></li>
+				<li><label>Auteur : </label><span><?php echo $dVueAfficherRecette['recette']['utilisateur']['login'].' ('.$dVueAfficherRecette['recette']['utilisateur']['prenom'].' '.$dVueAfficherRecette['recette']['utilisateur']['nom'].')'; ?></span></li>
+				<li><label>Nombre de personnes : </label><span><?php echo $dVueAfficherRecette['recette']['nb_personne']; ?></span></li>
+				<li><label>Temps de préparation : </label><span><?php echo isset($dVueAfficherRecette['recette']['temps_preparation']) ? $dVueAfficherRecette['recette']['temps_preparation'].' mn' : '-'; ?></span></li>
+				<li><label>Temps de cuisson : </label><span><?php echo isset($dVueAfficherRecette['recette']['temps_cuisson']) ? $dVueAfficherRecette['recette']['temps_cuisson'].' mn' : '-'; ?></span></li>
 			</ul>
 		</li>
 		
 		<li>
 			<ul>
-				<li>Catégorie : <span><?php echo $dVueAfficherRecette['recette']['categorie']['intitule']; ?></span></li>
-				<li>Sous catégorie : <span><?php echo $dVueAfficherRecette['recette']['sous_categorie']['intitule']; ?></span></li>
-				<li>Difficulté : <span><?php echo $dVueAfficherRecette['recette']['categorie_difficulte']['intitule']; ?></span></li>
-				<li>Prix : <span><?php echo $dVueAfficherRecette['recette']['categorie_prix']['intitule']; ?></span></li>
+				<li><label>Catégorie : </label><span><?php echo $dVueAfficherRecette['recette']['categorie']['intitule']; ?></span></li>
+				<li><label>Sous catégorie : </label><span><?php echo $dVueAfficherRecette['recette']['sous_categorie']['intitule']; ?></span></li>
+				<li><label>Difficulté : </label><span><?php echo $dVueAfficherRecette['recette']['categorie_difficulte']['intitule']; ?></span></li>
+				<li><label>Prix : </label><span><?php echo $dVueAfficherRecette['recette']['categorie_prix']['intitule']; ?></span></li>
 			</ul>
 			<br clear="all" />
 		</li>

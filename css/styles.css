@@ -195,7 +195,7 @@ footer
 
 
 /********************************** PAPIER *******************************/
-.random_recette ul, .recette .recette_detail > ul, .recette .recette_comment p, .recette .liste_recette ul, .commentaire > ul li
+.random_recette ul, .recette .recette_detail > ul, .recette .recette_comment p, .recette .liste_recette ul, .commentaire > ul p
 {
 	text-indent: 30px;
 	text-align: justify;
@@ -206,7 +206,7 @@ footer
 	margin: 15px 0px;
 	padding: 5px 10px;
 	line-height: 1.5em;
-	font-size: 1.05em;
+	font-size: 1.2em;
 }
 
 
@@ -367,8 +367,24 @@ footer
 	margin-top: 50px;
 }
 
+.random_recette ul
+{
+	list-style-type: decimal;
+	padding: 30px;
+}
+
+.random_recette li
+{
+	margin: 15px;
+}
+
 
 /********************************** RECETTE ******************************/
+.recette h2
+{
+	width: auto;
+}
+
 .recette h3
 {
 	width: 200px;
@@ -378,7 +394,42 @@ footer
 .recette .recette_detail ul ul
 {
 	float: left;
-	margin-left: 40px;
+	margin-left: -70px;
+}
+
+.recette .liste_recette ul
+{
+	list-style-type: decimal;
+	padding: 30px;
+}
+
+.recette .liste_recette li
+{
+	margin: 15px;
+}
+
+.recette .recette_detail label
+{
+	display: inline-block;
+	width: 200px;
+	text-align: right;
+}
+
+
+/********************************** COMMENTAIRE ***************************/
+.commentaire > p
+{
+	text-indent: 0px;
+	font-size: 1.2em;
+	margin: 30px 0px;
+}
+
+.commentaire > ul > li
+{
+	padding: 10px 20px;
+	box-shadow: 1px 2px 3px 3px rgba(0, 0, 0, 0.5) inset;
+	margin: 20px 0px;
+	border-radius: 15px;
 }
 
 
@@ -467,4 +518,45 @@ footer
 .creer_recette .recette_commentaire
 {
 	text-align: center;
+}
+
+
+/********************************** CRITERE RECHERCHE *********************/
+.critere_recherche h2
+{
+	width: 300px;
+}
+
+.critere_recherche li
+{
+	font-size: 1.5em;
+}
+
+.critere_recherche label
+{
+	display: inline-block;
+	text-align: right;
+	width: 200px;
+}
+
+
+/********************************** LISTER RECETTE ************************/
+.lister_recette > form
+{
+	display: inline-block;
+	font-size: 1.2em;
+}
+
+.lister_recette > form a
+{
+	margin: 10px 5px;
+	padding: 5px;
+}
+
+.lister_recette > ul > li a
+{
+	width: 600px;
+	padding: 5px;
+	font-size: 1.5em;
+	margin: 10px 0px;
 }

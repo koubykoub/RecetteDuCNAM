@@ -16,21 +16,6 @@
 		//session_start();
 		//session_destroy();
 		
-		/*if (isset($_FILES['photo']))
-		{
-			FB::log('image set');
-			if (!is_null($_FILES['photo']))
-			{
-				FB::log('image not null');
-				FB::log($_FILES['photo']['name']);
-				FB::log($_FILES['photo']['type']);
-				FB::log($_FILES['photo']['size']);
-				FB::log($_FILES['photo']['tmp_name']);
-				FB::log($_FILES['photo']['error']);
-			}
-		}
-		else
-			FB::log('image unset');*/
 		
 		
 		// choix de la page

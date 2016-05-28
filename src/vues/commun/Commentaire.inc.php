@@ -47,17 +47,17 @@
 <?php } else { ?>
 <!-- statistique -->
 <p>
-	nombre de commentaires : <span><?php echo $dVueCommentaire['statistique_recette']['nb_note']; ?></span><br />
-	Moyenne des notes : <span><?php echo $dVueCommentaire['statistique_recette']['moyenne_note']; ?> / 5</span>
+	<label>nombre de commentaires : </label><span><?php echo $dVueCommentaire['statistique_recette']['nb_note']; ?></span><br />
+	<label>Moyenne des notes : </label><span><?php echo $dVueCommentaire['statistique_recette']['moyenne_note']; ?> / 5</span>
 </p>
 
 <!-- commentaires -->
 <ul>
 	<?php foreach ($dVueCommentaire['commentaires'] as $comm) { ?>
 	<li>
-	auteur : <span><?php echo $comm['utilisateur']['login']; ?></span><br />
-	commentaire : <p><?php echo $comm['texte_commentaire']; ?></p>
-	note : <span><?php echo $comm['valeur_note']; ?></span><br />
+	<label>auteur : </label><span><?php echo $comm['utilisateur']['login']; ?></span><br />
+	<label>note : </label><span><?php echo $comm['valeur_note']; ?></span><br />
+	<p><?php echo $comm['texte_commentaire']; ?></p>
 	</li>
 	<?php } ?>
 </ul>
