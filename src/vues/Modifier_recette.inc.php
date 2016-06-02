@@ -5,7 +5,7 @@
 	// donnees de la vue
 	// titre
 	$dVueTitre['head'] = "Mofifier une recette";
-	$dVueTitre['body'] = "MODIFICATION D'UNE RECETTE DE ".$donneesModele['identification']['utilisateur']['login'].' ('.$donneesModele['recette']['titre'].')';
+	$dVueTitre['body'] = "MODIFICATION D'UNE RECETTE DE ".$donneesModele['identification']['utilisateur']['login'];
 	// message
 	$dVueMessage['creation_compte'] = FALSE;
 	// creer recette

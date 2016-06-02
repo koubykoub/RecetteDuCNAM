@@ -4,7 +4,7 @@
 	// donnees de la vue
 	// titre
 	$dVueTitre['head'] = 'Modifier un compte';
-	$dVueTitre['body'] = 'MODIFIER VOTRE COMPTE ('.$donneesModele['identification']['utilisateur']['login'].')';
+	$dVueTitre['body'] = 'MODIFIER VOTRE COMPTE';
 	// creer compte
 	$dVueCreerCompte['mise_a_jour'] = TRUE;
 	$dVueCreerCompte['remplissage'] = TRUE;

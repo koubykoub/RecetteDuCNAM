@@ -10,6 +10,14 @@
 	// model du login
 	class LoginModele extends ModeleBase
 	{
+		// liste des utilisateurs
+		public static function ListeUtilisateurs()
+		{
+			$daoUt = new DAOUtilisateur(parent::GetConnexion());
+			$ret = $daoUt->RetrieveAll();
+			return $ret;
+		}
+		
 		// identification
 		public static function Identification($ident)
 		{

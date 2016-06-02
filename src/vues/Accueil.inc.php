@@ -33,7 +33,7 @@
 			// en tete
 			HtmlStruct::DebutSection('section_header');
 				// titre
-				HtmlStruct::Titre(1, 'ACCUEIL');
+				HtmlStruct::Titre(1, 'ACCUEIL', 'accueil_titre');
 	
 				// menu
 				HtmlStruct::DebutNav('menu_critere');
@@ -78,11 +78,6 @@
 		
 		// footer
 		HtmlStruct::DebutFooter();
-			// copyright
-			HtmlStruct::DebutArticle('footer_copyright');
-				include (dirname(__FILE__) . '/commun/Copyright.inc.php');
-			HtmlStruct::FinArticle();
-			
 			// lien recette
 			HtmlStruct::DebutNav('footer_nav');
 				include (dirname(__FILE__) . '/commun/LienRandomRecette.inc.php');

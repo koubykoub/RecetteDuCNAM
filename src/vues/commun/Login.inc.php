@@ -37,9 +37,16 @@
 
 <!-- zone administrateur -->
 <?php if ($dVueLogin['utilisateur']['admin'] != 0) { ?>
-<form method="post" action="" name="zone_administration">
-	<input type="hidden" name="page" id="page" value="zone_administration" />
-	<a href="javascript:document.zone_administration.submit()">Zone d'administration</a>
+<!-- Lister les membres -->
+<form method="post" action="" name="lister_utilisateurs">
+	<input type="hidden" name="page" id="page" value="lister_utilisateurs" />
+	<a href="javascript:document.lister_utilisateurs.submit()">Lister les membres</a>
+</form>
+
+<!-- gerer les categories -->
+<form method="post" action="" name="gerer_categorie">
+	<input type="hidden" name="page" id="page" value="gerer_categorie" />
+	<a href="javascript:document.gerer_categorie.submit()">Gérer les catégories</a>
 </form>
 <?php } ?>
 

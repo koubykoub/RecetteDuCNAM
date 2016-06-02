@@ -15,7 +15,7 @@
 			// en tete
 			HtmlStruct::DebutSection('section_header');
 				// titre
-				HtmlStruct::Titre(1, $dVueTitre['body']);
+				HtmlStruct::Titre(1, $dVueTitre['body'], 'creer_compte_titre');
 			HtmlStruct::FinSection(true);
 		HtmlStruct::FinHeader();
 		
@@ -31,11 +31,6 @@
 		
 		// footer
 		HtmlStruct::DebutFooter();
-			// copyright
-			HtmlStruct::DebutArticle('footer_copyright');
-				include (dirname(__FILE__) . '/commun/Copyright.inc.php');
-			HtmlStruct::FinArticle();
-			
 			// lien recette
 			HtmlStruct::DebutNav('footer_nav');
 				include (dirname(__FILE__) . '/commun/LienRetourAccueil.inc.php');

@@ -2,7 +2,7 @@
 	// donnees de la vue
 	// titre
 	$dVueTitre['head'] = 'Liste des recettes';
-	$dVueTitre['body'] = 'LISTE DES RECETTES DE '.$donneesModele['identification']['utilisateur']['prenom'].' '.$donneesModele['identification']['utilisateur']['nom'].' ('.$donneesModele['identification']['utilisateur']['login'].')';
+	$dVueTitre['body'] = 'LISTE DES RECETTES DE '.$donneesModele['identification']['utilisateur']['login'];
 	// menu critere
 	$dVueMenuCritere['lister_recette_utilisateur'] = TRUE;
 	$dVueMenuCritere['categories'] = $donneesModele['categories'];

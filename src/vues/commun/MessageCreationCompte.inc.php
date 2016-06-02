@@ -1,5 +1,5 @@
 <!-- titre -->
-<h2>Un compte a été créé :</h2>
+<h2>Un compte a été créé</h2>
 
 <!-- donnees -->
 <ul>

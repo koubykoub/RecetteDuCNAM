@@ -1,21 +1,20 @@
 <!-- titre -->
-<h2>Mon compte :</h2>
+<h2>Mon compte</h2>
 
 <!-- infos -->
 <ul>
-  <li>Identifiant : <span><?php echo $dVueAfficherCompte['login']; ?></span></li>
-  <li>Nom : <span><?php echo $dVueAfficherCompte['nom']; ?></span></li>
-  <li>Prénom : <span><?php echo $dVueAfficherCompte['prenom']; ?></span></li>
+  <li><label>Identifiant : </label><span><?php echo $dVueAfficherCompte['login']; ?></span></li>
+  <li><label>Nom : </label><span><?php echo $dVueAfficherCompte['nom']; ?></span></li>
+  <li><label>Prénom : </label><span><?php echo $dVueAfficherCompte['prenom']; ?></span></li>
   <?php if (isset($dVueAfficherCompte['email'])) { ?>
-  <li>Email : <span><?php echo $dVueAfficherCompte['email']; ?></span></li>
+  <li><label>Email : </label><span><?php echo $dVueAfficherCompte['email']; ?></span></li>
   <?php } else { ?>
-  <li>Email non renseigné</li>
+  <li><label>Email non renseigné</label></li>
   <?php } ?>
   
   <!-- photo -->
   <?php if (isset($dVueAfficherCompte['photo'])) { ?>
   <li>
-  		Photo :<br />
   		<img alt="" src="?page=image&image=<?php echo $dVueAfficherCompte['photo']; ?>" />
   </li>
   <?php } ?>
@@ -31,5 +30,5 @@
 	<input type="hidden" name="page" id="page" value="accueil" />
 	<input type="hidden" name="detruire_compte" id="detruire_compte" value="true" />
 	<a href="javascript:AfficherCompte_ConfirmDelete()">Détruire votre compte</a>
-	<label for="garder_recette">Laisser mes recettes sur le site &nbsp;</label><input type="checkbox" name="garder_recette" id="garder_recette" value="true" checked="checked" />
+	<input type="checkbox" name="garder_recette" id="garder_recette" value="true" checked="checked" /><label for="garder_recette">Laisser mes recettes sur le site &nbsp;</label>
 </form>

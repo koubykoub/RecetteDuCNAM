@@ -150,6 +150,7 @@ select
 
 
 /********************************** SIZE *********************************/
+/* main */
 .wrapper
 {
 	width: 1000px;
@@ -178,12 +179,54 @@ select
 
 footer
 {
-	height: 100px;
+	height: 50px;
+}
+
+/* title */
+h1.accueil_titre
+{
+	width: 200px;
+}
+
+h1.afficher_compte_titre
+{
+	width: 400px;
+}
+
+h1.afficher_recette_titre
+{
+	width: 200px;
+}
+
+h1.lister_recette_titre, h1.creer_recette_titre
+{
+	margin-left: 200px;
+	width: 700px;;
+}
+
+h1.exception_titre
+{
+	width: 200px;
+}
+
+h1.creer_compte_titre
+{
+	width: 400px;
+}
+
+h1.gerer_categorie_titre
+{
+	width: 400px;
+}
+
+h1.lister_utilisateurs_titre
+{
+	width: 400px;
 }
 
 
 /********************************** PANNELS ******************************/
-.section_header, .section_login, .destruction_recette, .destruction_compte, .random_recette, .recette, .commentaire, .afficher_compte, .section_principale_large, .creer_compte, .creer_recette, .critere_recherche, .lister_recette, footer
+.section_header, .section_login, .destruction_recette, .destruction_compte, .random_recette, .recette, .commentaire, .afficher_compte, .section_principale_large, .creer_compte, .creer_recette, .critere_recherche, .lister_recette, .section_message, footer
 {
 	background-color: yellow;
 	background-image: url(../image/texture_bois_clair.png);
@@ -195,7 +238,7 @@ footer
 
 
 /********************************** PAPIER *******************************/
-.random_recette ul, .recette .recette_detail > ul, .recette .recette_comment p, .recette .liste_recette ul, .commentaire > ul p
+.random_recette ul, .recette .recette_detail > ul, .recette .recette_comment p, .recette .liste_recette ul, .commentaire > ul p, .afficher_compte ul
 {
 	text-indent: 30px;
 	text-align: justify;
@@ -239,7 +282,7 @@ footer
 	background-image: none;
 	background-color: none;
 	box-shadow: none;
-	color: #22427c;
+	color: #7f0000;
 }
 .section_logo h1
 {
@@ -259,7 +302,7 @@ footer
 .menu_critere form
 {
 	position: relative;
-	top: 50px;
+	bottom: -30px;
 }
 
 /* annulation de tout les style des ul et li */
@@ -276,18 +319,18 @@ footer
 .menu_critere a
 {
 	display: block;
-	width: 70px;
+	width: 53px;
 }
 
 .menu_critere ul ul a
 {
-	width: 100px;
+	width: 120px;
 }
 
 /* taille de la police */
 .menu_critere form > ul
 {
-	//font-size: 0.66em;
+	font-size: 0.80em;
 }
 
 .menu_critere form > ul li ul a
@@ -408,11 +451,22 @@ footer
 	margin: 15px;
 }
 
+.recette .recette_detail
+{
+	font-size: 0.9em;
+}
+
 .recette .recette_detail label
 {
 	display: inline-block;
 	width: 200px;
 	text-align: right;
+}
+
+.recette form
+{
+	display: inline-block;
+	margin: 20px;
 }
 
 
@@ -430,6 +484,11 @@ footer
 	box-shadow: 1px 2px 3px 3px rgba(0, 0, 0, 0.5) inset;
 	margin: 20px 0px;
 	border-radius: 15px;
+}
+
+.commentaire textarea
+{
+	width: 540px;
 }
 
 
@@ -457,6 +516,11 @@ footer
 
 /********************************** CREER RECETTE *************************/
 /* titre */
+.creer_recette h2
+{
+	width: 300px;
+}
+
 .creer_recette .recette_titre
 {
 	text-align: center;
@@ -559,4 +623,52 @@ footer
 	padding: 5px;
 	font-size: 1.5em;
 	margin: 10px 0px;
+}
+
+
+/********************************** AFFICHER COMPTE ***********************/
+.afficher_compte li label
+{
+	display: inline-block;
+	text-align: right;
+	width: 200px;
+}
+
+.afficher_compte form
+{
+	display: inline-block;
+	margin: 20px;
+}
+
+.afficher_compte form input
+{
+	margin-left: 20px;
+}
+
+
+/********************************** MESSAGE *******************************/
+.section_message h2
+{
+	width: 500px;
+}
+
+.section_message
+{
+	text-align: center;
+}
+
+
+/********************************** FOOTER ********************************/
+footer
+{
+	text-align: center;
+	background-image: url(../image/texture_tissus.png);
+	border-radius: 10px;
+	font-size: 1.3em;
+}
+
+footer form
+{
+	margin-top: 20px;
+	display: inline-block;
 }

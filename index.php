@@ -73,10 +73,21 @@
 				include_once (dirname(__FILE__) .'/src/controleurs/Lister_recette_utilisateur.inc.php');
 				break;
 				
+			// lister les utilisateurs
+			case 'lister_utilisateurs' :
+				include_once (dirname(__FILE__) .'/src/controleurs/Lister_utilisateurs.inc.php');
+				break;
+				
+			// gerer les categories
+			case 'gerer_categorie' :
+				include_once (dirname(__FILE__) .'/src/controleurs/Gerer_categories.inc.php');
+				break;
+					
 			// image
 			case 'image' :
 				include_once (dirname(__FILE__) .'/src/controleurs/Image.inc.php');
 				break;
+				
 				
 			// zone d'aministration
 			case 'zone_administration' :
