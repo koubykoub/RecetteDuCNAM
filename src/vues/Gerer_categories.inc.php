@@ -1,6 +1,10 @@
 <?php
 	include_once (dirname(__FILE__) . '/../librairies/html/HtmlStruct.class.php');
 	
+	// donnees de la vue
+	// categories
+	$dVueGererCategories = $donneesModele;
+	
 	// html
 	HtmlStruct::DebutHtml('Gérer les catégories', array('css/styles.css'), array('js/script.js'));
 	
@@ -24,7 +28,7 @@
 		HtmlStruct::DebutSection();
 			// creer compte
 			HtmlStruct::DebutSection('section_principale_large');
-				echo 'Gestion des catégories';
+				include (dirname(__FILE__) . '/commun/GererCategories.inc.php');
 			HtmlStruct::FinSection();
 		HtmlStruct::FinSection();
 		
@@ -33,7 +37,7 @@
 		HtmlStruct::DebutFooter();
 			// lien recette
 			HtmlStruct::DebutNav('footer_nav');
-				include (dirname(__FILE__) . '/commun/LienRetourListeRecette.inc.php');
+				include (dirname(__FILE__) . '/commun/LienRetourAccueil.inc.php');
 			HtmlStruct::FinNav(true);
 		HtmlStruct::FinFooter();
 	

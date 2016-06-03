@@ -36,7 +36,7 @@
 		HtmlStruct::DebutFooter();
 			// lien recette
 			HtmlStruct::DebutNav('footer_nav');
-				include (dirname(__FILE__) . '/commun/LienRetourListeRecette.inc.php');
+				include (dirname(__FILE__) . '/commun/LienRetourAccueil.inc.php');
 			HtmlStruct::FinNav(true);
 		HtmlStruct::FinFooter();
 	
