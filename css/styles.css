@@ -319,7 +319,8 @@ h1.lister_utilisateurs_titre
 .menu_critere a
 {
 	display: block;
-	width: 53px;
+	width: 60px;
+	height: 30px;
 }
 
 .menu_critere ul ul a

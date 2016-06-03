@@ -15,12 +15,12 @@
 	// categories / sous categories
 	$categories = array();
 	// aperitif
-	$categorie['intitule'] = 'Apéritifs';
+	/*$categorie['intitule'] = 'Apéritifs';
 	$categorie['sous_categorie'] = array();
 	$categorie['sous_categorie'][] = 'Bouchées';
 	$categorie['sous_categorie'][] = 'Feuilletés';
 	$categorie['sous_categorie'][] = 'Mufins salés';
-	$categories[] = $categorie;
+	$categories[] = $categorie;*/
 	// entree
 	$categorie['intitule'] = 'Entrées';
 	$categorie['sous_categorie'] = array();
@@ -66,11 +66,11 @@
 	$categorie['sous_categorie'][] = 'Marinade';
 	$categories[] = $categorie;
 	// pain
-	$categorie['intitule'] = 'Pains';
+	/*$categorie['intitule'] = 'Pains';
 	$categorie['sous_categorie'] = array();
 	$categorie['sous_categorie'][] = 'Brioches et Viennoiseries';
 	$categorie['sous_categorie'][] = 'Pains salés';
-	$categories[] = $categorie;
+	$categories[] = $categorie;*/
 	// boisson
 	$categorie['intitule'] = 'Boissons';
 	$categorie['sous_categorie'] = array();
