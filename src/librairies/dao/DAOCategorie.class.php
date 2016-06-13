@@ -1,6 +1,7 @@
 <?php
 	include_once (dirname(__FILE__) . '/DAO.class.php');
 	include_once (dirname(__FILE__) . '/DAOSous_categorie.class.php');
+	include_once (dirname(__FILE__) . '/DAORecette.class.php');
 	
 	final class DAOCategorie extends DAO
 	{
@@ -37,15 +38,17 @@ SQL;
 			return $this->RetrieveGenEx($resultat);
 		}
 		
-		public function RetrieveAllWithSousCat()
+		public function RetrieveAllWithSousCat($inversion = TRUE)
 		{
 			$cats = $this->RetrieveAll();
-			$cats[] = array_shift($cats);
+			if ($inversion)
+				$cats[] = array_shift($cats);
 			$daoScat = new DAOSous_categorie($this->connexion);
 			foreach ($cats as & $cat)
 			{
 				$cat['sous_categories'] = $daoScat->RetrieveAllByCategorie($cat['id']);
-				$cat['sous_categories'][] = array_shift($cat['sous_categories']);
+				if ($inversion)
+					$cat['sous_categories'][] = array_shift($cat['sous_categories']);
 			}
 			return $cats;
 		}
@@ -60,6 +63,22 @@ SQL;
 			LIMIT 1
 SQL;
 			return $this->RetrieveGen($sql);
+		}
+		
+		// update
+		public function Update($obj)
+		{
+			// modification d'une recette
+			$sql =
+<<<SQL
+			UPDATE v_categorie SET intitule = :intitule
+			WHERE v_categorie.id = :id
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('intitule', $obj['intitule'], PDO::PARAM_STR);
+			$resultat->bindParam('id', $obj['id'], PDO::PARAM_INT);
+			$resultat->execute();
+			return $obj['id'];
 		}
 		
 		// create
@@ -92,6 +111,28 @@ SQL;
 			}
 			
 			return $lastid;
+		}
+		
+		// delete
+		public function Delete($obj)
+		{
+			// modifie les recette dependant de la categorie
+			$daoRec = new DAORecette($this->connexion);
+			$daoRec->UpdateRemoveCategorie($obj['id']);
+			
+			// detruit les sous categories
+			$daoSCat = new DAOSous_categorie($this->connexion);
+			$daoSCat->DeleteByCategorie($obj['id']);
+				
+			// execute la requette
+			$sql =
+<<<SQL
+			DELETE FROM v_categorie
+			WHERE v_categorie.id = :idCat
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('idCat', $obj['id'], PDO::PARAM_INT);
+			return $resultat->execute();
 		}
 		
 	}

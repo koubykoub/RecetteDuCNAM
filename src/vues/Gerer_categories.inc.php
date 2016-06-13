@@ -27,7 +27,7 @@
 		// section
 		HtmlStruct::DebutSection();
 			// creer compte
-			HtmlStruct::DebutSection('section_principale_large');
+			HtmlStruct::DebutSection('section_gestion_categorie');
 				include (dirname(__FILE__) . '/commun/GererCategories.inc.php');
 			HtmlStruct::FinSection();
 		HtmlStruct::FinSection();

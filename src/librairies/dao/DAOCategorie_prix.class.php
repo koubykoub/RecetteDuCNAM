@@ -1,5 +1,6 @@
 <?php
 	include_once (dirname(__FILE__) . '/DAO.class.php');
+	include_once (dirname(__FILE__) . '/DAORecette.class.php');
 	
 	final class DAOCategorie_prix extends DAO
 	{
@@ -48,6 +49,22 @@ SQL;
 			return $this->RetrieveGen($sql);
 		}
 		
+		// update
+		public function Update($obj)
+		{
+			// modification d'une recette
+			$sql =
+<<<SQL
+			UPDATE v_categorie_prix SET intitule = :intitule
+			WHERE v_categorie_prix.id = :id
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('intitule', $obj['intitule'], PDO::PARAM_STR);
+			$resultat->bindParam('id', $obj['id'], PDO::PARAM_INT);
+			$resultat->execute();
+			return $obj['id'];
+		}
+		
 		// create
 		public function Create($obj)
 		{
@@ -61,6 +78,24 @@ SQL;
 			$resultat->bindParam('intitule', $obj['intitule'], PDO::PARAM_STR);
 			$resultat->execute();
 			return $this->connexion->GetDB()->lastInsertId();
+		}
+		
+		// delete
+		public function Delete($obj)
+		{
+			// modifie les recette dependant de la categorie
+			$daoRec = new DAORecette($this->connexion);
+			$daoRec->UpdateRemoveCategoriePrix($obj['id']);
+				
+			// execute la requette
+			$sql =
+<<<SQL
+			DELETE FROM v_categorie_prix
+			WHERE v_categorie_prix.id = :idCat
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('idCat', $obj['id'], PDO::PARAM_INT);
+			return $resultat->execute();
 		}
 		
 	}

@@ -98,7 +98,7 @@ span
 }
 
 /* link */
-a, button, input[type="button"], option
+a, button, input[type="button"], option, input[type="submit"]
 {
 	display: inline-block;
 	background-image: url(../image/bouton_papier.png);
@@ -116,7 +116,7 @@ option
 {
 	display: block;
 }
-a:hover, button:hover, input[type="button"]:hover, option:hover
+a:hover, button:hover, input[type="button"]:hover, option:hover, input[type="submit"]:hover
 {
 	box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.5);
 	color: #5c2000;
@@ -226,7 +226,7 @@ h1.lister_utilisateurs_titre
 
 
 /********************************** PANNELS ******************************/
-.section_header, .section_login, .destruction_recette, .destruction_compte, .random_recette, .recette, .commentaire, .afficher_compte, .section_principale_large, .creer_compte, .creer_recette, .critere_recherche, .lister_recette, .section_message, footer
+.section_header, .section_login, .destruction_recette, .destruction_compte, .random_recette, .recette, .commentaire, .afficher_compte, .section_principale_large, .creer_compte, .creer_recette, .critere_recherche, .lister_recette, .section_gestion_categorie, .section_message, footer
 {
 	background-color: yellow;
 	background-image: url(../image/texture_bois_clair.png);
@@ -644,6 +644,23 @@ h1.lister_utilisateurs_titre
 .afficher_compte form input
 {
 	margin-left: 20px;
+}
+
+
+/********************************** GESTION CATEGORIE *********************/
+.section_gestion_categorie h2
+{
+	width: 350px;
+}
+
+.section_gestion_categorie input[type="text"]
+{
+	width: 300px;
+}
+
+.section_gestion_categorie form
+{
+	display: inline-block;
 }
 
 

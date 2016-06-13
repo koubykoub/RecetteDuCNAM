@@ -9,8 +9,10 @@
 	
 	
 	// donnees du modele
+	// gestion categories
+	CritereModele::GestionCategorie($donneesControleur['gestion_categorie']);
 	// categories
-	$donneesModele['categories'] = CritereModele::Categories();
+	$donneesModele['categories'] = CritereModele::Categories(FALSE);
 	$donneesModele['categories_prix'] = CritereModele::CategoriesPrix();
 	$donneesModele['categories_difficulte'] = CritereModele::CategoriesDif();
 	

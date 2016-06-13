@@ -34,3 +34,13 @@
 			parent::__construct('Donnée de requete manquante :<br /><span>' . $donnee . '</span>.');
 		}
 	}
+	
+	// action inconnue
+	class RequeteActionInconnueExcep extends RequeteExcepBase
+	{
+		// constructeur
+		public function __construct($donnee)
+		{
+			parent::__construct('Action inconnue :<br /><span>' . $donnee . '</span>.');
+		}
+	}

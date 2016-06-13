@@ -1,5 +1,6 @@
 <?php
 	include_once (dirname(__FILE__) . '/DAO.class.php');
+	include_once (dirname(__FILE__) . '/DAORecette.class.php');
 	
 	final class DAOSous_categorie extends DAO
 	{
@@ -69,6 +70,24 @@ SQL;
 			return $this->RetrieveGenEx($resultat);
 		}
 		
+		// update
+		public function Update($obj)
+		{
+			// modification d'une recette
+			$sql =
+<<<SQL
+			UPDATE v_sous_categorie SET intitule = :intitule
+			WHERE v_sous_categorie.id = :id
+				AND v_sous_categorie.id_categorie = :id_categorie
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('intitule', $obj['intitule'], PDO::PARAM_STR);
+			$resultat->bindParam('id', $obj['id'], PDO::PARAM_INT);
+			$resultat->bindParam('id_categorie', $obj['id_categorie'], PDO::PARAM_INT);
+			$resultat->execute();
+			return $obj['id'];
+		}
+		
 		// create
 		public function Create($obj)
 		{
@@ -85,6 +104,39 @@ SQL;
 			$resultat->bindParam('intitule', $obj['intitule'], PDO::PARAM_STR);
 			$resultat->execute();
 			return $this->connexion->GetDB()->lastInsertId();
+		}
+		
+		// delete
+		public function Delete($obj)
+		{
+			// modifie les recette dependant de la sous categorie
+			$daoRec = new DAORecette($this->connexion);
+			$daoRec->UpdateRemoveSousCategorie($obj['id_categorie'], $obj['id']);
+			
+			// execute la requette
+			$sql =
+<<<SQL
+			DELETE FROM v_sous_categorie
+			WHERE v_sous_categorie.id_categorie = :idCat
+				AND v_sous_categorie.id = :idSCat
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('idCat', $obj['id_categorie'], PDO::PARAM_INT);
+			$resultat->bindParam('idSCat', $obj['id'], PDO::PARAM_INT);
+			return $resultat->execute();
+		}
+		
+		public function DeleteByCategorie($idCat)
+		{
+			// execute la requette
+			$sql =
+<<<SQL
+			DELETE FROM v_sous_categorie
+			WHERE v_sous_categorie.id_categorie = :idCat
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('idCat', $idCat, PDO::PARAM_INT);
+			return $resultat->execute();
 		}
 		
 	}

@@ -296,6 +296,60 @@ SQL;
 			$resultat->execute();
 		}
 		
+		public function UpdateRemoveCategorie($idCat)
+		{
+			// modification d'une recette
+			$sql =
+<<<SQL
+			UPDATE v_recette SET id_Categorie = 1, id_sous_categorie = 0
+			WHERE v_recette.id_Categorie = :idCat
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('idCat', $idCat, PDO::PARAM_INT);
+			$resultat->execute();
+		}
+		
+		public function UpdateRemoveSousCategorie($idCat, $idSCat)
+		{
+			// modification d'une recette
+			$sql =
+<<<SQL
+			UPDATE v_recette SET id_sous_categorie = 0
+			WHERE v_recette.id_Categorie = :idCat
+				AND v_recette.id_sous_categorie = :idSCat
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('idCat', $idCat, PDO::PARAM_INT);
+			$resultat->bindParam('idSCat', $idSCat, PDO::PARAM_INT);
+			$resultat->execute();
+		}
+		
+		public function UpdateRemoveCategoriePrix($idCat)
+		{
+			// modification d'une recette
+			$sql =
+<<<SQL
+			UPDATE v_recette SET id_Categorie_prix = 1
+			WHERE v_recette.id_Categorie_prix = :idCat
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('idCat', $idCat, PDO::PARAM_INT);
+			$resultat->execute();
+		}
+		
+		public function UpdateRemoveCategorieDiff($idCat)
+		{
+			// modification d'une recette
+			$sql =
+<<<SQL
+			UPDATE v_recette SET id_Categorie_difficulte = 1
+			WHERE v_recette.id_Categorie_difficulte = :idCat
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('idCat', $idCat, PDO::PARAM_INT);
+			$resultat->execute();
+		}
+		
 		// delete
 		public function Delete($rec)
 		{
