@@ -50,38 +50,38 @@
 			{
 				$donnee['modification'] = TRUE;
 				$donnee['action'] = $_REQUEST['action'];
-				if (isset($_REQUEST['type_categorie'])) $donnee['type_categorie'] = $_REQUEST['type_categorie'];
+				if (isset($_REQUEST['type_categorie']) && !is_null($_REQUEST['type_categorie'])) $donnee['type_categorie'] = $_REQUEST['type_categorie'];
 				else throw new RequeteDonneeManquanteExcep('type_categorie');
 				switch ($donnee['action'])
 				{
 					case 'modifier' :
-						if (isset($_REQUEST['id_categorie'])) $donnee['id_categorie'] = $_REQUEST['id_categorie'];
+						if (isset($_REQUEST['id_categorie']) && !is_null($_REQUEST['id_categorie'])) $donnee['id_categorie'] = $_REQUEST['id_categorie'];
 						else throw new RequeteDonneeManquanteExcep('id_categorie');
-						if (isset($_REQUEST['intitule'])) $donnee['intitule'] = $_REQUEST['intitule'];
+						if (isset($_REQUEST['intitule']) && !is_null($_REQUEST['intitule'])) $donnee['intitule'] = $_REQUEST['intitule'];
 						else throw new RequeteDonneeManquanteExcep('intitule');
 						if (strcmp('sous_categorie', $donnee['type_categorie']) == 0)
 						{
-							if (isset($_REQUEST['id_sous_categorie'])) $donnee['id_sous_categorie'] = $_REQUEST['id_sous_categorie'];
+							if (isset($_REQUEST['id_sous_categorie']) && !is_null($_REQUEST['id_sous_categorie'])) $donnee['id_sous_categorie'] = $_REQUEST['id_sous_categorie'];
 							else throw new RequeteDonneeManquanteExcep('id_sous_categorie');
 						}
 						break;
 						
 					case 'supprimer' :
-						if (isset($_REQUEST['id_categorie'])) $donnee['id_categorie'] = $_REQUEST['id_categorie'];
+						if (isset($_REQUEST['id_categorie']) && !is_null($_REQUEST['id_categorie'])) $donnee['id_categorie'] = $_REQUEST['id_categorie'];
 						else throw new RequeteDonneeManquanteExcep('id_categorie');
 						if (strcmp('sous_categorie', $donnee['type_categorie']) == 0)
 						{
-							if (isset($_REQUEST['id_sous_categorie'])) $donnee['id_sous_categorie'] = $_REQUEST['id_sous_categorie'];
+							if (isset($_REQUEST['id_sous_categorie']) && !is_null($_REQUEST['id_sous_categorie'])) $donnee['id_sous_categorie'] = $_REQUEST['id_sous_categorie'];
 							else throw new RequeteDonneeManquanteExcep('id_sous_categorie');
 						}
 						break;
 						
 					case 'ajouter' :
-						if (isset($_REQUEST['intitule'])) $donnee['intitule'] = $_REQUEST['intitule'];
+						if (isset($_REQUEST['intitule']) && !is_null($_REQUEST['intitule'])) $donnee['intitule'] = $_REQUEST['intitule'];
 						else throw new RequeteDonneeManquanteExcep('intitule');
 						if (strcmp('sous_categorie', $donnee['type_categorie']) == 0)
 						{
-							if (isset($_REQUEST['id_categorie'])) $donnee['id_categorie'] = $_REQUEST['id_categorie'];
+							if (isset($_REQUEST['id_categorie']) && !is_null($_REQUEST['id_categorie'])) $donnee['id_categorie'] = $_REQUEST['id_categorie'];
 							else throw new RequeteDonneeManquanteExcep('id_categorie');
 						}
 						break;

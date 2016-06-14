@@ -84,4 +84,16 @@
 			return $donnees;
 		}
 		
+		public static function ListerUtilisateur()
+		{
+			$donnees['existe'] = FALSE;
+			if (isset($_REQUEST['lister_utilisateur']) && !is_null($_REQUEST['lister_utilisateur']))
+			{
+				if (isset($_REQUEST['id_utilisateur']) && !is_null($_REQUEST['id_utilisateur'])) $donnees['id_utilisateur'] = $_REQUEST['id_utilisateur'];
+				else throw new RequeteDonneeManquanteExcep('id_utilisateur');
+				$donnees['existe'] = TRUE;
+			}
+			return $donnees;
+		}
+		
 	}

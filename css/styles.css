@@ -226,7 +226,7 @@ h1.lister_utilisateurs_titre
 
 
 /********************************** PANNELS ******************************/
-.section_header, .section_login, .destruction_recette, .destruction_compte, .random_recette, .recette, .commentaire, .afficher_compte, .section_principale_large, .creer_compte, .creer_recette, .critere_recherche, .lister_recette, .section_gestion_categorie, .section_message, footer
+.section_header, .section_login, .destruction_recette, .destruction_compte, .random_recette, .recette, .commentaire, .afficher_compte, .section_principale_large, .creer_compte, .creer_recette, .critere_recherche, .lister_recette, .section_gestion_categorie, .section_lister_utilisateur, .section_message, footer
 {
 	background-color: yellow;
 	background-image: url(../image/texture_bois_clair.png);
@@ -661,6 +661,25 @@ h1.lister_utilisateurs_titre
 .section_gestion_categorie form
 {
 	display: inline-block;
+}
+
+
+/********************************** LISTER UTILISATEUR ********************/
+.section_lister_utilisateur h2
+{
+	width: 300px;
+}
+
+.section_lister_utilisateur a
+{
+	width: 500px;
+	height: 40px;
+}
+
+.section_lister_utilisateur form
+{
+	display: inline-block;
+	margin: 10px;
 }
 
 

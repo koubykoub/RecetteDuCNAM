@@ -12,6 +12,8 @@
 	
 	
 	// donnees du modele
+	// lister utilisateur
+	LoginModele::ListerUtilisateur($donneesControleur['lister_utilisateur']);
 	// login
 	$donneesModele['identification'] = LoginModele::IdentificationSession();
 	if (!$donneesModele['identification']['identifie']) throw new SessionExpireeExcep();

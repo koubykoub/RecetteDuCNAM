@@ -139,6 +139,16 @@
 			return $ret;
 		}
 		
+		// lister utilisateur
+		public static function ListerUtilisateur($donneesControleur)
+		{
+			if ($donneesControleur['existe'])
+			{
+				parent::StartSession();
+				$_SESSION['id_utilisateur'] = $donneesControleur['id_utilisateur'];
+			}
+		}
+		
 		
 		// prive
 		private static function CreationUtilisateurBase($compte, $maj)

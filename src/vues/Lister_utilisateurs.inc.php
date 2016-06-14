@@ -26,7 +26,7 @@
 		// section
 		HtmlStruct::DebutSection();
 			// creer compte
-			HtmlStruct::DebutSection('section_principale_large');
+			HtmlStruct::DebutSection('section_lister_utilisateur');
 				include (dirname(__FILE__) . '/commun/ListerUtilisateurs.inc.php');
 			HtmlStruct::FinSection();
 		HtmlStruct::FinSection();

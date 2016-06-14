@@ -4,6 +4,8 @@
 	
 	
 	// donnees du controleur
+	// lister utilisateur
+	$donneesControleur['lister_utilisateur'] = LoginControleur::ListerUtilisateur();
 	// login
 	$donneesControleur['compte'] = LoginControleur::DonneesCompte(TRUE);
 
