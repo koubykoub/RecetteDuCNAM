@@ -11,6 +11,8 @@
 
 	echo '<h1>Création de la base de donnée...</h1>';
 	
+	{
+	
 	// creation des categories
 	// categories / sous categories
 	$categories = array();
@@ -249,6 +251,8 @@
 				$daoComm->Create($comm);
 			}
 		}
+	}
+	
 	}
 	
 	echo '<h1>Base de donnée créée !</h1>';

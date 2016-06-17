@@ -91,15 +91,30 @@ SQL;
 		// create
 		public function Create($obj)
 		{
+			// requete pour le max de id
+			$sql =
+<<<SQL
+			SELECT MAX(id) + 1 'max', COUNT(id) 'count'
+			FROM v_sous_categorie
+			WHERE id_categorie = :id_categorie
+SQL;
+			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('id_categorie', $obj['id_categorie'], PDO::PARAM_INT);
+			$resultat->execute();
+			$res = $this->RetrieveGenEx($resultat);
+			$max = 0;
+			if ($res['count'] > 0)
+				$max = $res['max'];
+			
 			// execute la requette
 			$sql =
 <<<SQL
 			INSERT INTO v_sous_categorie (id, id_categorie, intitule)
-			SELECT MAX(sc.id) + 1, :id_categorie, :intitule
-			FROM v_sous_categorie sc
-			WHERE sc.id_categorie = :id_categorie
+			VALUES (:id, :id_categorie, :intitule)
 SQL;
+			
 			$resultat = $this->Prepare($sql);
+			$resultat->bindParam('id', $max, PDO::PARAM_INT);
 			$resultat->bindParam('id_categorie', $obj['id_categorie'], PDO::PARAM_INT);
 			$resultat->bindParam('intitule', $obj['intitule'], PDO::PARAM_STR);
 			$resultat->execute();
